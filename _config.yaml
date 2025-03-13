@@ -1,4 +1,5 @@
 title: "Ben Kashouris"
-theme: minima  
-baseurl: ""  
+description: "A test blog"
+theme: minima  # Ensure the theme is correctly specified
+baseurl: ""  # Set this if your site is not at the root
 url: "https://BenKashouris.github.io"
