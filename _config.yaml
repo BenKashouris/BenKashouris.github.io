@@ -1,5 +1,4 @@
-title: "My Jekyll Blog"
-description: "A personal blog powered by Jekyll and GitHub Pages."
+title: "Ben Kashouris"
 theme: minima  # Ensure the theme is correctly specified
 baseurl: ""  # Set this if your site is not at the root
 url: "https://BenKashouris.github.io"
