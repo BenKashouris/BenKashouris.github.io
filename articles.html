@@ -1,0 +1,24 @@
+---
+layout: default
+title: "Articles"
+---
+
+<div class="pl-10 pr-6 py-8">
+  <ul>
+    {% for project in site.articles %}
+      <li>
+        <a href="{{ project.url }}" class="block bg-gray-900 p-9 mb-6 hover:bg-gray-800 transition text-white">
+          <div class="flex items-start space-x-4">
+            <img src="{{ project.image }}" alt="{{ project.title }}" class="w-48 h-48 object-cover rounded">
+            <div>
+              <h2 class="text-xl font-semibold mb-2">{{ project.title }}</h2>
+              <p>{{ project.description }}</p>
+            </div>
+          </div>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+
