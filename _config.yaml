@@ -1,5 +1,14 @@
 title: "Ben Kashouris"
-description: "A test blog"
+description: "A personal portfolio website"
 theme: minima  # Ensure the theme is correctly specified
 baseurl: ""  # Set this if your site is not at the root
 url: "https://BenKashouris.github.io"
+
+markdown: kramdown
+highlighter: rouge
+
+collections:
+  projects:
+    output: true
+  articles:
+    output: true
