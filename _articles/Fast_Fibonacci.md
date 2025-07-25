@@ -8,13 +8,18 @@ center_content: true
 description: Calculating the n-th Fibonacci number in O(logn) using square and multiply
 ---
 
+## Prelude
+I wrote this article before starting my mathematics degree, so some parts may lack the clarity or formalism of more polished writing. That said, I believe the core idea to be interesting. I think this piece could be especially useful for students who are about to begin their own maths or computer science degrees. It shows how concepts from linear algebra can be applied to solve classic problems in an efficient way.
+
 ## Introduction
-Calculating the nth fibonacci number is an absolutely classic computer science problem; one that has a lot of ways of doing it. What I’d like to explore is a particularly fast and, in my opinion, particularly interesting way of calculating, not just the fibonacci numbers, but any linear homogeneous recurrence relationship with constant coefficients in O(log n) time.
+Calculating the nth Fibonacci number is an absolutely classic computer science problem, one that is notable because of it's wide range of algorithmic approaches that often are classic examples of such algorithms. What I would like to explore is a much faster and, in my opinion, particularly interesting way of calculating not just the Fibonacci numbers, but any linear homogeneous recurrence relationship with constant coefficients in O(log n) time.
+
+### An interesting pattern
 
 $$
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^1
 \begin{bmatrix}
 1 \\
@@ -29,7 +34,7 @@ $$
 $$
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^2
 \begin{bmatrix}
 1 \\
@@ -44,7 +49,7 @@ $$
 $$
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^3
 \begin{bmatrix}
 1 \\
@@ -59,7 +64,7 @@ $$
 $$
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^4
 \begin{bmatrix}
 1 \\
@@ -72,13 +77,14 @@ $$
 \end{bmatrix}
 $$
 
-If we look at these matrices we see that we have our initial vector, with the two seeds of the fibonacci numbers. By multiplying through by the matrix we can shift the vector to make the vector show the next fibonacci numbers. 
-In order to fully see why this works, let’s see what this matrix looks like when times by a vector with 2 components
+Observing these results, a clear pattern emerges: the top row of the resulting vector corresponds to successive Fibonacci numbers.
+To understand why this occurs, consider the role of the matrix and the initial vector. The initial vector contains the two seed values of the Fibonacci sequence, $$F_1$$​ and $$F2$$​. When this vector is multiplied by the matrix
+it produces the next pair in the sequence. To see this in action, let us examine the effect of multiplying the matrix by a generic two-component vector:
 
 $$
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 1
 \end{bmatrix}
 \begin{bmatrix}
 a \\
@@ -95,7 +101,7 @@ If we set $$a = F_n$$ and $$b = F_{n-1}$$ the equation becomes
 $$
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}
 \begin{bmatrix}
 F_n \\
@@ -116,7 +122,7 @@ Therefore, inductively.
 $$
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^n
 \begin{bmatrix}
 F_m \\
@@ -124,11 +130,11 @@ F_{m-1}
 \end{bmatrix} =
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^{n-1}
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}
 \begin{bmatrix}
 F_m \\
@@ -136,7 +142,7 @@ F_{m-1}
 \end{bmatrix} =
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^{n-1}
 \begin{bmatrix}
 F_{m+1} \\
@@ -147,7 +153,7 @@ $$
 $$
 = \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^{n-2}
 \begin{bmatrix}
 F_{m+2} \\
@@ -155,7 +161,7 @@ F_{m+1}
 \end{bmatrix}
 = \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^{0}
 \begin{bmatrix}
 F_{m+n} \\
@@ -167,20 +173,24 @@ F_{m+n-1}
 \end{bmatrix}
 $$
 
-So what we have is a way of representing the fibonacci sequence in matrix form. This is powerful because it changes calculating the fibonacci sequence to calculating one matrix to the power of the number we want to change our seed vector by. Followed by multiplying the recurrence matrix by the seed vector. So the question becomes not how fast can we calculate the fibonacci sequence but how fast can we exponentiate a matrix. It turns out we can calculate an exponentiate, using square and multiply, in O(log n) time. So our proposed algorithm for calculating the nth fibonacci number would also work in O(log n) time, blowing out of the water the O(n) time complexity of recursion with memorisation. 
+So what we have is a way of representing the Fibonacci sequence in matrix form. This is powerful because it changes calculating the Fibonacci sequence to calculating one matrix to the power of the number we want to change our seed vector by. So the question becomes not how fast can we calculate the Fibonacci sequence, but how fast can we exponentiate a matrix. It turns out we can calculate an exponentiation, using square and multiply, in O(log n) time. So our proposed algorithm for calculating the nth Fibonacci number would also work in O(log n) time, far exceeding the O(n) time complexity of recursion with memorisation. 
 
 ## Brief tangent on the square and multiply <span style="font-size:0.6em">(aka exponentiation via squaring or binary exponentiation)</span>
-Our problem is to calculate $A^n$. To understand the algorithm we need to understand what happens to our exponent when we do two key operations, squaring and multiplying. 
-We note that when we square our number we double the exponent. Doubling a number in binary causes the number to have a bit shift to the left. For example:
+Our problem is to calculate $$A^n$$. To understand the algorithm, we need to understand what happens to our exponent when we do two key operations: squaring and multiplying. 
+We note that when we square our number we double the exponent. Doubling a number in binary is equivalent to a left bit shift. So squaring a number causes its exponent to bitwise left shift once. 
+For example:
 
 $$
 (3^4)^2 = 3^{2*4} = 3 ^ {2 * 100_2} = 3 ^ {1000_2}
 $$
 
-We can also see that when we multiply our number by its base we add $$1$$ to its exponent.
-Now we have these two operations we can look at the key part of the algorithm which is to reconstruct the exponent by using these two operations in binary. For example, 
-Lets calculate $$23^{13}$$.
-The first thing to do is to convert the exponent to binary $$23^{13}=23^{1101_2}$$
+We also know when we multiply our number by its base we add $$1$$ to its exponent.
+
+Now we have these two operations we can look at the key part of the algorithm which is to reconstruct the exponent by using these two operations in binary. <br>
+For example, <br>
+let's calculate $$23^{13}$$. <br>
+The first thing to do is to convert the exponent to binary $$23^{13}=23^{1101_2}$$. <br>
+Then we initialize our output, $$X$$ which we should think of as $$X^0$$. We now form the exponent of $$A$$ by performing our square and multiply operations. 
 
 | Square Or Multiply | Calculation       | X                         | Current exponent |
 |--------------------|-------------------|---------------------------|------------------|
@@ -193,12 +203,17 @@ The first thing to do is to convert the exponent to binary $$23^{13}=23^{1101_2}
 | Multiply           | $$X = X \cdot 23$$| $$5.040363619\cdot10^{17}$$| $$1101_2$$      |
 
 
-Which is indeed correct
- 
-Note that this algorithm can exponentiate any number that defines a “multiplication” operation and “exponentiation” operation. Further note that this algorithm runs in O(k) where k is the number of bits to form the exponent. Since a number N has floor(log N) bits this algorithm runs in O(log n) time.
+Which is indeed correct. <br>
+Note that this algorithm can exponentiate any object that defines a “multiplication” operation and “exponentiation” operation. Further note that this algorithm runs in O(k), where k is the number of bits to form the exponent. Since a number N has floor(log N) bits, this algorithm runs in O(log n) time.
 
 ## Getting back on track
-So how do we calculate the 100th fibonacci number? So we know that we exponent by the number we want to shift the vector by so to get the top vector to be the 100th fibonacci number we want to calculate the vector.
+So how do we calculate, say, the 100th Fibonacci number? To compute $$F_{100}$$​, we must apply our recurrence matrix sufficiently many times to move from the initial seed vector $$\begin{bmatrix}
+F_{2} \\
+F_{1}
+\end{bmatrix}$$ to $$\begin{bmatrix}
+F_{100} \\
+F_{199}
+\end{bmatrix}$$
 
 $$
 \begin{bmatrix}
@@ -207,7 +222,7 @@ F_{99}
 \end{bmatrix} =
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^{98}
 \begin{bmatrix}
 F_2 \\
@@ -215,7 +230,7 @@ F_1
 \end{bmatrix} =
 \begin{bmatrix}
 1 & 1 \\
-0 & 1
+1 & 0
 \end{bmatrix}^{98}
 \begin{bmatrix}
 1 \\
@@ -226,14 +241,14 @@ $$
 We can calculate
 $$\begin{bmatrix}
 1 & 1 \\
-0 & 1 \\
+1 & 0 \\
 \end{bmatrix}^{98}$$
-With square and multiply which comes out as  
+with square and multiply, which comes out as  
 $$\begin{bmatrix}
 21892299583455169026 & 13501852344706746049 \\
 13501852344706746949 & 83621143489848422977
-\end{bmatrix}^{98}$$
-Finally we times this by our seed vector
+\end{bmatrix}^{98}$$<br>
+Then we times this by a vector with our seeds in,
 $$\begin{bmatrix}
 21892299583455169026 & 13501852344706746049 \\
 13501852344706746949 & 83621143489848422977
@@ -248,11 +263,12 @@ $$\begin{bmatrix}
 \end{bmatrix} $$
 
 Which is indeed the
-![Google search showing the 100th fibonacci number](/assets/images/100_th_fib_number.png)
+![Google search showing the 100th Fibonacci number](/assets/images/100_th_fib_number.png)
 
-So we could now create a log(n) algorithm that could calculate any fibonacci number wanted. But it would be a lot more useful if we could do this for any recurrence relation, to do that all we really need to work out is how to work out the recurrence matrix.
+## Generalizing 
+So we could now create a log(n) algorithm that could calculate any Fibonacci number wanted, but it would be a lot more useful if we could do this for any recurrence relation. To do that, all we need to work out is how to form the recurrence matrix for a recurrence rule.
 
-Let’s define a recurrence rule $$F_n=a_1F_{n-1}+a_2F_{n-2}+...+a_kF_{n-k}$$ We attempt to find the recurrence matrix $$A$$, which is a matrix such that
+Let’s define a recurrence rule $$F_n=a_1F_{n-1}+a_2F_{n-2}+...+a_kF_{n-k}$$. We attempt to find the recurrence matrix $$A$$, which is a matrix such that
 
 $$
 A\cdot
@@ -273,7 +289,7 @@ F_{n-k-1} \\
 $$
 
 Given that the seed vector is $$k$$ by $$1$$ and the output vector is also $$k$$ by $$1$$, we know that $$A$$ must be $$K$$ by $$K$$.  
-Given that the $$i j$$ entry of a matrix is the dot product of the row $$i$$ in the left matrix and the column $$j$$ in the right matrix. We can work out that the first row will just be the coefficients of the recurrence rule. The rest of the matrix will be $$1$$ on a diagonal.
+Given that the $$i j$$ entry of a matrix is the dot product of the row $$i$$ in the left matrix and the column $$j$$ in the right matrix, we can easily see that we want the first row to be $$a_1, a_2, ..., a_k$$. Furthermore, we note that we wish to bring each element in the input vector down an element in the output vector, so we just need the rest of the matrix to be 1's on the diagonal.<br> 
 Therefore,
 $$A = 
 \begin{bmatrix}
@@ -285,47 +301,44 @@ a_1 & a_2 & a_3 & ... & a_k \\
 \end{bmatrix}$$
 
 ## Designing an algorithm
-The implementation details of both square and multiply and matrix multiplication are beyond the scope of this post, instead we will pass these off to generic functions when necessary. 
+The implementation details of both square and multiply and matrix multiplication are beyond the scope of this post; instead, we will pass these off to generic functions when necessary. 
 
-Problem statement: Given a list, ‘coefficients’, of constants which represent the coefficients of the recurrence rule starting with Fn-1 and a list, ‘seeds’, of seed values starting with F1 find the nth term.
+Problem statement: Given a list, ‘coefficients’, of constants which represent the coefficients of the recurrence rule starting with $$a_1$$ and a list, ‘seeds’, of seed values starting with $$F_1$$ find the nth term.
 
 The very first thing to check is that the nth term asked for isn’t already one given in the seed value. 
 ``` 
-def get_nth_value(coeffients: List[float], seeds: List[float], n: int)-> int:
-    order = len(coeffients)
+def get_nth_value(coefficients: List[float], seeds: List[float], n: int)-> int:
+    order = len(coefficients)
     if 1 <= n <= order: return seeds[n-1]
 ```
 We then construct the recurrence matrix and the seed matrix.
-The function Matrix here takes in a 2d list representing the values in the matrix and returns a matrix with those values that can be operated on. We know that the first row of values is just the coefficients of the relation rule. We know that the rest of the matrix is made up by the identity matrix shifted one position to the left. Or the identity matrix with everything shifted down one and the removal of the last row. So what we can do is construct a 2d list representing the identity matrix and then we can remove the last row and add it to the coefficients list.
+The function Matrix here takes in a 2d list representing the values in the matrix and returns a matrix with those values that can be operated on. We also now the rest of matrix is 1's on the diagonal which we can form by chopping of the last row of the identity matrix.
 ```
-    coeffients_matrix = Matrix([coeffients] + make_idenity_matrix_list(order)[:-1])
+    recurrence_matrix = Matrix([coefficients] + make_identity_matrix_list(order)[:-1])
 ```
-We then construct the coefficient matrix. The only thing to note is that we have to reverse the list since the recurrence rule and seed matrices are given in opposite orders.
 
-We can now work on calculating the nth term. A nice way to visualise this next step is to think about the seed matrix being a slider on an infinite list of the terms of the sequence. If we wish to change the position of the slider we must multiply by the recurrence rule. We work out the amount that we must shift the slider in order to have the nth term on the first value of the slider. We then pass the exponentiation to square and multiply and finally times by the seed matrix. We can then just return the value in the top left.
+We can now work on calculating the nth term. First, we define difference as the number of steps we need to advance the state vector in order to reach $$F_n$$. Then, we pass the exponentiation $$\text{recurrence_matrix}^{\text{difference}}$$ to square and multiply and finally times by the seed matrix. We can then just return the value at the top of the output vector.
 ```
     difference = n - order
-    foo = square_and_multiply(coeffients_matrix, difference)
+    foo = square_and_multiply(recurrence_matrix, difference)
     final_matrix = foo * seed_matrix
     return final_matrix[0][0]
 ```
 
-## A tiny last comment
-
-Our current algorithm functions for positive values of N. But we can easily extend this to work for negative values of N. Going back to the slider metaphor, if we wish to slide the slider the opposite way how can we do this? Well we can multiply by the inverse of the recurrence matrix. 
-Given that $$A^{-n}=(A^{-1})^n$$ it is actually sufficient to invert the matrix if the difference is negative. Adding this to our code we get the final algorithm.
+Our current algorithm functions for positive values of N. But we can easily extend this to work for negative values of N, by adding the ability to invert our recurrence_matrix.
+Given that $$A^{-n}=(A^{-1})^n=(A^n)^{-1}$$, it is sufficient to invert the matrix if the difference is negative, then continue as if it were postive. Adding this to our code, we get the final algorithm.
 ```
 def get_nth_value(coefficients: List[float], seeds: List[float], n: int) -> int:
     order = len(coefficients)
     if 1 <= n <= order: return seeds[n-1]
     seed_matrix = Matrix([[i] for i in seeds[::-1]])
-    coeffients_matrix = Matrix([coefficients] + make_idenity_matrix_list(order)[:-1])
+    recurrence_matrix = Matrix([coefficients] + make_idenity_matrix_list(order)[:-1])
     difference = n - order
     if difference < 0:
         difference *= -1  
-        coeffients_matrix = coeffients_matrix.inverse()  
-    foo = square_and_multiply(coeffients_matrix, difference)
+        recurrence_matrix = recurrence_matrix.inverse()  
+    foo = square_and_multiply(recurrence_matrix, difference)
     final_matrix = foo * seed_matrix
     return final_matrix[0][0]
 ```
-Thanks 🙂
+And there we have it: a log(n) method for calculating the n-th term of any linear homogeneous recurrence relationship with constant coefficients.
