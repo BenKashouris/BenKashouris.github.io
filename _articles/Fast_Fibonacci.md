@@ -293,11 +293,12 @@ Given that the $$i j$$ entry of a matrix is the dot product of the row $$i$$ in 
 Therefore,
 $$A = 
 \begin{bmatrix}
-a_1 & a_2 & a_3 & ... & a_k \\
-1 & 0 & 0 & ... & 0 \\
-0 & 1 & 0 & ... & 0 \\
-... & ... & ... & ... & ... \\
-0 & 0 & 0 & ... & 1 \\
+a_1 & a_2 & a_3 & ... & a_{k-1}  & a_k \\
+1 & 0 & 0 & ... & 0 & 0\\
+0 & 1 & 0 & ... & 0 & 0\\
+... & ... & ... & ... & ... & ...\\
+0 & 0 & 0 & ... & 0 & 0 \\
+0 & 0 & 0 & ... & 1 & 0 \\
 \end{bmatrix}$$
 
 ## Designing an algorithm
