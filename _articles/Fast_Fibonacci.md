@@ -252,7 +252,7 @@ Then we times this by a vector with our seeds in,
 $$\begin{bmatrix}
 21892299583455169026 & 13501852344706746049 \\
 13501852344706746949 & 83621143489848422977
-\end{bmatrix}^{98}
+\end{bmatrix}
 \begin{bmatrix}
 1 \\
 1
