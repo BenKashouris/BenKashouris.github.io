@@ -84,7 +84,7 @@ it produces the next pair in the sequence. To see this in action, let us examine
 $$
 \begin{bmatrix}
 1 & 1 \\
-1 & 1
+1 & 0
 \end{bmatrix}
 \begin{bmatrix}
 a \\
