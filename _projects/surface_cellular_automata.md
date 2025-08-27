@@ -9,12 +9,7 @@ center_content: true
 ---
 
 ## Introduction
-[Click here for the Github repository](https://github.com/BenKashouris/Surface-Cellular-Automata) <br>
-
-## Tech demo
-
-## Topology
-
+Click [here](https://github.com/BenKashouris/Surface-Cellular-Automata) for the Github repository. <br>
 
 ## Development journey
 In terms of complexity, the 3D automata system was relatively straightforward to implement. I began by generating simple 3D shapes procedurally in code, which made early testing and iteration easy. Later on, I switched to loading .obj files for greater flexibility and realism.
@@ -48,7 +43,8 @@ This was the turning point. I chose to abandon this strategy and reformulate the
 ### Actual method for polygon unwrapping
 The algorithm I settled on works in 2 steps. 
 1. Construct a spanning tree over the mesh
-2. Traverse the spanning tree to place triangles onto a 2d grid
+2. Traverse the spanning tree to place triangles onto a 2d grid 
+
 The motivation for building a spanning tree first is to eliminate cycles in the traversal order, which can otherwise cause overlapping triangles during unwrapping. By ensuring the structure is acyclic, we can always place a child triangle relative to its parent in a consistent and non-overlapping manner.
 
 
@@ -73,8 +69,11 @@ We resolve this using the winding order, which is the order in which a triangleâ
 Our approach is as follows:
 ```
 1. Identify the vertex in the 3D child triangle that is not part of the shared edge.
-2. Determine whether this vertex lies clockwise or counter-clockwise relative to the shared edge in 3D.
-3. Use the same orientation to place the third vertex in 2D, ensuring the triangle preserves the correct winding order.
+2. Determine whether this vertex lies clockwise or counter-clockwise relative to the shared edge in 3D, with the winding order.
+3. Use the same orientation to place the third vertex in 2D
 ```
 
 By consistently applying this method throughout the traversal, we maintain the proper orientation of all triangles in the 2D projection. This keeps the mesh coherent and avoids flipped triangles, which could otherwise break subsequent processing.
+
+Once we have the direction it is a fairly simple process to compute the third vertex position on the grid.
+We simple take the shared edge vector and rotate it 60 degrees around the point we compared the winding order too.
