@@ -76,4 +76,4 @@ Our approach is as follows:
 By consistently applying this method throughout the traversal, we maintain the proper orientation of all triangles in the 2D projection. This keeps the mesh coherent and avoids flipped triangles, which could otherwise break subsequent processing.
 
 Once we have the direction it is a fairly simple process to compute the third vertex position on the grid.
-We simple take the shared edge vector and rotate it 60 degrees around the point we compared the winding order too.
+We simple take the shared edge vector and rotate it 60 degrees around the point we compared the winding order too, in the direction determine by the winding order.
