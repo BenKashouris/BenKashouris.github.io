@@ -7,6 +7,9 @@ url: "https://BenKashouris.github.io"
 markdown: kramdown
 highlighter: rouge
 
+plugins:
+  - jekyll-sitemap
+
 collections:
   projects:
     output: true
