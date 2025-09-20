@@ -11,6 +11,16 @@ center_content: true
 ## Introduction
 Click [here](https://github.com/BenKashouris/Surface-Cellular-Automata) for the Github repository. <br>
 
+The goal of this project is to run cellular automata on the surface of 3D objects. For example, the automaton can evolve directly on the surface of an icosphere (a sphere composed of triangular faces):
+<img src="/assets/gifs/icosphere.gif" width="300" height="200">
+The same approach works on any supplied mesh, such as a torus:
+<img src="/assets/gifs/toros.gif" width="300" height="200">
+In addition, the project can use a polygon unwrapping algorithm to flatten the mesh into a 2D representation:
+<img src="/assets/gifs/torus_projected.gif" width="300" height="200">
+This unwrapping is especially interesting because it lets us visualize the structure of the flat automaton in 3D. For example, a 2D grid with connected edges can be transformed into a torus. In fact, any two shapes that are topologically equivalent will produce the same automaton behavior:
+
+<img src="/assets/gifs/icosphere_projected.gif" width="300" height="200">
+
 ## Development journey
 In terms of complexity, the 3D automata system was relatively straightforward to implement. I began by generating simple 3D shapes procedurally in code, which made early testing and iteration easy. Later on, I switched to loading .obj files for greater flexibility and realism.
 
@@ -37,7 +47,7 @@ For each neighbor, compute the angle between its projected centroid and the proj
 Sort the neighbors to establish a consistent ordering.
 ```
 This seemed to be working, in fact I ended up writing a entirely separate debug tool to check this.
-Now it was time to build the flat mesh and traverse that. This I realized was gonna to be unsuited to the project as current implemented. As it would involve making a whole bunch of faces in memory that might not be used, as well as having to potentially dynamically resize the grid as needed.
+Now it was time to build the flat mesh and traverse that. This I realized was going to be unsuited to the project as currently implemented. As it would involve making a whole bunch of faces in memory that might not be used, as well as having to potentially dynamically resize the grid as needed.
 This was the turning point. I chose to abandon this strategy and reformulate the problem.
 
 ### Actual method for polygon unwrapping
