@@ -5,7 +5,23 @@ title: "Articles"
 
 <div class="px-4 sm:px-10 pr-6 py-8">
   <ul>
-    {% for project in site.articles %}
+    {% assign ranked_articles = site.articles | where_exp: "item", "item.rank" %}
+    {% assign unranked_articles = site.articles | where_exp: "item", "item.rank == nil" %}
+
+    {% if ranked_articles == nil %}
+      {% assign ranked_articles = "" | split: "" %}
+    {% endif %}
+
+    {% if unranked_articles == nil %}
+      {% assign unranked_articles = "" | split: "" %}
+    {% endif %}
+
+    {% assign ranked_articles = ranked_articles | sort: "rank" %}
+    {% assign unranked_articles = unranked_articles | sort: "date" | reverse %}
+
+    {% assign sorted_articles = ranked_articles | concat: unranked_articles %}
+
+    {% for project in sorted_articles %}
       <li>
         <a href="{{ project.url }}" class="block bg-gray-900 p-6 sm:p-9 mb-6 hover:bg-gray-800 transition text-white rounded-lg">
           <div class="flex flex-col sm:flex-row items-start sm:space-x-4 space-y-4 sm:space-y-0">
