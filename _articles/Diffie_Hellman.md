@@ -9,7 +9,7 @@ description: An Intro to Diffie–Hellman for Mathematics Students
 ---
 
 ## What is a Diffie–Hellman key exchange and what is it used for?
-Diffie–Hellman is a cryptographic protocol for the production of a shared secret between two parties. Let's say two people, Alice and Bob, want to communicate securely. A reasonable first step is that they might want to start with a shared secret because they can use this secret with their communications to make them unreadable. At the most basic level, this might be a Vernam cipher, where we bitwise XOR our shared secret with any message. In reality, we use something like AES. To learn more about this, research private key encryption.
+Diffie–Hellman is a cryptographic protocol for the production of a shared secret between two parties. Let's say two people, Alice and Bob, want to communicate securely. A reasonable first step is that they might want to start with a shared secret because they can use this secret with their communications to make them unreadable. At the most basic level, this might be a Vernam cipher, where we bitwise XOR our shared secret with any message. In reality, we use something like AES (Advanced Encryption Standard). To learn more about this, research private key encryption.
 
 ## The Discrete Log Problem
 Diffie–Hellman relies on the discrete log problem, which we introduce:
@@ -155,7 +155,8 @@ One of the most powerful attacks on the discrete logarithm problem (DLP) is know
 We start by reminding ourselves of the DLP: <br> 
 Given $$g, h, p$$, find $$x$$ such that $$g^x \equiv h \pmod{p}, \quad \text{where } \langle g \rangle = (\mathbb{Z}/p\mathbb{Z})^\times.$$
 
-We write  $$x = im - j$$ for some $$i \in \mathbb{Z}$$ and $$0 \le j < m$$. <br>
+To perform the attack we choose $$m \in \mathbb{Z}$$, how we choose this will be discussed later.    
+Then, we write  $$x = im - j$$ for some $$i \in \mathbb{Z}$$ and $$0 \le j < m$$. <br>
 
 We perform two steps in the algorithm a Baby step, then a Giant step. <br>
 1. <u>Baby step</u> <br>
