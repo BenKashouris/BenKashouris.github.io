@@ -4,8 +4,12 @@ title: "Surface Cellular Automata"
 date: 2025-03-08
 author: "Ben Kashouris"
 image: /assets/images/surface_cellular_automata.svg
+social_image: /assets/images/social/surface-cellular-automata.png
+social_image_alt: A triangulated 3D sphere with connected cyan and off-white cellular automaton regions.
 description: A cellular automaton that runs on the surface of an arbitrary 3D mesh.
 center_content: true
+animated_media: true
+featured: true
 topics:
   - Cellular Automata
   - Geometry
@@ -16,13 +20,21 @@ topics:
 Click [here](https://github.com/BenKashouris/Surface-Cellular-Automata) for the Github repository. <br>
 
 The goal of this project is to run cellular automata on the surface of 3D objects. For example, the automaton can evolve directly on the surface of an icosphere (a sphere composed of triangular faces):
-<img src="/assets/gifs/icosphere.gif" width="300" height="200" alt="Cellular automaton evolving on an icosphere">
+<video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/icosphere-poster.webp" data-autoplay aria-label="Cellular automaton evolving on an icosphere">
+  <source src="/assets/videos/icosphere.mp4" type="video/mp4">
+</video>
 The same approach works on any supplied mesh, such as a torus:
-<img src="/assets/gifs/toros.gif" width="300" height="200" alt="Cellular automaton evolving on a torus">
+<video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/torus-poster.webp" data-autoplay aria-label="Cellular automaton evolving on a torus">
+  <source src="/assets/videos/torus.mp4" type="video/mp4">
+</video>
 In addition, the project can use a polygon unwrapping algorithm to flatten the mesh into a 2D representation:
-<img src="/assets/gifs/icosphere_projected.gif" width="300" height="200" alt="An icosphere mesh unwrapped into a two-dimensional projection">
+<video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/icosphere-projected-poster.webp" data-autoplay aria-label="An icosphere mesh unwrapped into a two-dimensional projection">
+  <source src="/assets/videos/icosphere_projected.mp4" type="video/mp4">
+</video>
 This unwrapping is especially interesting because it lets us visualise the structure of the flat automaton in 3D. For example, a 2D grid with connected edges can be transformed into a torus. In fact, any two shapes that are topologically equivalent will produce the same automaton behaviour:
-<img src="/assets/gifs/torus_projected.gif" width="300" height="200" alt="A two-dimensional cellular automaton projected onto a torus">
+<video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/torus-projected-poster.webp" data-autoplay aria-label="A two-dimensional cellular automaton projected onto a torus">
+  <source src="/assets/videos/torus_projected.mp4" type="video/mp4">
+</video>
 
 ## Development journey
 In terms of complexity, the 3D automata system was relatively straightforward to implement. I began by generating simple 3D shapes procedurally in code, which made early testing and iteration easy. Later on, I switched to loading .obj files for greater flexibility.

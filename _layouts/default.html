@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | Ben Kashouris</title>
-  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}Articles and projects by Ben Kashouris, a Mathematics student interested in cryptography and computational mathematics.{% endif %}">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'{% if page.math %} https://cdn.jsdelivr.net{% endif %}; style-src 'self'{% if page.math %} 'unsafe-inline'{% endif %}; img-src 'self' data:; media-src 'self'; font-src 'self'{% if page.math %} https://cdn.jsdelivr.net data:{% endif %}; connect-src 'self'; frame-src 'none'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  {% include seo.html %}
   <meta name="google-site-verification" content="-rM1xxhVeepjGIeEDux3STElUFeWbTz-KGTWRmQY1XQ">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  {% if page.math %}
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei" crossorigin="anonymous"></script>
+  {% endif %}
+  {% if page.animated_media %}
+    <script defer src="{{ '/assets/js/lazy-videos.js' | relative_url }}"></script>
+  {% endif %}
 </head>
 
 <body>

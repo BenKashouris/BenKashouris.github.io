@@ -1,8 +1,13 @@
 title: "Ben Kashouris"
-description: "A personal portfolio website"
+description: "Articles and projects by Ben Kashouris, a mathematics student working across cryptography, algebra and computational mathematics."
 theme: minima  # Ensure the theme is correctly specified
 baseurl: ""  # Set this if your site is not at the root
-url: "https://BenKashouris.github.io"
+url: "https://benkashouris.github.io"
+lang: "en_GB"
+
+social_image:
+  path: /assets/images/me.jpg
+  alt: "Portrait of Ben Kashouris"
 
 markdown: kramdown
 highlighter: rouge

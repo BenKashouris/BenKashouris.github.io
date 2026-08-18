@@ -93,13 +93,13 @@ description: Articles and projects by Ben Kashouris, a Mathematics student worki
       </div>
     </div>
 
-    {% assign featured_project = site.projects | first %}
+    {% assign featured_project = site.projects | where: "featured", true | first %}
     {% assign latest_articles = site.articles | sort: "date" | reverse %}
     <div class="selected-work-list">
       {% if featured_project %}
         <article class="selected-work-item">
           <a class="selected-work-image" href="{{ featured_project.url | relative_url }}" aria-label="Read {{ featured_project.title }}">
-            <img src="{{ featured_project.image | relative_url }}" alt="A cellular automaton distributed over a faceted spherical surface" width="1080" height="1080">
+            <img src="{{ featured_project.image | relative_url }}" alt="A cellular automaton distributed over a faceted spherical surface" width="1600" height="900" decoding="async">
           </a>
           <div>
             <p class="work-meta">Project</p>
@@ -113,7 +113,7 @@ description: Articles and projects by Ben Kashouris, a Mathematics student worki
       {% for article in latest_articles limit: 2 %}
         <article class="selected-work-item">
           <a class="selected-work-image" href="{{ article.url | relative_url }}" aria-label="Read {{ article.title }}">
-            <img src="{{ article.image | relative_url }}" alt="" loading="lazy">
+            <img src="{{ article.image | relative_url }}" alt="" width="1600" height="900" loading="lazy" decoding="async">
           </a>
           <div>
             <p class="work-meta">Article · <time datetime="{{ article.date | date_to_xmlschema }}">{{ article.date | date: "%Y" }}</time></p>
@@ -130,7 +130,13 @@ description: Articles and projects by Ben Kashouris, a Mathematics student worki
 <section class="section about-section" aria-labelledby="about-heading">
   <div class="shell about-grid">
     <figure class="about-portrait">
-      <img src="{{ '/assets/images/me.jpg' | relative_url }}" alt="Portrait of Ben Kashouris" width="1780" height="2268" loading="lazy">
+      <picture>
+        <source
+          type="image/webp"
+          srcset="{{ '/assets/images/me-400.webp' | relative_url }} 400w, {{ '/assets/images/me-800.webp' | relative_url }} 800w"
+          sizes="(max-width: 620px) 72vw, 320px">
+        <img src="{{ '/assets/images/me.jpg' | relative_url }}" alt="Portrait of Ben Kashouris" width="800" height="1020" loading="lazy" decoding="async">
+      </picture>
     </figure>
     <div class="about-copy">
       <p class="section-marker">About</p>

@@ -4,7 +4,10 @@ title: "Fast Fibonacci Calculations"
 date: 2023-01-10
 author: "Ben Kashouris"
 image: /assets/images/fibonacci_spiral.svg
+social_image: /assets/images/social/fast-fibonacci.png
+social_image_alt: A glowing golden Fibonacci spiral on a deep navy background.
 center_content: true
+math: true
 topics:
   - Algorithms
   - Number Theory
@@ -266,7 +269,7 @@ $$\begin{bmatrix}
 \end{bmatrix} $$
 
 Which is indeed the
-![Google search showing the 100th Fibonacci number](/assets/images/100_th_fib_number.png)
+<img src="/assets/images/100_th_fib_number.png" width="1077" height="429" loading="lazy" decoding="async" alt="Google search showing the 100th Fibonacci number">
 
 ## Generalizing 
 So we could now create a log(n) algorithm that could calculate any Fibonacci number wanted, but it would be a lot more useful if we could do this for any recurrence relation. To do that, all we need to work out is how to form the recurrence matrix for a recurrence rule.

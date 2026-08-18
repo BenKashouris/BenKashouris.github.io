@@ -4,6 +4,8 @@ title: "Online Safety Bill"
 date: 2025-07-28
 author: "Ben Kashouris"
 image: /assets/images/online_safety_verification.svg
+social_image: /assets/images/social/online-safety.png
+social_image_alt: An open network meeting an identity-check gateway, with some connections continuing and others stopping.
 center_content: true
 topics:
   - Technology Policy

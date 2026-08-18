@@ -4,7 +4,10 @@ title: "An Introduction to Diffie–Hellman"
 date: 2025-11-23
 author: "Ben Kashouris"
 image: /assets/images/diffie_hellman_scatter.svg
+social_image: /assets/images/social/diffie-hellman.png
+social_image_alt: A scatter plot of 2 to the power x modulo 101 for x from 0 through 99.
 center_content: true
+math: true
 topics:
   - Cryptography
   - Algebra
@@ -48,14 +51,14 @@ The real reason is that we do not have a (classically computable) algorithm that
 
 On a more intuitive level, if we graph the continuous exponential (which is easy to reverse) versus the discrete exponential (which is hard to reverse), we can see the problem:
 
-![Graph showing the difference between the continuous and discrete exponential](/assets/images/discrete_exponential.png)
+<img src="/assets/images/discrete_exponential.png" width="1280" height="490" loading="lazy" decoding="async" alt="Graph showing the difference between the continuous and discrete exponential">
 
 We can observe how the smooth, continuous growth of the exponential function on the left contrasts with the seemingly random jumps on the right. The modular operation destroys the smooth structure, removing some of the tools like Taylor series that we may use in the continuous setting to form logarithms.
 
 ## Performing a key exchange with the discrete log
 To perform the key exchange, we follow the procedure below:
 
-![Graph the procedure for a Diffie–Hellman Key Exchange](/assets/images/key_exchanges.png)
+<img src="/assets/images/key_exchanges.png" width="1078" height="451" loading="lazy" decoding="async" alt="Graph the procedure for a Diffie–Hellman Key Exchange">
 
 By the end of the procedure, both parties have $$g^{ab}$$, but an outside observer would have to solve at least one discrete log problem to calculate this number since they never have access to $$a$$ or $$b$$, assuming Alice and Bob know they are definitely talking to each other.
 
