@@ -3,7 +3,7 @@ layout: default
 title: "Fast Fibonacci Calculations"
 date: 2023-01-10
 author: "Ben Kashouris"
-image: /assets/images/Fibonacci_spiral.png
+image: /assets/images/fibonacci_spiral.svg
 center_content: true
 topics:
   - Algorithms

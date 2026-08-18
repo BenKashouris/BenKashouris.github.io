@@ -3,7 +3,7 @@ layout: default
 title: "Online Safety Bill"
 date: 2025-07-28
 author: "Ben Kashouris"
-image: /assets/images/browser_padlock.png
+image: /assets/images/online_safety_verification.svg
 center_content: true
 topics:
   - Technology Policy

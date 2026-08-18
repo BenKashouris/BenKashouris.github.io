@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Identity verification as a gateway to the internet</title>
+  <desc id="description">An open network passes towards a central identity-check panel. Some connections continue through while others stop at the gate.</desc>
+
+  <defs>
+    <radialGradient id="ambient-glow" cx="52%" cy="48%" r="62%">
+      <stop offset="0" stop-color="#0b3342" stop-opacity="0.68" />
+      <stop offset="0.58" stop-color="#07111f" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#050c16" stop-opacity="0" />
+    </radialGradient>
+    <filter id="gate-glow" x="-40%" y="-20%" width="180%" height="140%">
+      <feGaussianBlur stdDeviation="14" />
+    </filter>
+    <circle id="network-node" r="9" fill="#22d3ee" />
+    <circle id="network-node-soft" r="7" fill="#e7f3fb" />
+  </defs>
+
+  <rect width="1600" height="900" fill="#050c16" />
+  <rect width="1600" height="900" fill="url(#ambient-glow)" />
+
+  <!-- Open network -->
+  <g fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" opacity="0.48">
+    <path d="M105 230 238 132 328 286 472 168 588 292 642 214" />
+    <path d="M105 230 178 474 328 286 350 485 588 292" />
+    <path d="M178 474 224 714 350 485 516 602 454 752 224 714" />
+    <path d="M350 485 516 602 622 700" />
+    <path d="M472 168 642 214 588 292" />
+    <path d="M516 602 642 526" />
+  </g>
+  <g opacity="0.92">
+    <use href="#network-node" x="105" y="230" />
+    <use href="#network-node-soft" x="238" y="132" />
+    <use href="#network-node" x="328" y="286" />
+    <use href="#network-node-soft" x="472" y="168" />
+    <use href="#network-node" x="588" y="292" />
+    <use href="#network-node" x="642" y="214" />
+    <use href="#network-node-soft" x="178" y="474" />
+    <use href="#network-node" x="350" y="485" />
+    <use href="#network-node-soft" x="516" y="602" />
+    <use href="#network-node" x="642" y="526" />
+    <use href="#network-node" x="224" y="714" />
+    <use href="#network-node-soft" x="454" y="752" />
+    <use href="#network-node" x="622" y="700" />
+  </g>
+
+  <!-- Connections approaching the gate -->
+  <g fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round">
+    <path d="M642 214 722 234" opacity="0.72" />
+    <path d="M588 292 722 352" opacity="0.46" />
+    <path d="M642 526 722 506" opacity="0.46" />
+    <path d="M622 700 722 666" opacity="0.72" />
+  </g>
+
+  <!-- Connections permitted through the gate -->
+  <g fill="none" stroke="#67e8f9" stroke-width="5" stroke-linecap="round" opacity="0.78">
+    <path d="M938 234 1078 196 1210 274 1360 190" />
+    <path d="M938 666 1072 706 1248 632 1438 708" />
+  </g>
+  <g fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" opacity="0.42">
+    <path d="M1078 196 1160 410 1210 274" />
+    <path d="M1160 410 1324 448 1456 342" />
+    <path d="M1248 632 1324 448 1438 708" />
+  </g>
+  <g opacity="0.9">
+    <use href="#network-node" x="1078" y="196" />
+    <use href="#network-node-soft" x="1210" y="274" />
+    <use href="#network-node" x="1360" y="190" />
+    <use href="#network-node" x="1160" y="410" />
+    <use href="#network-node-soft" x="1324" y="448" />
+    <use href="#network-node" x="1456" y="342" />
+    <use href="#network-node-soft" x="1072" y="706" />
+    <use href="#network-node" x="1248" y="632" />
+    <use href="#network-node-soft" x="1438" y="708" />
+  </g>
+
+  <!-- Identity-check gate -->
+  <rect x="720" y="108" width="220" height="684" rx="24" fill="#22d3ee" opacity="0.12" filter="url(#gate-glow)" />
+  <rect x="720" y="108" width="220" height="684" rx="24" fill="#07111f" stroke="#b2c4d3" stroke-width="4" />
+  <path d="M738 108V792 M922 108V792" fill="none" stroke="#22d3ee" stroke-width="5" opacity="0.76" />
+
+  <g fill="none" stroke="#e7f3fb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.88">
+    <circle cx="830" cy="328" r="52" />
+    <path d="M762 464C776 414 884 414 898 464" />
+    <path d="M770 538H890" />
+    <path d="M770 586H846" />
+  </g>
+  <path d="m850 645 22 22 42-48" fill="none" stroke="#67e8f9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Blocked routes -->
+  <g fill="none" stroke="#b2c4d3" stroke-width="5" stroke-linecap="round" opacity="0.72">
+    <path d="M704 334V370" />
+    <path d="M704 488V524" />
+  </g>
+  <g fill="#b2c4d3" opacity="0.82">
+    <circle cx="704" cy="352" r="6" />
+    <circle cx="704" cy="506" r="6" />
+  </g>
+
+  <!-- Gate ports make the surviving routes explicit -->
+  <g fill="#67e8f9">
+    <circle cx="720" cy="234" r="8" />
+    <circle cx="940" cy="234" r="8" />
+    <circle cx="720" cy="666" r="8" />
+    <circle cx="940" cy="666" r="8" />
+  </g>
+</svg>

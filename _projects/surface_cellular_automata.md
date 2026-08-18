@@ -3,7 +3,7 @@ layout: default
 title: "Surface Cellular Automata"
 date: 2025-03-08
 author: "Ben Kashouris"
-image: /assets/images/cellular_orb.png
+image: /assets/images/surface_cellular_automata.svg
 description: A cellular automaton that runs on the surface of an arbitrary 3D mesh.
 center_content: true
 topics:

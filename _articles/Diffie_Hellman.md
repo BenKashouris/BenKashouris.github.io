@@ -3,7 +3,7 @@ layout: default
 title: "An Introduction to Diffie–Hellman"
 date: 2025-11-23
 author: "Ben Kashouris"
-image: /assets/images/key_outline.png
+image: /assets/images/diffie_hellman_scatter.svg
 center_content: true
 topics:
   - Cryptography
