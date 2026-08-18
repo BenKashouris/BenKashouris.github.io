@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Articles"
-description: Articles on cryptography, mathematics, algorithms and technology by Ben Kashouris.
+description: Articles by Ben Kashouris on cryptography, mathematics, algorithms and technology policy.
 ---
 <header class="page-intro shell">
   <h1>Articles</h1>
@@ -11,7 +11,7 @@ description: Articles on cryptography, mathematics, algorithms and technology by
   {% assign sorted_articles = site.articles | sort: "date" | reverse %}
   <div class="card-grid card-grid-wide">
     {% for article in sorted_articles %}
-      {% include content-card.html item=article label="Article" %}
+      {% include content-card.html item=article show_date=true hide_topics=true %}
     {% endfor %}
   </div>
 </section>

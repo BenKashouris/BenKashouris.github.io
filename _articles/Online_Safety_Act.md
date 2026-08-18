@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Online Safety Bill"
+title: "Concerns About the Online Safety Act"
 date: 2025-07-28
 author: "Ben Kashouris"
 image: /assets/images/online_safety_verification.svg
@@ -9,14 +9,14 @@ social_image_alt: An open network meeting an identity-check gateway, with some c
 center_content: true
 topics:
   - Technology Policy
-description: A letter I sent to my MP outlining my issues with the Online Safety Bill
+description: A letter to my MP raising privacy, access and free-expression concerns about the Online Safety Act's age-assurance requirements.
 ---
 
 ## Prelude
-This is a letter I sent to my MP expressing my concerns about the Online Safety Bill. Feel free to use or adapt it if you'd like to raise similar issues with your own MP.
+This is a letter I sent to my MP expressing my concerns about the Online Safety Act. Feel free to use or adapt it if you'd like to raise similar issues with your own MP.
 
 ## Letter
-I am writing with some concerns about the current implementation of online safety bill that recently came into effect.
+I am writing with some concerns about the Online Safety Act requirements that recently came into effect.
 
 The bill gives Ofcom the power to enforce an encryption back door in encrypted messaging apps such as WhatsApp.  It is mathematically impossible to produce a “secure” back door in encryptions schemes; any such proposal would result in an end to the security of these messaging apps, allowing access to private messages not just to the UK government, but also to foreign governments and to non-state actors. Giving a non-elected government agency the power to require this, is an attack upon public privacy and security. 
 

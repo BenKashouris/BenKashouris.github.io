@@ -5,9 +5,13 @@
     </div>
     <div class="card-body">
       <div class="card-meta">
-        {% if include.label %}<span>{{ include.label }}</span>{% endif %}
+        {% if include.show_date and include.item.date %}
+          <time datetime="{{ include.item.date | date_to_xmlschema }}">{{ include.item.date | date: "%d %B %Y" }}</time>
+        {% elsif include.label %}
+          <span>{{ include.label }}</span>
+        {% endif %}
       </div>
-      {% if include.item.topics %}
+      {% if include.item.topics and include.hide_topics != true %}
         <ul class="topic-list card-topics" aria-label="Topics">
           {% for topic in include.item.topics %}<li>{{ topic }}</li>{% endfor %}
         </ul>

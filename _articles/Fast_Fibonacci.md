@@ -11,7 +11,7 @@ math: true
 topics:
   - Algorithms
   - Number Theory
-description: Calculating the n-th Fibonacci number in O(logn) using square and multiply
+description: Calculate Fibonacci numbers and linear recurrences in O(log n) time using matrix exponentiation and square-and-multiply.
 ---
 
 ## Prelude
@@ -268,8 +268,11 @@ $$\begin{bmatrix}
 218922995834555169026
 \end{bmatrix} $$
 
-Which is indeed the
-<img src="/assets/images/100_th_fib_number.png" width="1077" height="429" loading="lazy" decoding="async" alt="Google search showing the 100th Fibonacci number">
+This agrees with the published result:
+<figure>
+  <img src="/assets/images/100_th_fib_number.png" width="1077" height="429" loading="lazy" decoding="async" alt="Google search showing the 100th Fibonacci number">
+  <figcaption><strong>Figure 1.</strong> The computed value agrees with the published value of the 100th Fibonacci number.</figcaption>
+</figure>
 
 ## Generalizing 
 So we could now create a log(n) algorithm that could calculate any Fibonacci number wanted, but it would be a lot more useful if we could do this for any recurrence relation. To do that, all we need to work out is how to form the recurrence matrix for a recurrence rule.
@@ -313,19 +316,19 @@ The implementation details of both square and multiply and matrix multiplication
 Problem statement: Given a list, ‘coefficients’, of constants which represent the coefficients of the recurrence rule starting with $$a_1$$ and a list, ‘seeds’, of seed values starting with $$F_1$$ find the nth term.
 
 The very first thing to check is that the nth term asked for isn’t already one given in the seed value. 
-``` 
+```python
 def get_nth_value(coefficients: List[float], seeds: List[float], n: int)-> int:
     order = len(coefficients)
     if 1 <= n <= order: return seeds[n-1]
 ```
 We then construct the recurrence matrix and the seed matrix.
 The function Matrix here takes in a 2d list representing the values in the matrix and returns a matrix with those values that can be operated on. We also now the rest of matrix is 1's on the diagonal which we can form by chopping of the last row of the identity matrix.
-```
+```python
     recurrence_matrix = Matrix([coefficients] + make_identity_matrix_list(order)[:-1])
 ```
 
 We can now work on calculating the nth term. First, we define difference as the number of steps we need to advance the state vector in order to reach $$F_n$$. Then, we pass the exponentiation $$\text{recurrence_matrix}^{\text{difference}}$$ to square and multiply and finally times by the seed matrix. We can then just return the value at the top of the output vector.
-```
+```python
     difference = n - order
     foo = square_and_multiply(recurrence_matrix, difference)
     final_matrix = foo * seed_matrix
@@ -334,7 +337,7 @@ We can now work on calculating the nth term. First, we define difference as the 
 
 Our current algorithm functions for positive values of N. But we can easily extend this to work for negative values of N, by adding the ability to invert our recurrence_matrix.
 Given that $$A^{-n}=(A^{-1})^n=(A^n)^{-1}$$, it is sufficient to invert the matrix if the difference is negative, then continue as if it were postive. Adding this to our code, we get the final algorithm.
-```
+```python
 def get_nth_value(coefficients: List[float], seeds: List[float], n: int) -> int:
     order = len(coefficients)
     if 1 <= n <= order: return seeds[n-1]

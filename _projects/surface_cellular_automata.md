@@ -6,7 +6,7 @@ author: "Ben Kashouris"
 image: /assets/images/surface_cellular_automata.svg
 social_image: /assets/images/social/surface-cellular-automata.png
 social_image_alt: A triangulated 3D sphere with connected cyan and off-white cellular automaton regions.
-description: A cellular automaton that runs on the surface of an arbitrary 3D mesh.
+description: A Python cellular automaton that evolves across arbitrary 3D meshes and unwraps their triangular surfaces into 2D.
 center_content: true
 animated_media: true
 featured: true
@@ -20,21 +20,33 @@ topics:
 Click [here](https://github.com/BenKashouris/Surface-Cellular-Automata) for the Github repository. <br>
 
 The goal of this project is to run cellular automata on the surface of 3D objects. For example, the automaton can evolve directly on the surface of an icosphere (a sphere composed of triangular faces):
-<video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/icosphere-poster.webp" data-autoplay aria-label="Cellular automaton evolving on an icosphere">
-  <source src="/assets/videos/icosphere.mp4" type="video/mp4">
-</video>
+<figure>
+  <video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/icosphere-poster.webp" data-autoplay aria-label="Cellular automaton evolving on an icosphere">
+    <source src="/assets/videos/icosphere.mp4" type="video/mp4">
+  </video>
+  <figcaption><strong>Figure 1.</strong> A cellular automaton evolving directly across an icosphere's triangular faces.</figcaption>
+</figure>
 The same approach works on any supplied mesh, such as a torus:
-<video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/torus-poster.webp" data-autoplay aria-label="Cellular automaton evolving on a torus">
-  <source src="/assets/videos/torus.mp4" type="video/mp4">
-</video>
+<figure>
+  <video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/torus-poster.webp" data-autoplay aria-label="Cellular automaton evolving on a torus">
+    <source src="/assets/videos/torus.mp4" type="video/mp4">
+  </video>
+  <figcaption><strong>Figure 2.</strong> The same automaton running on a toroidal mesh.</figcaption>
+</figure>
 In addition, the project can use a polygon unwrapping algorithm to flatten the mesh into a 2D representation:
-<video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/icosphere-projected-poster.webp" data-autoplay aria-label="An icosphere mesh unwrapped into a two-dimensional projection">
-  <source src="/assets/videos/icosphere_projected.mp4" type="video/mp4">
-</video>
+<figure>
+  <video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/icosphere-projected-poster.webp" data-autoplay aria-label="An icosphere mesh unwrapped into a two-dimensional projection">
+    <source src="/assets/videos/icosphere_projected.mp4" type="video/mp4">
+  </video>
+  <figcaption><strong>Figure 3.</strong> The icosphere's triangular mesh unfolded into a flat two-dimensional layout.</figcaption>
+</figure>
 This unwrapping is especially interesting because it lets us visualise the structure of the flat automaton in 3D. For example, a 2D grid with connected edges can be transformed into a torus. In fact, any two shapes that are topologically equivalent will produce the same automaton behaviour:
-<video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/torus-projected-poster.webp" data-autoplay aria-label="A two-dimensional cellular automaton projected onto a torus">
-  <source src="/assets/videos/torus_projected.mp4" type="video/mp4">
-</video>
+<figure>
+  <video width="758" height="596" controls loop muted playsinline preload="none" poster="/assets/images/torus-projected-poster.webp" data-autoplay aria-label="A two-dimensional cellular automaton projected onto a torus">
+    <source src="/assets/videos/torus_projected.mp4" type="video/mp4">
+  </video>
+  <figcaption><strong>Figure 4.</strong> A flat connected grid projected back onto a topologically equivalent torus.</figcaption>
+</figure>
 
 ## Development journey
 In terms of complexity, the 3D automata system was relatively straightforward to implement. I began by generating simple 3D shapes procedurally in code, which made early testing and iteration easy. Later on, I switched to loading .obj files for greater flexibility.
@@ -49,7 +61,7 @@ What started as a secondary feature, quickly became the central technical challe
 My first idea was to pre-generate a flat 2D grid and traverse the 3D surface and the grid in the same order, before simply using the traversal visit index to form a bijection between the two.<br>
 However, my major issue was ensuring that the traversal on the surface was deterministic. In the current implementation, the neighbours are stored unordered. In order for this method to work, I needed to find some local ordering. This would prove to be non-trivial. <br>
 To address this, I implemented an ordering algorithm based on projected centroids. As below:
-```
+```text
 Input Face
 Calculate the centroid of the face and the centroids of the neighbours of the face.
 Calculate the plane that contains all 3 vertices of the face.
@@ -79,7 +91,7 @@ The spanning tree is stored as a dictionary that maps each cell to a list of its
 
 #### Step 2 Traversing and Placing Triangles
 The algorithm for this is fairly simple.
-```
+```text
 Start with the root triangle of Step 1: place this in 2D manually.
 For each child/neighbour:
     Find the shared edge in 2D
@@ -92,7 +104,7 @@ The main challenge is computing the third vertex. For any triangle, there are tw
 We resolve this using the winding order, which is the order in which a triangle’s vertices are stored. By convention, most 3D formats (like .obj) store vertices in counter-clockwise order when viewed from the outside of the mesh.
 
 Our approach is as follows:
-```
+```text
 1. Identify the vertex in the 3D child triangle that is not part of the shared edge.
 2. Determine whether this vertex lies clockwise or anticlockwise relative to the shared edge in 3D, with the winding order.
 3. Use the same orientation to place the third vertex in 2D

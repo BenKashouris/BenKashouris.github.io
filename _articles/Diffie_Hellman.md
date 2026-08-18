@@ -11,7 +11,7 @@ math: true
 topics:
   - Cryptography
   - Algebra
-description: An Intro to Diffie–Hellman for Mathematics Students
+description: A mathematics-first introduction to Diffie–Hellman key exchange, the discrete logarithm problem and secure parameter choices.
 ---
 
 ## What is a Diffie–Hellman key exchange and what is it used for?
@@ -51,14 +51,20 @@ The real reason is that we do not have a (classically computable) algorithm that
 
 On a more intuitive level, if we graph the continuous exponential (which is easy to reverse) versus the discrete exponential (which is hard to reverse), we can see the problem:
 
-<img src="/assets/images/discrete_exponential.png" width="1280" height="490" loading="lazy" decoding="async" alt="Graph showing the difference between the continuous and discrete exponential">
+<figure>
+  <img src="/assets/images/discrete_exponential.png" width="1280" height="490" loading="lazy" decoding="async" alt="Graph showing the difference between the continuous and discrete exponential">
+  <figcaption><strong>Figure 1.</strong> Continuous exponential growth compared with modular exponentiation, whose outputs appear irregular.</figcaption>
+</figure>
 
 We can observe how the smooth, continuous growth of the exponential function on the left contrasts with the seemingly random jumps on the right. The modular operation destroys the smooth structure, removing some of the tools like Taylor series that we may use in the continuous setting to form logarithms.
 
 ## Performing a key exchange with the discrete log
 To perform the key exchange, we follow the procedure below:
 
-<img src="/assets/images/key_exchanges.png" width="1078" height="451" loading="lazy" decoding="async" alt="Graph the procedure for a Diffie–Hellman Key Exchange">
+<figure>
+  <img src="/assets/images/key_exchanges.png" width="1078" height="451" loading="lazy" decoding="async" alt="Diagram showing the procedure for a Diffie–Hellman key exchange">
+  <figcaption><strong>Figure 2.</strong> Alice and Bob derive the same shared secret while keeping their private values hidden.</figcaption>
+</figure>
 
 By the end of the procedure, both parties have $$g^{ab}$$, but an outside observer would have to solve at least one discrete log problem to calculate this number since they never have access to $$a$$ or $$b$$, assuming Alice and Bob know they are definitely talking to each other.
 

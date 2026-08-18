@@ -1,13 +1,24 @@
 title: "Ben Kashouris"
-description: "Articles and projects by Ben Kashouris, a mathematics student working across cryptography, algebra and computational mathematics."
-theme: minima  # Ensure the theme is correctly specified
-baseurl: ""  # Set this if your site is not at the root
+description: "Writing and projects by Ben Kashouris on mathematics, cryptography, algebra and computation."
+theme: minima
+baseurl: ""
 url: "https://benkashouris.github.io"
-lang: "en_GB"
+lang: "en-GB"
+locale: "en_GB"
+
+author:
+  name: "Ben Kashouris"
+  url: "https://benkashouris.github.io/"
+  same_as:
+    - "https://github.com/BenKashouris"
+    - "https://www.linkedin.com/in/ben-kashouris"
 
 social_image:
   path: /assets/images/me.jpg
   alt: "Portrait of Ben Kashouris"
+  width: 800
+  height: 1020
+  type: image/jpeg
 
 markdown: kramdown
 highlighter: rouge

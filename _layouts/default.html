@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ site.lang | default: 'en-GB' }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'{% if page.math %} https://cdn.jsdelivr.net{% endif %}; style-src 'self'{% if page.math %} 'unsafe-inline'{% endif %}; img-src 'self' data:; media-src 'self'; font-src 'self'{% if page.math %} https://cdn.jsdelivr.net data:{% endif %}; connect-src 'self'; frame-src 'none'; form-action 'self'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#07111f">
   {% include seo.html %}
   <meta name="google-site-verification" content="-rM1xxhVeepjGIeEDux3STElUFeWbTz-KGTWRmQY1XQ">
 
@@ -14,6 +15,9 @@
   {% endif %}
   {% if page.animated_media %}
     <script defer src="{{ '/assets/js/lazy-videos.js' | relative_url }}"></script>
+  {% endif %}
+  {% if page.collection %}
+    <script defer src="{{ '/assets/js/article-toc.js' | relative_url }}"></script>
   {% endif %}
 </head>
 
@@ -59,18 +63,22 @@
           <a class="eyebrow back-link" href="{% if page.collection == 'articles' %}{{ '/articles.html' | relative_url }}{% else %}{{ '/projects.html' | relative_url }}{% endif %}">← Back to {% if page.collection == 'articles' %}articles{% else %}projects{% endif %}</a>
           <h1>{{ page.title }}</h1>
           {% if page.description %}<p class="article-deck">{{ page.description }}</p>{% endif %}
+          {% assign article_words = content | number_of_words %}
+          {% assign reading_minutes = article_words | plus: 199 | divided_by: 200 %}
           <div class="article-meta">
-            {% if page.author %}<span>{{ page.author }}</span>{% endif %}
             {% if page.date %}<time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d %B %Y" }}</time>{% endif %}
+            {% if page.date %}<span aria-hidden="true">·</span>{% endif %}
+            <span aria-label="Approximately {{ reading_minutes }} minutes to read">~{{ reading_minutes }} min read</span>
           </div>
-          {% if page.topics %}
-            <ul class="topic-list" aria-label="Topics">
-              {% for topic in page.topics %}<li>{{ topic }}</li>{% endfor %}
-            </ul>
-          {% endif %}
         </header>
-        <div class="article-content">
-          {{ content }}
+        <div class="article-body">
+          <aside class="contents-rail" aria-label="On this page" hidden>
+            <p>On this page</p>
+            <ol data-article-toc></ol>
+          </aside>
+          <div class="article-content">
+            {{ content }}
+          </div>
         </div>
         <nav class="article-footer-nav" aria-label="End of article">
           <a href="{% if page.collection == 'articles' %}{{ '/articles.html' | relative_url }}{% else %}{{ '/projects.html' | relative_url }}{% endif %}">← Back to all {% if page.collection == 'articles' %}articles{% else %}projects{% endif %}</a>
