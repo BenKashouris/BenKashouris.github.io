@@ -7,6 +7,7 @@ image: /assets/images/diffie_hellman_scatter.svg
 social_image: /assets/images/social/diffie-hellman.png
 social_image_alt: A scatter plot of 2 to the power x modulo 101 for x from 0 through 99.
 center_content: true
+show_contents: true
 math: true
 topics:
   - Cryptography

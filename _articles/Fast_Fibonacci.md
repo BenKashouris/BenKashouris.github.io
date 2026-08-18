@@ -7,6 +7,7 @@ image: /assets/images/fibonacci_spiral.svg
 social_image: /assets/images/social/fast-fibonacci.png
 social_image_alt: A glowing golden Fibonacci spiral on a deep navy background.
 center_content: true
+show_contents: true
 math: true
 topics:
   - Algorithms
@@ -14,13 +15,13 @@ topics:
 description: Calculate Fibonacci numbers and linear recurrences in O(log n) time using matrix exponentiation and square-and-multiply.
 ---
 
-## Prelude
+## A Note on This Article
 I wrote this article before starting my mathematics degree, so some parts may lack the clarity or formalism of more polished writing. That said, I believe the core idea to be interesting. I think this piece could be especially useful for students who are about to begin their own maths or computer science degrees. It shows how concepts from linear algebra can be applied to solve classic problems in an efficient way.
 
-## Introduction
+## From Fibonacci Numbers to Matrix Powers
 Calculating the nth Fibonacci number is an absolutely classic computer science problem, one that is notable because of it's wide range of algorithmic approaches that often are classic examples of such algorithms. What I would like to explore is a much faster and, in my opinion, particularly interesting way of calculating not just the Fibonacci numbers, but any linear homogeneous recurrence relationship with constant coefficients in O(log n) time.
 
-### An interesting pattern
+### The Fibonacci Matrix
 
 $$
 \begin{bmatrix}
@@ -181,8 +182,8 @@ $$
 
 So what we have is a way of representing the Fibonacci sequence in matrix form. This is powerful because it changes calculating the Fibonacci sequence to calculating one matrix to the power of the number we want to change our seed vector by. So the question becomes not how fast can we calculate the Fibonacci sequence, but how fast can we exponentiate a matrix. It turns out we can calculate an exponentiation, using square and multiply, in O(log n) time. So our proposed algorithm for calculating the nth Fibonacci number would also work in O(log n) time, far exceeding the O(n) time complexity of recursion with memorisation. 
 
-## Brief tangent on the square and multiply <span style="font-size:0.6em">(aka exponentiation via squaring or binary exponentiation)</span>
-Our problem is to calculate $$A^n$$. To understand the algorithm, we need to understand what happens to our exponent when we do two key operations: squaring and multiplying. 
+## Fast Matrix Exponentiation with Square-and-Multiply
+Our problem is to calculate $$A^n$$. To understand the algorithm, we need to understand what happens to our exponent when we do two key operations: squaring and multiplying.
 We note that when we square our number we double the exponent. Doubling a number in binary is equivalent to a left bit shift. So squaring a number causes its exponent to bitwise left shift once. 
 For example:
 
@@ -212,13 +213,13 @@ Then we initialize our output, $$X$$ which we should think of as $$X^0$$. We now
 Which is indeed correct. <br>
 Note that this algorithm can exponentiate any object that defines a “multiplication” operation and “exponentiation” operation. Further note that this algorithm runs in O(k), where k is the number of bits to form the exponent. Since a number N has floor(log N) bits, this algorithm runs in O(log n) time.
 
-## Getting back on track
-So how do we calculate, say, the 100th Fibonacci number? To compute $$F_{100}$$​, we must apply our recurrence matrix sufficiently many times to move from the initial seed vector $$\begin{bmatrix}
+## Computing the 100th Fibonacci Number
+So how do we calculate, say, the 100th Fibonacci number? To compute $$F_{100}$$, we must apply our recurrence matrix sufficiently many times to move from the initial seed vector $$\begin{bmatrix}
 F_{2} \\
 F_{1}
 \end{bmatrix}$$ to $$\begin{bmatrix}
 F_{100} \\
-F_{199}
+F_{99}
 \end{bmatrix}$$
 
 $$
@@ -274,7 +275,7 @@ This agrees with the published result:
   <figcaption><strong>Figure 1.</strong> The computed value agrees with the published value of the 100th Fibonacci number.</figcaption>
 </figure>
 
-## Generalizing 
+## Extending the Method to Linear Recurrences
 So we could now create a log(n) algorithm that could calculate any Fibonacci number wanted, but it would be a lot more useful if we could do this for any recurrence relation. To do that, all we need to work out is how to form the recurrence matrix for a recurrence rule.
 
 Let’s define a recurrence rule $$F_n=a_1F_{n-1}+a_2F_{n-2}+...+a_kF_{n-k}$$. We attempt to find the recurrence matrix $$A$$, which is a matrix such that
@@ -310,8 +311,8 @@ a_1 & a_2 & a_3 & ... & a_{k-1}  & a_k \\
 0 & 0 & 0 & ... & 1 & 0 \\
 \end{bmatrix}$$
 
-## Designing an algorithm
-The implementation details of both square and multiply and matrix multiplication are beyond the scope of this post; instead, we will pass these off to generic functions when necessary. 
+## Implementing the General Algorithm
+The implementation details of both square and multiply and matrix multiplication are beyond the scope of this post; instead, we will pass these off to generic functions when necessary.
 
 Problem statement: Given a list, ‘coefficients’, of constants which represent the coefficients of the recurrence rule starting with $$a_1$$ and a list, ‘seeds’, of seed values starting with $$F_1$$ find the nth term.
 

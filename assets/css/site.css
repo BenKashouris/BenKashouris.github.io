@@ -1047,6 +1047,7 @@ main {
 
 .article-content {
   grid-column: 2;
+  min-width: 0;
   width: 100%;
   color: var(--ink-soft);
   font-family: var(--serif);
@@ -1160,6 +1161,9 @@ main {
 }
 
 .article-content .highlighter-rouge {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   margin: 2.5rem 0;
   border: 1px solid var(--line-strong);
@@ -1193,13 +1197,18 @@ main {
 }
 
 .article-content .highlight {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   background: transparent;
 }
 
 .article-content pre {
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
   margin: 0;
   padding: 1.4rem 1.5rem 1.5rem;
   border: 0;
@@ -1209,21 +1218,9 @@ main {
   font-family: var(--mono);
   font-size: 0.88rem;
   line-height: 1.65;
+  overflow-wrap: anywhere;
   tab-size: 4;
-}
-
-.article-content pre::-webkit-scrollbar {
-  height: 0.65rem;
-}
-
-.article-content pre::-webkit-scrollbar-track {
-  background: var(--canvas-deep);
-}
-
-.article-content pre::-webkit-scrollbar-thumb {
-  border: 2px solid var(--canvas-deep);
-  border-radius: 999px;
-  background: var(--line-strong);
+  white-space: pre-wrap;
 }
 
 .article-content .highlight .c,

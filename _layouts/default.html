@@ -16,7 +16,7 @@
   {% if page.animated_media %}
     <script defer src="{{ '/assets/js/lazy-videos.js' | relative_url }}"></script>
   {% endif %}
-  {% if page.collection %}
+  {% if page.show_contents %}
     <script defer src="{{ '/assets/js/article-toc.js' | relative_url }}"></script>
   {% endif %}
 </head>
@@ -72,10 +72,12 @@
           </div>
         </header>
         <div class="article-body">
-          <aside class="contents-rail" aria-label="On this page" hidden>
-            <p>On this page</p>
-            <ol data-article-toc></ol>
-          </aside>
+          {% if page.show_contents %}
+            <aside class="contents-rail" id="article-contents" aria-label="On this page" hidden>
+              <p>On this page</p>
+              <ol data-article-toc></ol>
+            </aside>
+          {% endif %}
           <div class="article-content">
             {{ content }}
           </div>
