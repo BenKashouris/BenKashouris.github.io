@@ -4,13 +4,14 @@
 
   <defs>
     <radialGradient id="ambient-glow" cx="68%" cy="45%" r="72%">
-      <stop offset="0" stop-color="#0b3342" stop-opacity="0.78" />
+      <stop offset="0" stop-color="#112338" stop-opacity="0.54" />
       <stop offset="0.58" stop-color="#07111f" stop-opacity="0.22" />
       <stop offset="1" stop-color="#050c16" stop-opacity="0" />
     </radialGradient>
     <linearGradient id="spiral-stroke" x1="780" y1="450" x2="1450" y2="450" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#22d3ee" />
-      <stop offset="1" stop-color="#67e8f9" />
+      <stop offset="0" stop-color="#8da2b5" />
+      <stop offset="0.72" stop-color="#b2c4d3" />
+      <stop offset="1" stop-color="#22d3ee" />
     </linearGradient>
     <filter id="spiral-glow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="13" />
@@ -21,7 +22,7 @@
   <rect width="1600" height="900" fill="#050c16" />
   <rect width="1600" height="900" fill="url(#ambient-glow)" />
 
-  <use href="#spiral" fill="none" stroke="#22d3ee" stroke-width="42" stroke-linecap="round" stroke-linejoin="round" opacity="0.14" filter="url(#spiral-glow)" />
+  <use href="#spiral" fill="none" stroke="#8da2b5" stroke-width="42" stroke-linecap="round" stroke-linejoin="round" opacity="0.1" filter="url(#spiral-glow)" />
   <use href="#spiral" fill="none" stroke="url(#spiral-stroke)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.82" />
-  <circle cx="802" cy="450" r="7" fill="#a5f3fc" />
+  <circle cx="802" cy="450" r="7" fill="#22d3ee" />
 </svg>

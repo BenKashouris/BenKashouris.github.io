@@ -4,14 +4,14 @@
 
   <defs>
     <radialGradient id="ambient-glow" cx="52%" cy="48%" r="62%">
-      <stop offset="0" stop-color="#0b3342" stop-opacity="0.68" />
+      <stop offset="0" stop-color="#112338" stop-opacity="0.5" />
       <stop offset="0.58" stop-color="#07111f" stop-opacity="0.18" />
       <stop offset="1" stop-color="#050c16" stop-opacity="0" />
     </radialGradient>
     <filter id="gate-glow" x="-40%" y="-20%" width="180%" height="140%">
       <feGaussianBlur stdDeviation="14" />
     </filter>
-    <circle id="network-node" r="9" fill="#22d3ee" />
+    <circle id="network-node" r="9" fill="#8da2b5" />
     <circle id="network-node-soft" r="7" fill="#e7f3fb" />
   </defs>
 
@@ -19,7 +19,7 @@
   <rect width="1600" height="900" fill="url(#ambient-glow)" />
 
   <!-- Open network -->
-  <g fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" opacity="0.48">
+  <g fill="none" stroke="#8da2b5" stroke-width="4" stroke-linecap="round" opacity="0.42">
     <path d="M105 230 238 132 328 286 472 168 588 292 642 214" />
     <path d="M105 230 178 474 328 286 350 485 588 292" />
     <path d="M178 474 224 714 350 485 516 602 454 752 224 714" />
@@ -44,7 +44,7 @@
   </g>
 
   <!-- Connections approaching the gate -->
-  <g fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round">
+  <g fill="none" stroke="#8da2b5" stroke-width="5" stroke-linecap="round">
     <path d="M642 214 722 234" opacity="0.72" />
     <path d="M588 292 722 352" opacity="0.46" />
     <path d="M642 526 722 506" opacity="0.46" />
@@ -56,7 +56,7 @@
     <path d="M938 234 1078 196 1210 274 1360 190" />
     <path d="M938 666 1072 706 1248 632 1438 708" />
   </g>
-  <g fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" opacity="0.42">
+  <g fill="none" stroke="#8da2b5" stroke-width="4" stroke-linecap="round" opacity="0.36">
     <path d="M1078 196 1160 410 1210 274" />
     <path d="M1160 410 1324 448 1456 342" />
     <path d="M1248 632 1324 448 1438 708" />
