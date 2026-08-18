@@ -5,6 +5,8 @@ date: 2025-07-28
 author: "Ben Kashouris"
 image: /assets/images/browser_padlock.png
 center_content: true
+topics:
+  - Technology Policy
 description: A letter I sent to my MP outlining my issues with the Online Safety Bill
 ---
 

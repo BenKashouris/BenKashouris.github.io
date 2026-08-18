@@ -5,6 +5,9 @@ date: 2025-11-23
 author: "Ben Kashouris"
 image: /assets/images/key_outline.png
 center_content: true
+topics:
+  - Cryptography
+  - Algebra
 description: An Intro to Diffie–Hellman for Mathematics Students
 ---
 

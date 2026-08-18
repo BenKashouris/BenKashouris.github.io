@@ -1,39 +1,17 @@
 ---
 layout: default
 title: "Articles"
+description: Articles on cryptography, mathematics, algorithms and technology by Ben Kashouris.
 ---
+<header class="page-intro shell">
+  <h1>Articles</h1>
+</header>
 
-<div class="px-4 sm:px-10 pr-6 py-8">
-  <ul>
-    {% assign ranked_articles = site.articles | where_exp: "item", "item.rank" %}
-    {% assign unranked_articles = site.articles | where_exp: "item", "item.rank == nil" %}
-
-    {% if ranked_articles == nil %}
-      {% assign ranked_articles = "" | split: "" %}
-    {% endif %}
-
-    {% if unranked_articles == nil %}
-      {% assign unranked_articles = "" | split: "" %}
-    {% endif %}
-
-    {% assign ranked_articles = ranked_articles | sort: "rank" %}
-    {% assign unranked_articles = unranked_articles | sort: "date" | reverse %}
-
-    {% assign sorted_articles = ranked_articles | concat: unranked_articles %}
-
-    {% for project in sorted_articles %}
-      <li>
-        <a href="{{ project.url }}" class="block bg-gray-900 p-6 sm:p-9 mb-6 hover:bg-gray-800 transition text-white rounded-lg">
-          <div class="flex flex-col sm:flex-row items-start sm:space-x-4 space-y-4 sm:space-y-0">
-            <img src="{{ project.image }}" alt="{{ project.title }}" class="w-full sm:w-48 h-48 object-cover rounded">
-            <div>
-              <h2 class="text-lg sm:text-xl font-semibold mb-2">{{ project.title }}</h2>
-              <p class="text-sm sm:text-base">{{ project.description }}</p>
-            </div>
-          </div>
-        </a>
-      </li>
+<section class="listing-section shell" aria-label="All articles">
+  {% assign sorted_articles = site.articles | sort: "date" | reverse %}
+  <div class="card-grid card-grid-wide">
+    {% for article in sorted_articles %}
+      {% include content-card.html item=article label="Article" %}
     {% endfor %}
-  </ul>
-</div>
-
+  </div>
+</section>

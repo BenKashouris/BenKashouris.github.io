@@ -1,21 +1,17 @@
 ---
 layout: default
 title: "Projects"
+description: Mathematical and computational projects by Ben Kashouris.
 ---
-<div class="px-4 sm:px-10 pr-6 py-8">
-  <ul>
-    {% for project in site.projects %}
-      <li>
-        <a href="{{ project.url }}" class="block bg-gray-900 p-6 sm:p-9 mb-6 hover:bg-gray-800 transition text-white rounded-lg">
-          <div class="flex flex-col sm:flex-row items-start sm:space-x-4 space-y-4 sm:space-y-0">
-            <img src="{{ project.image }}" alt="{{ project.title }}" class="w-full sm:w-48 h-48 object-cover rounded">
-            <div>
-              <h2 class="text-lg sm:text-xl font-semibold mb-2">{{ project.title }}</h2>
-              <p class="text-sm sm:text-base">{{ project.description }}</p>
-            </div>
-          </div>
-        </a>
-      </li>
+<header class="page-intro shell">
+  <h1>Projects</h1>
+</header>
+
+<section class="listing-section shell" aria-label="All projects">
+  {% assign sorted_projects = site.projects | sort: "date" | reverse %}
+  <div class="card-grid card-grid-wide">
+    {% for project in sorted_projects %}
+      {% include content-card.html item=project label="Project" %}
     {% endfor %}
-  </ul>
-</div>
+  </div>
+</section>

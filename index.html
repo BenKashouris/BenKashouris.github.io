@@ -1,22 +1,144 @@
 ---
 layout: default
 title: Home
-description: Portfolio and articles by Ben Kashouris, Mathematics student at University of Nottingham with interests in cryptography and programming.
+description: Articles and projects by Ben Kashouris, a Mathematics student working across cryptography, algebra and computational mathematics.
 ---
-<div class="p-8 max-w-5xl mx-auto flex flex-col md:flex-row items-start gap-8">
-  <img src="/assets/images/me.jpg" alt="Profile photo" class="w-32 h-32 sm:w-48 sm:h-48 md:w-80 md:h-80 object-cover">
-  <div class="flex-grow text-lg">
-    <p>
-Hi, I'm Ben Kashouris, a second-year Mathematics student at the University of Nottingham with a strong passion for cryptography—especially lattice-based schemes and post-quantum security. I achieved a 90% average in my first-year modules, reflecting my dedication and aptitude for the subject.
-    </p>
-    <p>
-Originally focusing on Computer Science before deciding that maths was a better fit, I maintain a keen enthusiasm for programming and computational theory.
-    </p>
-    <p>
-On this site, you'll find a variety of projects and blog posts, including a cellular automaton working on a 3D surface, a statistical analysis project identifying the optimal aim point on a dartboard, and an exploration of using the square-and-multiply method to efficiently calculate Fibonacci numbers.
-    </p>
-    <p>
-I'm highly proficient in Python, am proficient in R, and will soon be advancing my skills with an upcoming module in functional programming focused on Haskell.
-    </p>
+<section class="hero">
+  <div class="shell">
+    <div class="hero-copy">
+      <h1>
+        <span>Mathematics,</span>
+        <span>cryptography and</span>
+        <span class="accent-text">computation.</span>
+      </h1>
+      <p class="hero-intro">
+        I'm Ben Kashouris, a mathematics student at the University of Nottingham and co-founder of Amphora. My main interests lie in pure mathematics and cryptography, particularly algebra and number theory.
+      </p>
+      <nav class="hero-actions" aria-label="Explore the site">
+        <a class="arrow-link" href="{{ '/articles.html' | relative_url }}">Read articles <span aria-hidden="true">→</span></a>
+        <a class="quiet-link" href="{{ '/projects.html' | relative_url }}">Explore projects</a>
+      </nav>
+    </div>
+    <div class="hero-automaton" aria-hidden="true">
+      <svg viewBox="0 0 350 540" focusable="false" preserveAspectRatio="xMaxYMid meet">
+        <defs>
+          <polygon id="cell-up" points="0,61 35,0 70,61"></polygon>
+          <polygon id="cell-down" points="0,0 70,0 35,61"></polygon>
+        </defs>
+
+        <use class="automaton-cell is-active" data-cell-index="0" href="#cell-up" x="210" y="16"></use>
+        <use class="automaton-cell" data-cell-index="1" href="#cell-down" x="245" y="16"></use>
+        <use class="automaton-cell is-active" data-cell-index="2" href="#cell-up" x="280" y="16"></use>
+        <use class="automaton-cell" data-cell-index="3" href="#cell-down" x="315" y="16"></use>
+
+        <use class="automaton-cell" data-cell-index="4" href="#cell-down" x="140" y="77"></use>
+        <use class="automaton-cell is-active" data-cell-index="5" href="#cell-up" x="175" y="77"></use>
+        <use class="automaton-cell" data-cell-index="6" href="#cell-down" x="210" y="77"></use>
+        <use class="automaton-cell" data-cell-index="7" href="#cell-up" x="245" y="77"></use>
+        <use class="automaton-cell" data-cell-index="8" href="#cell-down" x="280" y="77"></use>
+        <use class="automaton-cell" data-cell-index="9" href="#cell-up" x="315" y="77"></use>
+
+        <use class="automaton-cell" data-cell-index="10" href="#cell-down" x="175" y="138"></use>
+        <use class="automaton-cell is-active" data-cell-index="11" href="#cell-up" x="210" y="138"></use>
+        <use class="automaton-cell" data-cell-index="12" href="#cell-down" x="245" y="138"></use>
+        <use class="automaton-cell is-active" data-cell-index="13" href="#cell-up" x="280" y="138"></use>
+        <use class="automaton-cell" data-cell-index="14" href="#cell-down" x="315" y="138"></use>
+
+        <use class="automaton-cell" data-cell-index="15" href="#cell-down" x="210" y="199"></use>
+        <use class="automaton-cell" data-cell-index="16" href="#cell-up" x="245" y="199"></use>
+        <use class="automaton-cell" data-cell-index="17" href="#cell-down" x="280" y="199"></use>
+        <use class="automaton-cell is-active" data-cell-index="18" href="#cell-up" x="315" y="199"></use>
+
+        <use class="automaton-cell" data-cell-index="19" href="#cell-down" x="105" y="260"></use>
+        <use class="automaton-cell" data-cell-index="20" href="#cell-up" x="140" y="260"></use>
+        <use class="automaton-cell" data-cell-index="21" href="#cell-down" x="175" y="260"></use>
+        <use class="automaton-cell" data-cell-index="22" href="#cell-up" x="210" y="260"></use>
+        <use class="automaton-cell" data-cell-index="23" href="#cell-down" x="245" y="260"></use>
+        <use class="automaton-cell" data-cell-index="24" href="#cell-up" x="280" y="260"></use>
+        <use class="automaton-cell" data-cell-index="25" href="#cell-down" x="315" y="260"></use>
+
+        <use class="automaton-cell" data-cell-index="26" href="#cell-down" x="140" y="321"></use>
+        <use class="automaton-cell" data-cell-index="27" href="#cell-up" x="175" y="321"></use>
+        <use class="automaton-cell" data-cell-index="28" href="#cell-down" x="210" y="321"></use>
+        <use class="automaton-cell" data-cell-index="29" href="#cell-up" x="245" y="321"></use>
+        <use class="automaton-cell" data-cell-index="30" href="#cell-down" x="280" y="321"></use>
+        <use class="automaton-cell is-active" data-cell-index="31" href="#cell-up" x="315" y="321"></use>
+
+        <use class="automaton-cell" data-cell-index="32" href="#cell-down" x="175" y="382"></use>
+        <use class="automaton-cell" data-cell-index="33" href="#cell-up" x="210" y="382"></use>
+        <use class="automaton-cell" data-cell-index="34" href="#cell-down" x="245" y="382"></use>
+        <use class="automaton-cell is-active" data-cell-index="35" href="#cell-up" x="280" y="382"></use>
+        <use class="automaton-cell" data-cell-index="36" href="#cell-down" x="315" y="382"></use>
+
+        <use class="automaton-cell" data-cell-index="37" href="#cell-down" x="210" y="443"></use>
+        <use class="automaton-cell is-active" data-cell-index="38" href="#cell-up" x="245" y="443"></use>
+        <use class="automaton-cell" data-cell-index="39" href="#cell-down" x="280" y="443"></use>
+        <use class="automaton-cell" data-cell-index="40" href="#cell-up" x="315" y="443"></use>
+      </svg>
+    </div>
   </div>
-</div>
+</section>
+
+<script defer src="{{ '/assets/js/hero-automaton.js' | relative_url }}"></script>
+
+<section class="section featured-section" aria-labelledby="featured-heading">
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <h2 id="featured-heading">Selected work</h2>
+      </div>
+      <div class="section-links">
+        <a class="text-link" href="{{ '/articles.html' | relative_url }}">All articles →</a>
+        <a class="text-link" href="{{ '/projects.html' | relative_url }}">All projects →</a>
+      </div>
+    </div>
+
+    {% assign featured_project = site.projects | first %}
+    {% assign latest_articles = site.articles | sort: "date" | reverse %}
+    <div class="selected-work-list">
+      {% if featured_project %}
+        <article class="selected-work-item">
+          <a class="selected-work-image" href="{{ featured_project.url | relative_url }}" aria-label="Read {{ featured_project.title }}">
+            <img src="{{ featured_project.image | relative_url }}" alt="A cellular automaton distributed over a faceted spherical surface" width="1080" height="1080">
+          </a>
+          <div>
+            <p class="work-meta">Project</p>
+            <h3><a href="{{ featured_project.url | relative_url }}">{{ featured_project.title }}</a></h3>
+            <p>{{ featured_project.description }}</p>
+            <a class="arrow-link" href="{{ featured_project.url | relative_url }}">View project <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      {% endif %}
+
+      {% for article in latest_articles limit: 2 %}
+        <article class="selected-work-item">
+          <a class="selected-work-image" href="{{ article.url | relative_url }}" aria-label="Read {{ article.title }}">
+            <img src="{{ article.image | relative_url }}" alt="" loading="lazy">
+          </a>
+          <div>
+            <p class="work-meta">Article · <time datetime="{{ article.date | date_to_xmlschema }}">{{ article.date | date: "%Y" }}</time></p>
+            <h3><a href="{{ article.url | relative_url }}">{{ article.title }}</a></h3>
+            <p>{{ article.description }}</p>
+            <a class="arrow-link" href="{{ article.url | relative_url }}">Read <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section about-section" aria-labelledby="about-heading">
+  <div class="shell about-grid">
+    <figure class="about-portrait">
+      <img src="{{ '/assets/images/me.jpg' | relative_url }}" alt="Portrait of Ben Kashouris" width="1780" height="2268" loading="lazy">
+    </figure>
+    <div class="about-copy">
+      <p class="section-marker">About</p>
+      <h2 id="about-heading">Ben Kashouris</h2>
+      <p> This summer, I completed an LMS-funded research project at the University of Nottingham, exploring applications of random matrix methods to high-dimensional machine learning. I achieved averages of 90% in my first year and 85% in my second year.
+      </p>
+      <p> Alongside my degree, I co-founded Amphora, which won the Steve Jobs Award from Queens' College, Cambridge and we hope to launch soon.</p>
+      <p> I originally studied Computer Science before moving to mathematics, and programming remains an important part of how I work. I mainly use Python and Haskell to build simulations, visualisations and computational experiments.</p>
+    </div>
+  </div>
+</section>

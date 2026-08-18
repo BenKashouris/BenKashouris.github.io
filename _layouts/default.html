@@ -1,90 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | Ben Kashouris</title>
-  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}Portfolio and articles by Ben Kashouris, Mathematics student at University of Nottingham with interests in cryptography and programming.{% endif %}" />
+  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}Articles and projects by Ben Kashouris, a Mathematics student interested in cryptography and computational mathematics.{% endif %}">
+  <meta name="google-site-verification" content="-rM1xxhVeepjGIeEDux3STElUFeWbTz-KGTWRmQY1XQ">
 
-   <!-- Google Search Console verification -->
-  <meta name="google-site-verification" content="-rM1xxhVeepjGIeEDux3STElUFeWbTz-KGTWRmQY1XQ" />
-
-  <!-- Tailwind CSS -->
-  <script>
-    tailwind.config = {
-      plugins: [tailwindcssTypography],
-    };
-  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-
-
-  <!-- Polyfill and MathJax -->
-  <script type="text/javascript" async 
-    src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <!-- Top Navigation Bar -->
-  <nav class="bg-gray-900 text-white p-4">
-    <ul class="flex w-full">
-      <li class="flex-1 text-center">
-        <a href="/index.html" class="hover:underline">Home</a>
-      </li>
-      <li class="flex-1 text-center">
-        <a href="/projects.html" class="hover:underline">Projects</a>
-      </li>
-      <li class="flex-1 text-center">
-        <a href="/articles.html" class="hover:underline">Articles</a>
-      </li>
-    </ul>
-  </nav>
+  <header class="site-header">
+    <nav class="site-nav shell" aria-label="Primary navigation">
+      <details class="brand-menu">
+        <summary class="site-brand" aria-label="Open Ben Kashouris contact links">
+          <span class="brand-mark" aria-hidden="true">BK</span>
+          <span>Ben Kashouris</span>
+          <svg class="brand-chevron" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="m6 8 4 4 4-4"></path>
+          </svg>
+        </summary>
+        <div class="brand-dropdown">
+          <p>Find me online</p>
+          <a href="mailto:benkashouris@protonmail.com">
+            <span>Email</span><span aria-hidden="true">↗</span>
+          </a>
+          <a href="https://github.com/BenKashouris" target="_blank" rel="noopener noreferrer">
+            <span>GitHub</span><span aria-hidden="true">↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/ben-kashouris" target="_blank" rel="noopener noreferrer">
+            <span>LinkedIn</span><span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </details>
 
-  <!-- Page Header -->
-  <header class="bg-gray-800 text-white px-4 pb-6 pt-4">
-    <div class="pl-6">
-      <h1 class="text-5xl font-bold">Ben Kashouris</h1>
-    </div>
-    <div class="pl-6">
-      <h2 class="text-2xl">{{ page.title }}</h2>
-    </div>
+      <ul class="nav-links">
+        <li><a href="{{ '/index.html' | relative_url }}" {% if page.url == '/' or page.url == '/index.html' %}class="is-active" aria-current="page"{% endif %}>Home</a></li>
+        <li><a href="{{ '/articles.html' | relative_url }}" {% if page.url == '/articles.html' or page.collection == 'articles' %}class="is-active" aria-current="page"{% endif %}>Articles</a></li>
+        <li><a href="{{ '/projects.html' | relative_url }}" {% if page.url == '/projects.html' or page.collection == 'projects' %}class="is-active" aria-current="page"{% endif %}>Projects</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- Page Content -->
- <main class="flex-grow {% if page.center_content %}prose mx-auto max-w-xs sm:max-w-xl md:max-w-3xl py-6 px-4{% endif %} 
-  prose-pre:overflow-x-auto prose-pre:bg-gray-900 prose-pre:text-white prose-pre:p-4 prose-pre:rounded-lg 
-  prose-code:font-mono prose-code:text-sm sm:prose-code:text-base">
-  {{ content }}
-</main>
+  <main id="main-content">
+    {% if page.collection %}
+      <article class="article-shell shell">
+        <header class="article-header">
+          <a class="eyebrow back-link" href="{% if page.collection == 'articles' %}{{ '/articles.html' | relative_url }}{% else %}{{ '/projects.html' | relative_url }}{% endif %}">← Back to {% if page.collection == 'articles' %}articles{% else %}projects{% endif %}</a>
+          <h1>{{ page.title }}</h1>
+          {% if page.description %}<p class="article-deck">{{ page.description }}</p>{% endif %}
+          <div class="article-meta">
+            {% if page.author %}<span>{{ page.author }}</span>{% endif %}
+            {% if page.date %}<time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d %B %Y" }}</time>{% endif %}
+          </div>
+          {% if page.topics %}
+            <ul class="topic-list" aria-label="Topics">
+              {% for topic in page.topics %}<li>{{ topic }}</li>{% endfor %}
+            </ul>
+          {% endif %}
+        </header>
+        <div class="article-content">
+          {{ content }}
+        </div>
+        <nav class="article-footer-nav" aria-label="End of article">
+          <a href="{% if page.collection == 'articles' %}{{ '/articles.html' | relative_url }}{% else %}{{ '/projects.html' | relative_url }}{% endif %}">← Back to all {% if page.collection == 'articles' %}articles{% else %}projects{% endif %}</a>
+        </nav>
+      </article>
+    {% else %}
+      {{ content }}
+    {% endif %}
+  </main>
 
-  <!-- Footer -->
-<footer class="bg-gray-900 text-white py-8 px-8">
-  <div class="max-w-3xl mx-auto flex justify-center items-center text-sm md:text-base">
-    <div class="flex items-center space-x-6">
-      <!-- Mail icon -->
-      <div class="text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div>
+        <p class="footer-title">Ben Kashouris</p>
       </div>
-
-      <!-- Contact info stacked vertically -->
-      <div class="flex flex-col text-left space-y-1">
-        <a href="mailto:benkashouris@protonmail.com" class="underline hover:text-gray-300">
-          benkashouris@protonmail.com
-        </a>
-        <a href="https://github.com/BenKashouris" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300">
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/ben-kashouris" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300">
-          LinkedIn
-        </a>
+      <div class="footer-links" aria-label="Contact links">
+        <a href="mailto:benkashouris@protonmail.com">Email</a>
+        <a href="https://github.com/BenKashouris" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/ben-kashouris" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 </body>
 </html>

@@ -4,21 +4,25 @@ title: "Surface Cellular Automata"
 date: 2025-03-08
 author: "Ben Kashouris"
 image: /assets/images/cellular_orb.png
-description: A Cellular Automata that runs on the surface of an arbitrary 3d mesh.
+description: A cellular automaton that runs on the surface of an arbitrary 3D mesh.
 center_content: true
+topics:
+  - Cellular Automata
+  - Geometry
+  - Python
 ---
 
 ## Introduction
 Click [here](https://github.com/BenKashouris/Surface-Cellular-Automata) for the Github repository. <br>
 
 The goal of this project is to run cellular automata on the surface of 3D objects. For example, the automaton can evolve directly on the surface of an icosphere (a sphere composed of triangular faces):
-<img src="/assets/gifs/icosphere.gif" width="300" height="200">
+<img src="/assets/gifs/icosphere.gif" width="300" height="200" alt="Cellular automaton evolving on an icosphere">
 The same approach works on any supplied mesh, such as a torus:
-<img src="/assets/gifs/toros.gif" width="300" height="200">
+<img src="/assets/gifs/toros.gif" width="300" height="200" alt="Cellular automaton evolving on a torus">
 In addition, the project can use a polygon unwrapping algorithm to flatten the mesh into a 2D representation:
-<img src="/assets/gifs/icosphere_projected.gif" width="300" height="200">
+<img src="/assets/gifs/icosphere_projected.gif" width="300" height="200" alt="An icosphere mesh unwrapped into a two-dimensional projection">
 This unwrapping is especially interesting because it lets us visualise the structure of the flat automaton in 3D. For example, a 2D grid with connected edges can be transformed into a torus. In fact, any two shapes that are topologically equivalent will produce the same automaton behaviour:
-<img src="/assets/gifs/torus_projected.gif" width="300" height="200">
+<img src="/assets/gifs/torus_projected.gif" width="300" height="200" alt="A two-dimensional cellular automaton projected onto a torus">
 
 ## Development journey
 In terms of complexity, the 3D automata system was relatively straightforward to implement. I began by generating simple 3D shapes procedurally in code, which made early testing and iteration easy. Later on, I switched to loading .obj files for greater flexibility.

@@ -1,0 +1,20 @@
+<article class="content-card">
+  <a class="card-link" href="{{ include.item.url | relative_url }}" aria-label="Read {{ include.item.title }}">
+    <div class="card-image-wrap">
+      <img class="card-image" src="{{ include.item.image | relative_url }}" alt="" loading="lazy">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        {% if include.label %}<span>{{ include.label }}</span>{% endif %}
+      </div>
+      {% if include.item.topics %}
+        <ul class="topic-list card-topics" aria-label="Topics">
+          {% for topic in include.item.topics %}<li>{{ topic }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+      {% if include.heading_level == "3" %}<h3>{{ include.item.title }}</h3>{% else %}<h2>{{ include.item.title }}</h2>{% endif %}
+      <p>{{ include.item.description }}</p>
+      <span class="card-arrow" aria-hidden="true">↗</span>
+    </div>
+  </a>
+</article>

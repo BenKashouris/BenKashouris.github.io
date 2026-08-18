@@ -5,6 +5,9 @@ date: 2023-01-10
 author: "Ben Kashouris"
 image: /assets/images/Fibonacci_spiral.png
 center_content: true
+topics:
+  - Algorithms
+  - Number Theory
 description: Calculating the n-th Fibonacci number in O(logn) using square and multiply
 ---
 
