@@ -1,0 +1,37 @@
+{% assign seo_description = page.description | default: site.description | strip_html | normalize_whitespace %}
+{% assign seo_canonical = page.canonical_url | default: page.url | absolute_url %}
+{% assign seo_image_path = page.social_image | default: site.social_image.path %}
+{% assign seo_image = seo_image_path | absolute_url %}
+{% assign seo_image_alt = page.social_image_alt | default: site.social_image.alt | default: page.title %}
+{% if page.title %}
+  {% capture seo_title %}{{ page.title }} | {{ site.title }}{% endcapture %}
+{% else %}
+  {% assign seo_title = site.title %}
+{% endif %}
+
+<title>{{ seo_title | strip | escape }}</title>
+<meta name="description" content="{{ seo_description | escape }}">
+<link rel="canonical" href="{{ seo_canonical }}">
+
+<meta property="og:locale" content="{{ site.lang | default: 'en_GB' }}">
+<meta property="og:type" content="{% if page.collection == 'articles' %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{{ seo_title | strip | escape }}">
+<meta property="og:description" content="{{ seo_description | escape }}">
+<meta property="og:url" content="{{ seo_canonical }}">
+<meta property="og:site_name" content="{{ site.title | escape }}">
+<meta property="og:image" content="{{ seo_image }}">
+<meta property="og:image:alt" content="{{ seo_image_alt | escape }}">
+{% if page.social_image %}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+{% else %}
+<meta property="og:image:width" content="800">
+<meta property="og:image:height" content="1020">
+{% endif %}
+{% if page.collection == 'articles' and page.date %}<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">{% endif %}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ seo_title | strip | escape }}">
+<meta name="twitter:description" content="{{ seo_description | escape }}">
+<meta name="twitter:image" content="{{ seo_image }}">
+<meta name="twitter:image:alt" content="{{ seo_image_alt | escape }}">

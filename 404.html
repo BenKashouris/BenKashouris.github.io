@@ -1,0 +1,52 @@
+---
+layout: default
+title: "Page not found"
+description: "The requested page could not be found on Ben Kashouris's website."
+permalink: /404.html
+---
+<section class="error-page" aria-labelledby="error-heading">
+  <div class="shell error-layout">
+    <div class="error-copy">
+      <p class="eyebrow">Error 404 · Route unresolved</p>
+      <h1 id="error-heading">This page has drifted out of reach.</h1>
+      <p class="article-deck">The address may be incorrect, or the page may have moved. The rest of the site is still right where you left it.</p>
+
+      <nav class="error-actions" aria-label="Continue browsing">
+        <a class="error-home-link" href="{{ '/index.html' | relative_url }}">
+          Return home <span aria-hidden="true">→</span>
+        </a>
+        <div class="error-secondary-links">
+          <a href="{{ '/articles.html' | relative_url }}"><span aria-hidden="true">01</span> Articles</a>
+          <a href="{{ '/projects.html' | relative_url }}"><span aria-hidden="true">02</span> Projects</a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="error-terminal" aria-hidden="true">
+      <div class="error-terminal-bar">
+        <span class="error-terminal-light"></span>
+        <span>route.trace</span>
+        <span>404</span>
+      </div>
+      <div class="error-terminal-body">
+        <div class="error-code">
+          <span>4</span>
+          <span class="error-orbit">
+            <span class="error-orbit-core">0</span>
+            <span class="error-orbit-dot"></span>
+          </span>
+          <span>4</span>
+        </div>
+        <div class="error-route-line">
+          <span>origin</span>
+          <i></i>
+          <span>destination</span>
+        </div>
+      </div>
+      <div class="error-terminal-status">
+        <span>Status</span>
+        <strong><i></i> Destination unavailable</strong>
+      </div>
+    </div>
+  </div>
+</section>
