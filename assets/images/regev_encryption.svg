@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">The Regev encryption scheme</title>
+  <desc id="description">A three-column outline of information flow during Regev key generation, encryption and decryption.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#22d3ee" />
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#07111f" />
+
+  <g fill="#e7f3fb" font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <text x="285" y="66" font-size="38">Alice</text>
+    <line x1="224" y1="80" x2="346" y2="80" stroke="#38526a" stroke-width="2" />
+
+    <text x="800" y="66" font-size="38">Public</text>
+    <line x1="733" y1="80" x2="867" y2="80" stroke="#38526a" stroke-width="2" />
+
+    <text x="1315" y="66" font-size="38">Bob</text>
+    <line x1="1273" y1="80" x2="1357" y2="80" stroke="#38526a" stroke-width="2" />
+  </g>
+
+  <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="28" text-anchor="middle">
+    <text x="285" y="140">Choose public <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic" font-weight="700">A</tspan> and secret <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic" font-weight="700">s</tspan>:</text>
+    <text x="285" y="190" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">
+      <tspan font-weight="700">A</tspan> &#x2208; (&#x2124;/q&#x2124;)<tspan baseline-shift="super" font-size="18">m&#x00D7;n</tspan>, <tspan font-weight="700">s</tspan> &#x2208; (&#x2124;/q&#x2124;)<tspan baseline-shift="super" font-size="18">n</tspan>.
+    </text>
+    <text x="285" y="240">Choose a small, centred error vector:</text>
+    <text x="285" y="285" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">
+      <tspan font-weight="700">e</tspan> &#x2208; &#x2124;<tspan baseline-shift="super" font-size="18">m</tspan>, <tspan font-style="normal">E</tspan>[<tspan font-weight="700">e</tspan>] = <tspan font-style="normal" font-weight="700">0</tspan>.
+    </text>
+    <text x="285" y="330" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="32" font-style="italic">
+      <tspan font-weight="700">b</tspan> = <tspan font-weight="700">A</tspan><tspan font-weight="700">s</tspan> + <tspan font-weight="700">e</tspan> mod q
+    </text>
+  </g>
+
+  <line x1="510" y1="395" x2="1090" y2="395" stroke="#22d3ee" stroke-width="7" marker-end="url(#arrow)" />
+  <text x="800" y="372" fill="#a5f3fc" font-family="Cambria Math, Cambria, serif" font-size="34" font-style="italic" text-anchor="middle">(<tspan font-weight="700">A</tspan>, <tspan font-weight="700">b</tspan>)</text>
+
+  <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="28" text-anchor="middle">
+    <text x="1315" y="470">Choose message bit <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">&#x03BC; &#x2208; {0, 1}</tspan> and</text>
+    <text x="1315" y="515" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">
+      <tspan font-weight="700">r</tspan> &#x2208; {0, 1}<tspan baseline-shift="super" font-size="18">m</tspan>.
+    </text>
+    <text x="1315" y="565" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="32" font-style="italic">
+      <tspan font-weight="700">u</tspan> = <tspan font-weight="700">A</tspan><tspan baseline-shift="super" font-size="20">T</tspan><tspan font-weight="700">r</tspan> mod q
+    </text>
+    <text x="1315" y="615" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="32" font-style="italic">
+      v = <tspan font-weight="700">b</tspan><tspan baseline-shift="super" font-size="20">T</tspan><tspan font-weight="700">r</tspan> + &#x03BC;&#x230A;q/2&#x230B; mod q
+    </text>
+  </g>
+
+  <line x1="1090" y1="680" x2="510" y2="680" stroke="#22d3ee" stroke-width="7" marker-end="url(#arrow)" />
+  <text x="800" y="657" fill="#a5f3fc" font-family="Cambria Math, Cambria, serif" font-size="34" font-style="italic" text-anchor="middle">(<tspan font-weight="700">u</tspan>, v)</text>
+
+  <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="27" text-anchor="middle">
+    <text x="285" y="750" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="31" font-style="italic">
+      d = v &#x2212; <tspan font-weight="700">s</tspan><tspan baseline-shift="super" font-size="20">T</tspan><tspan font-weight="700">u</tspan> mod q
+    </text>
+    <text x="285" y="805">Round <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">d</tspan> to the nearer value:</text>
+    <text x="285" y="855"><tspan fill="#e7f3fb">0</tspan> gives <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">&#x03BC; = 0</tspan>; <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">&#x230A;q/2&#x230B;</tspan> gives <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">&#x03BC; = 1</tspan>.</text>
+  </g>
+</svg>

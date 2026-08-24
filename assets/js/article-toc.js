@@ -5,7 +5,8 @@
 
   if (!content || !rail || !list) return;
 
-  const headings = [...content.querySelectorAll('h2, h3')];
+  const headings = [...content.querySelectorAll('h2, h3')]
+    .filter((heading) => !heading.closest('.definition-block, .theorem-block'));
   if (headings.length < 2) return;
 
   const usedIds = new Set([...document.querySelectorAll('[id]')].map((element) => element.id));

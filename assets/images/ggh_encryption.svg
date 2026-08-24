@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 820" role="img" aria-labelledby="title description">
+  <title id="title">The GGH encryption scheme</title>
+  <desc id="description">A three-column diagram showing Alice, the public channel and Bob during GGH key generation, encryption and decryption.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#22d3ee" />
+    </marker>
+  </defs>
+
+  <rect width="1600" height="820" fill="#07111f" />
+
+  <g fill="#e7f3fb" font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <text x="285" y="66" font-size="38">Alice</text>
+    <line x1="224" y1="80" x2="346" y2="80" stroke="#38526a" stroke-width="2" />
+
+    <text x="800" y="66" font-size="38">Public</text>
+    <line x1="733" y1="80" x2="867" y2="80" stroke="#38526a" stroke-width="2" />
+
+    <text x="1315" y="66" font-size="38">Bob</text>
+    <line x1="1273" y1="80" x2="1357" y2="80" stroke="#38526a" stroke-width="2" />
+  </g>
+
+  <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="30" text-anchor="middle">
+    <text x="285" y="145">Let <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">B</tspan> be a good basis.</text>
+    <text x="285" y="200">Choose <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">U ∈ GLₙ(ℤ)</tspan> such that</text>
+    <text x="285" y="255"><tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">B′ = BU</tspan> is a bad basis.</text>
+  </g>
+
+  <line x1="510" y1="330" x2="1090" y2="330" stroke="#22d3ee" stroke-width="7" marker-end="url(#arrow)" />
+  <text x="800" y="310" fill="#a5f3fc" font-family="Cambria Math, Cambria, serif" font-size="34" font-style="italic" text-anchor="middle">B′</text>
+
+  <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="30" text-anchor="middle">
+    <text x="1315" y="405">Let <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">m ∈ ℤⁿ</tspan> be the message.</text>
+    <text x="1315" y="460">Choose a short random vector</text>
+    <text x="1315" y="510" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">e ∈ ℝⁿ.</text>
+    <text x="1315" y="565" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">c = B′m + e</text>
+  </g>
+
+  <line x1="1090" y1="620" x2="510" y2="620" stroke="#22d3ee" stroke-width="7" marker-end="url(#arrow)" />
+  <text x="800" y="600" fill="#a5f3fc" font-family="Cambria Math, Cambria, serif" font-size="34" font-style="italic" text-anchor="middle">c</text>
+
+  <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="30" text-anchor="middle">
+    <text x="285" y="685">Using <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">B</tspan>, solve the CVP on <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">c</tspan></text>
+    <text x="285" y="730">to recover <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">B′m</tspan>.</text>
+    <text x="285" y="785" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="34" font-style="italic">m = (B′)⁻¹(B′m)</text>
+  </g>
+</svg>

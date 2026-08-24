@@ -1114,6 +1114,101 @@ main {
   font-style: italic;
 }
 
+.article-content .definition-block,
+.article-content .theorem-block {
+  margin: 2rem 0;
+  padding: 1.15rem 1.35rem 1.25rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 0.6rem;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.article-content .definition-block h3,
+.article-content .theorem-block h3 {
+  margin: 0 0 0.7rem;
+  font-size: 1.2rem;
+}
+
+.article-content .theorem-proof {
+  margin: 1.2rem -1.35rem -1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.article-content .theorem-proof summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.35rem;
+  color: var(--accent-ink);
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.article-content .theorem-proof summary::-webkit-details-marker {
+  display: none;
+}
+
+.article-content .theorem-proof summary::after {
+  content: "+";
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 1.15rem;
+}
+
+.article-content .theorem-proof[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.article-content .theorem-proof[open] summary::after {
+  content: "−";
+}
+
+.article-content .proof-label-open {
+  display: none;
+}
+
+.article-content .theorem-proof[open] .proof-label-closed {
+  display: none;
+}
+
+.article-content .theorem-proof[open] .proof-label-open {
+  display: inline;
+}
+
+.article-content .theorem-proof-content {
+  padding: 0 1.35rem 1.25rem;
+}
+
+.article-content .theorem-proof-content .theorem-proof-title {
+  margin: 1.2rem 0 0.7rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--accent-ink);
+  font-size: 1rem;
+}
+
+.article-content .theorem-proof-content .theorem-proof-title:first-child {
+  margin-top: 0;
+  padding-top: 1rem;
+  border-top: 0;
+}
+
+.article-content .definition-block p,
+.article-content .theorem-block p {
+  margin-block: 0.55rem;
+}
+
+.article-content .definition-block mjx-container[display="true"],
+.article-content .theorem-block mjx-container[display="true"] {
+  margin-block: 0.65rem !important;
+  padding-block: 0.15rem;
+}
+
 .article-content figure {
   margin: 2.75rem 0;
 }
