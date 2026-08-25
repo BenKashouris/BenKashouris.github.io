@@ -21,7 +21,7 @@ Much of modern public-key cryptography is built on mathematical problems that ar
 
 Lattices provide one of the most important sources of such problems.
 
-This article develops that idea from the underlying lattice geometry. We first introduce lattices, bases and the closest and shortest vector problems before examining how GGH uses a hidden good basis for encryption. We then see how lattice reduction weakens this construction and motivates a different approach based on Learning with Errors. Finally, we use LWE to describe Regev encryption.
+This article develops that idea from the underlying lattice geometry. We first introduce lattices, bases and the closest vector problem before examining how GGH uses a hidden good basis for encryption. We then see how lattice reduction weakens this construction and motivates a different approach based on Learning with Errors. Finally, we use LWE to describe Regev encryption.
 
 
 ## Lattice Foundations
@@ -186,18 +186,18 @@ Constructing this setup is easy, since we can choose $$v$$. The interesting prob
 
 Intuitively, with a nearly orthogonal basis, movement in each basis direction is almost independent, so the basis coordinates closely map to Euclidean distance. This means we can often express the target point in the basis and choose the nearest integer multiple of each basis vector separately.
 
-In this case of a square, full-rank basis matrix $$B$$,
+Write $$\left\lfloor\mathbf{x}\right\rceil$$ for coordinate-wise rounding of $$\mathbf{x}$$ to the nearest integer vector, using a fixed convention for half-integers. In the case of a square, full-rank basis matrix $$B$$,
 
 $$
 \mathbf{v}
-= B\,\operatorname{round}\!\left(B^{-1}\mathbf{u}\right).
+= B\left\lfloor B^{-1}\mathbf{u}\right\rceil.
 $$
 
 For an orthogonal basis this coordinate-wise rounding gives the closest lattice point; for a sufficiently good basis it can provide a good approximation.
 
 In a bad, highly skewed basis, however, different basis vectors can almost cancel, so geometrically nearby lattice points may have very different coordinates. The coordinates become strongly coupled, meaning they can no longer be rounded independently without risking selection of the wrong lattice point. Determining which lattice point is geometrically closest therefore becomes substantially more difficult.
 
-The following theorem provides further formal insight into this:
+The following theorem makes the phrase “sufficiently small” precise by expressing the error in the coordinates of the basis.
 
 
 <div class="theorem-block" markdown="1">
@@ -215,7 +215,7 @@ where $$\mathbf{e}\in\mathbb{R}^n$$ is an error vector. Define
 
 $$
 \widehat{\mathbf{z}}
-=\operatorname{round}\!\left(B^{-1}\mathbf{u}\right).
+=\left\lfloor B^{-1}\mathbf{u}\right\rceil.
 $$
 
 Then, up to the convention used when rounding half-integers,
@@ -238,8 +238,8 @@ Since $$\mathbf{z}\in\mathbb{Z}^n$$ and rounding is performed coordinate-wise,
 
 $$
 \widehat{\mathbf{z}}
-=\operatorname{round}\!\left(B^{-1}\mathbf{u}\right)
-=\operatorname{round}\!\left(\mathbf{z}+B^{-1}\mathbf{e}\right)
+=\left\lfloor B^{-1}\mathbf{u}\right\rceil
+=\left\lfloor\mathbf{z}+B^{-1}\mathbf{e}\right\rceil
 =\mathbf{z}
 $$
 
@@ -321,16 +321,6 @@ $$
 
 </div>
 
-Another fundamental hard problem on lattices is the shortest vector problem (SVP).
-
-<div class="definition-block" markdown="1">
-
-### Definition - Shortest Vector Problem
-
-Given a lattice $$\mathcal{L}(B)$$, find a non-zero vector $$\mathbf{v} \in \mathcal{L}(B)$$ for which $$\lVert\mathbf{v}\rVert$$ is minimised. In other words, find the non-zero lattice point closest to the origin.
-
-</div>
-
 ### A Good Basis as a Trapdoor
 We can now see the basis of a trapdoor function. For carefully constructed lattices, knowledge of a good basis can make the CVP efficiently solvable, while the same problem may be computationally infeasible when only a bad basis is known. The good basis therefore acts as the trapdoor.
 
@@ -365,13 +355,13 @@ Since $$U\mathbf{m}\in\mathbb{Z}^n$$, the [Coordinate-Rounding Decoding Bound](#
 $$
 \left\lVert B^{-1}\mathbf{e}\right\rVert_\infty<\frac12
 \quad\Longrightarrow\quad
-\operatorname{round}(B^{-1}\mathbf{c})=U\mathbf{m}.
+\left\lfloor B^{-1}\mathbf{c}\right\rceil=U\mathbf{m}.
 $$
 
 Alice can then recover the original message using
 
 $$
-\mathbf{m}=U^{-1}\operatorname{round}(B^{-1}\mathbf{c}).
+\mathbf{m}=U^{-1}\left\lfloor B^{-1}\mathbf{c}\right\rceil.
 $$
 
 Geometrically, the encryption scheme can be viewed as follows.
@@ -398,7 +388,7 @@ $$\mu_{i,j}=\frac{\langle b_i,b_j^*\rangle}{\langle b_j^*,b_j^*\rangle}.$$
 
 The problem with this approach for lattices is that, to preserve the lattice, we can subtract only integer multiples of the basis vectors. LLL therefore rounds $$\mu_{i,j}$$, giving the subtraction
 
-$$b_i\leftarrow b_i-\operatorname{round}(\mu_{i,j})b_j.$$
+$$b_i\leftarrow b_i-\left\lfloor\mu_{i,j}\right\rceil b_j.$$
 
 Intuitively, this removes as much of $$b_i$$ in the direction of $$b_j$$ as possible without changing the lattice.
 
@@ -416,7 +406,7 @@ Start with a basis $$b_1,\ldots,b_n$$ and set $$k=2$$.
 While $$k\leq n$$:
 
 1. Calculate the Gram–Schmidt vectors and coefficients.
-2. For $$j=k-1,k-2,\ldots,1$$, set $$b_k\leftarrow b_k-\operatorname{round}(\mu_{k,j})b_j$$.
+2. For $$j=k-1,k-2,\ldots,1$$, set $$b_k\leftarrow b_k-\left\lfloor\mu_{k,j}\right\rceil b_j$$.
 3. If the Lovász condition holds, set $$k\leftarrow k+1$$.
 4. Otherwise, swap $$b_k$$ and $$b_{k-1}$$ and set $$k\leftarrow\max(k-1,2)$$.
 
@@ -512,3 +502,7 @@ The terms involving $$A\mathbf{s}$$ cancel, leaving only the encoded message and
 Unlike GGH, Regev encryption does not rely on hiding a good lattice basis behind a bad one. Consequently, applying LLL to the public information does not reveal the secret key in the way it does for GGH.
 
 The decisional LWE assumption states that it is computationally difficult to distinguish LWE samples from uniformly random samples. This gives a useful alternative view of exactly what Regev encryption is doing. Alice publishes a source of noise with a hidden structure depending on her secret $$\mathbf{s}$$. Bob uses this public data to generate structured noise and adds his encoded message to it. To anyone without $$\mathbf{s}$$, the resulting ciphertext looks like noise, so the encrypted message cannot feasibly be determined. Alice, however, can use $$\mathbf{s}$$ to cancel the underlying noise and then round away the small residual error, leaving only the message.
+
+## Conclusion
+We have seen how lattice geometry can be used to construct public-key encryption schemes. 
+GGH illustrates how the structure of a lattice problem can be hidden behind a secret. In GGH, this secret is a good basis, but we have seen how lattice reduction makes it possible to recover a better basis from the public information. Regev instead uses the solution to a system of noisy linear equations as the secret. This LWE-based approach laid the foundation for many modern lattice-based post-quantum encryption schemes.

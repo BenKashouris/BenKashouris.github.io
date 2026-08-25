@@ -205,7 +205,7 @@
   <g class="rounded-coordinate loop">
     <circle cx="440" cy="270" r="26" fill="#34d399" opacity="0.2" filter="url(#soft-glow)" />
     <circle cx="440" cy="270" r="9" fill="#34d399" />
-    <text class="math-label" x="458" y="295" fill="#6ee7b7" font-family="Cambria Math, Cambria, serif" font-size="21" font-style="italic">round(B⁻¹c)</text>
+    <text class="math-label" x="458" y="295" fill="#6ee7b7" font-family="Cambria Math, Cambria, serif" font-size="21" font-style="italic">⌊B⁻¹c⌉</text>
   </g>
 
   <g class="recovered-point loop">

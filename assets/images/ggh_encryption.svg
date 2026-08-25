@@ -41,6 +41,6 @@
 
   <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="29" text-anchor="middle">
     <text x="285" y="730">Use the private basis <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">B</tspan> to decrypt:</text>
-    <text x="285" y="805" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="31" font-style="italic">m = U⁻¹ round(B⁻¹c)</text>
+    <text x="285" y="805" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="31" font-style="italic">m = U⁻¹⌊B⁻¹c⌉</text>
   </g>
 </svg>
