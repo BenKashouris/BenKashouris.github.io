@@ -1230,6 +1230,11 @@ main {
   width: min(100%, 42.5rem);
 }
 
+.article-content .diffie-exponential-graphic,
+.article-content .diffie-exchange-graphic {
+  width: min(100%, 47.5rem);
+}
+
 .article-content .lattice-intro-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(18rem, 1fr);
@@ -1274,6 +1279,38 @@ main {
   border-radius: 0.6rem;
   background: var(--surface);
   box-shadow: var(--shadow);
+}
+
+.article-content table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 2rem 0;
+  overflow-x: auto;
+  border-collapse: collapse;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+
+.article-content table th,
+.article-content table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.article-content table th {
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.article-content table th:first-child,
+.article-content table td:first-child {
+  padding-left: 0;
 }
 
 .article-content video {
@@ -1629,6 +1666,23 @@ main {
   .article-shell {
     width: min(100% - 1.5rem, 72rem);
   }
+
+  .article-content mjx-container:not([display="true"]) {
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    vertical-align: middle;
+  }
+
+  .article-content mjx-container[display="true"] {
+    width: 100%;
+    margin-inline: 0 !important;
+    font-size: 0.9em !important;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+
 }
 
 @media (prefers-reduced-motion: reduce) {

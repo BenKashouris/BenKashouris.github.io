@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" role="img" aria-labelledby="title description">
+  <title id="title">Continuous and modular exponentiation compared</title>
+  <desc id="description">Two dark panels compare the smooth curve y equals 2 to the x with the irregular points y equals 2 to the x modulo 97.</desc>
+
+  <defs>
+    <linearGradient id="curve-gradient" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee" />
+      <stop offset="1" stop-color="#a5f3fc" />
+    </linearGradient>
+    <filter id="point-glow" x="-300%" y="-300%" width="700%" height="700%">
+      <feGaussianBlur stdDeviation="7" />
+    </filter>
+  </defs>
+
+  <style>
+    .panel { fill: #091625; stroke: #20384d; stroke-width: 2; }
+    .grid { stroke: #38526a; stroke-width: 1; opacity: .34; }
+    .axis { stroke: #8da2b5; stroke-width: 1.5; opacity: .72; }
+    .title { fill: #e7f3fb; font: 600 26px Inter, Arial, sans-serif; text-anchor: middle; }
+    .subtitle { fill: #8da2b5; font: 16px ui-monospace, Consolas, monospace; text-anchor: middle; }
+    .label { fill: #8da2b5; font: 15px ui-monospace, Consolas, monospace; }
+    .point { fill: #67e8f9; }
+  </style>
+
+  <rect width="1200" height="540" fill="#07111f" />
+  <rect class="panel" x="28" y="22" width="544" height="496" rx="12" />
+  <rect class="panel" x="628" y="22" width="544" height="496" rx="12" />
+
+  <text class="title" x="300" y="66">Ordinary exponentiation</text>
+  <text class="subtitle" x="300" y="94">y = 2ˣ</text>
+  <text class="title" x="900" y="66">Modular exponentiation</text>
+  <text class="subtitle" x="900" y="94">y = 2ˣ mod 97</text>
+
+  <g class="grid">
+    <path d="M88 150H532 M88 246H532 M88 342H532 M88 438H532" />
+    <path d="M88 118V438 M198 118V438 M308 118V438 M418 118V438 M532 118V438" />
+    <path d="M680 150H1120 M680 246H1120 M680 342H1120 M680 438H1120" />
+    <path d="M680 118V438 M790 118V438 M900 118V438 M1010 118V438 M1120 118V438" />
+  </g>
+
+  <g class="axis">
+    <path d="M88 118V438H532 M680 118V438H1120" fill="none" />
+  </g>
+
+  <g class="label">
+    <text x="82" y="462">0</text><text x="520" y="462">8</text>
+    <text x="674" y="462">0</text><text x="1102" y="462">40</text>
+    <text x="285" y="494">exponent x</text><text x="872" y="494">exponent x</text>
+    <text x="48" y="444">1</text><text x="43" y="154">256</text>
+    <text x="646" y="444">0</text><text x="637" y="154">96</text>
+  </g>
+
+  <path d="M88 437 C182 436 270 432 342 413 C421 391 474 321 505 227 C519 186 527 145 532 118" fill="none" stroke="url(#curve-gradient)" stroke-width="5" stroke-linecap="round" />
+
+  <g>
+    <g fill="#22d3ee" opacity=".14" filter="url(#point-glow)">
+      <circle cx="724" cy="152" r="16" /><circle cx="988" cy="437" r="16" /><circle cx="1109" cy="407" r="16" />
+    </g>
+    <g class="point">
+      <circle cx="680" cy="422" r="4.5" /><circle cx="691" cy="404" r="4.5" /><circle cx="702" cy="368" r="4.5" />
+      <circle cx="713" cy="296" r="4.5" /><circle cx="724" cy="152" r="4.5" /><circle cx="735" cy="155" r="4.5" />
+      <circle cx="746" cy="161" r="4.5" /><circle cx="757" cy="173" r="4.5" /><circle cx="768" cy="197" r="4.5" />
+      <circle cx="779" cy="245" r="4.5" /><circle cx="790" cy="341" r="4.5" /><circle cx="801" cy="242" r="4.5" />
+      <circle cx="812" cy="335" r="4.5" /><circle cx="823" cy="230" r="4.5" /><circle cx="834" cy="311" r="4.5" />
+      <circle cx="845" cy="182" r="4.5" /><circle cx="856" cy="215" r="4.5" /><circle cx="867" cy="281" r="4.5" />
+      <circle cx="878" cy="413" r="4.5" /><circle cx="889" cy="386" r="4.5" /><circle cx="900" cy="332" r="4.5" />
+      <circle cx="911" cy="224" r="4.5" /><circle cx="922" cy="299" r="4.5" /><circle cx="933" cy="158" r="4.5" />
+      <circle cx="944" cy="167" r="4.5" /><circle cx="955" cy="185" r="4.5" /><circle cx="966" cy="221" r="4.5" />
+      <circle cx="977" cy="293" r="4.5" /><circle cx="988" cy="437" r="4.5" /><circle cx="999" cy="434" r="4.5" />
+      <circle cx="1010" cy="428" r="4.5" /><circle cx="1021" cy="416" r="4.5" /><circle cx="1032" cy="392" r="4.5" />
+      <circle cx="1043" cy="344" r="4.5" /><circle cx="1054" cy="248" r="4.5" /><circle cx="1065" cy="347" r="4.5" />
+      <circle cx="1076" cy="254" r="4.5" /><circle cx="1087" cy="359" r="4.5" /><circle cx="1098" cy="278" r="4.5" />
+      <circle cx="1109" cy="407" r="4.5" /><circle cx="1120" cy="374" r="4.5" />
+    </g>
+  </g>
+</svg>

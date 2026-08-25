@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" role="img" aria-labelledby="title description">
+  <title id="title">The Diffie&#x2013;Hellman key exchange</title>
+  <desc id="description">A three-column diagram showing Alice and Bob exchanging public powers and deriving the same shared secret.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#22d3ee" />
+    </marker>
+  </defs>
+
+  <rect width="1600" height="800" fill="#07111f" />
+
+  <g fill="#e7f3fb" font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <text x="285" y="66" font-size="38">Alice</text>
+    <line x1="224" y1="80" x2="346" y2="80" stroke="#38526a" stroke-width="2" />
+    <text x="800" y="66" font-size="38">Public</text>
+    <line x1="733" y1="80" x2="867" y2="80" stroke="#38526a" stroke-width="2" />
+    <text x="1315" y="66" font-size="38">Bob</text>
+    <line x1="1273" y1="80" x2="1357" y2="80" stroke="#38526a" stroke-width="2" />
+  </g>
+
+  <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="30" text-anchor="middle">
+    <text x="285" y="160">Choose private <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">a</tspan> and calculate</text>
+    <text x="285" y="220" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="32" font-style="italic">A = g<tspan baseline-shift="super" font-size="20">a</tspan> mod p.</text>
+
+    <text x="800" y="160">Agree on</text>
+    <text x="800" y="220" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="32" font-style="italic">p and g.</text>
+
+    <text x="1315" y="160">Choose private <tspan fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-style="italic">b</tspan> and calculate</text>
+    <text x="1315" y="220" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="32" font-style="italic">B = g<tspan baseline-shift="super" font-size="20">b</tspan> mod p.</text>
+  </g>
+
+  <line x1="510" y1="350" x2="1090" y2="350" stroke="#22d3ee" stroke-width="7" marker-end="url(#arrow)" />
+  <text x="800" y="325" fill="#a5f3fc" font-family="Cambria Math, Cambria, serif" font-size="34" font-style="italic" text-anchor="middle">A</text>
+
+  <line x1="1090" y1="525" x2="510" y2="525" stroke="#22d3ee" stroke-width="7" marker-end="url(#arrow)" />
+  <text x="800" y="500" fill="#a5f3fc" font-family="Cambria Math, Cambria, serif" font-size="34" font-style="italic" text-anchor="middle">B</text>
+
+  <g fill="#b2c4d3" font-family="Inter, Arial, sans-serif" font-size="30" text-anchor="middle">
+    <text x="285" y="670">Calculate the shared secret:</text>
+    <text x="285" y="730" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="32" font-style="italic">B<tspan baseline-shift="super" font-size="20">a</tspan> = g<tspan baseline-shift="super" font-size="20">ab</tspan> mod p.</text>
+
+    <text x="1315" y="670">Calculate the shared secret:</text>
+    <text x="1315" y="730" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="32" font-style="italic">A<tspan baseline-shift="super" font-size="20">b</tspan> = g<tspan baseline-shift="super" font-size="20">ab</tspan> mod p.</text>
+  </g>
+</svg>

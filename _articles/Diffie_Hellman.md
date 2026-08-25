@@ -16,67 +16,84 @@ description: A mathematics-first introduction to Diffie–Hellman key exchange, 
 ---
 
 ## What Diffie–Hellman Does
+
 Diffie–Hellman is a cryptographic protocol for the production of a shared secret between two parties. Let's say two people, Alice and Bob, want to communicate securely. A reasonable first step is that they might want to start with a shared secret because they can use this secret with their communications to make them unreadable. At the most basic level, this might be a Vernam cipher, where we bitwise XOR our shared secret with any message. In reality, we use something like AES (Advanced Encryption Standard). To learn more about this, research private key encryption.
 
+
 ## The Discrete Logarithm Problem
+
 The security of Diffie–Hellman rests on an asymmetry between modular exponentiation and its inverse, the discrete logarithm problem:
+
+<div class="definition-block" markdown="1">
 
 $$
 \begin{aligned}
 & \text{Calculating } z = g^k \bmod p\text{ is easy, but calculating } k \text{ given } z \text{ is hard.} \\
 & \text{Formally, calculating } z \text{ can be done in } \mathcal{O}(\log k) \text{ time.} \\
-& \text{However, there exists no known polynomial-time algorithm to calculate } k \text{ given } z \text{ and } g.
+& \text{However, there is no known polynomial-time classical algorithm to calculate } k \text{ given } z \text{ and } g.
 \end{aligned}
 $$
 
+</div>
+
 ### Fast Exponentiation by Squaring
-The square-and-multiply algorithm, also called exponentiation by squaring, computes $$g^k$$ in $$\mathcal{O}(\log k)$$ time by expressing $$k$$ in binary and building the exponent one bit at a time.  
-This relies on two index laws:  
+
+The square-and-multiply algorithm, also called exponentiation by squaring, computes $$g^k$$ in $$\mathcal{O}(\log k)$$ time by expressing $$k$$ in binary and building the exponent one bit at a time.
+
+This relies on two index laws:
 
 $$
 (g^{(k_1 k_2 \cdots k_n)})^2 = g^{(k_1 k_2 \cdots k_n 0)}
-$$  
+$$
+
+and
+
 
 $$
-(g^{(k_1 k_2 \cdots k_n 0)}) \cdot g = g^{(k_1 k_2 \cdots k_n 1)}
-$$  
+(g^{(k_1 k_2 \cdots k_n 0)}) \cdot g = g^{(k_1 k_2 \cdots k_n 1)}.
+$$
 
-The idea of the algorithm is that we have the ability to left-shift the exponent and to add a 1 to the exponent, and we use these operations to reconstruct the power we want from right to left.  
-This method performs at most one multiplication and one squaring per bit of $$n$$.  
-Since $$k$$ has $$\lfloor \log_2 k \rfloor$$ bits, we obtain an $$\mathcal{O}(\log k)$$ algorithm.  
-As a side point, in cryptographic applications we carry out all operations modulo some large prime, which keeps our memory usage manageable.  
-If you would like to read more about this algorithm, I suggest my article on Fast Fibonacci Calculations, which uses this algorithm to calculate the $$n$$-th Fibonacci number. It is available [here](Fast_Fibonacci.html).
+The idea of the algorithm is that we have the ability to left-shift the exponent and to add a $$1$$ to the exponent, and we use these operations to reconstruct the power we want from right to left.
+
+This method performs at most one multiplication and one squaring per bit of $$k$$. Since $$k$$ has $$\lfloor \log_2 k \rfloor + 1$$ bits, we obtain an $$\mathcal{O}(\log k)$$ algorithm. In cryptographic applications, we carry out all operations modulo some large prime, which keeps our memory usage manageable.
+
+If you would like to read more about this algorithm, I suggest my article on [Fast Fibonacci Calculations](Fast_Fibonacci.html), which uses this algorithm to calculate the $$n$$th Fibonacci number.
 
 ### Why the Inverse Problem Is Hard
-The real reason is that we do not have a (classically computable) algorithm that runs fast enough.  
 
-On a more intuitive level, if we graph the continuous exponential (which is easy to reverse) versus the discrete exponential (which is hard to reverse), we can see the problem:
+The real reason is that we do not have a classically computable algorithm that runs fast enough.
+
+On a more intuitive level, if we graph the continuous exponential, which is easy to reverse, against the discrete exponential, which is hard to reverse, we can see the problem:
 
 <figure>
-  <img src="/assets/images/discrete_exponential.png" width="1280" height="490" loading="lazy" decoding="async" alt="Graph showing the difference between the continuous and discrete exponential">
+  <img class="diffie-exponential-graphic" src="/assets/images/discrete_exponential_comparison.svg" width="1200" height="540" loading="lazy" decoding="async" alt="Comparison of the smooth curve y equals 2 to the x and the irregular points y equals 2 to the x modulo 97">
   <figcaption><strong>Figure 1.</strong> Continuous exponential growth compared with modular exponentiation, whose outputs appear irregular.</figcaption>
 </figure>
 
-We can observe how the smooth, continuous growth of the exponential function on the left contrasts with the seemingly random jumps on the right. The modular operation destroys the smooth structure, removing some of the tools like Taylor series that we may use in the continuous setting to form logarithms.
+We can observe how the smooth, continuous growth of the exponential function on the left contrasts with the seemingly random jumps on the right. The modular operation destroys the smooth structure, removing some of the tools, such as Taylor series, that we may use in the continuous setting to form logarithms.
+
 
 ## How the Key Exchange Works
+
 Diffie–Hellman uses this asymmetry to let two parties derive the same secret without transmitting that secret directly. The procedure is shown below:
 
 <figure>
-  <img src="/assets/images/key_exchanges.png" width="1078" height="451" loading="lazy" decoding="async" alt="Diagram showing the procedure for a Diffie–Hellman key exchange">
+  <img class="diffie-exchange-graphic" src="/assets/images/diffie_hellman_exchange.svg" width="1600" height="800" loading="lazy" decoding="async" alt="Three-column outline of the Diffie–Hellman exchange between Alice, the public channel and Bob">
   <figcaption><strong>Figure 2.</strong> Alice and Bob derive the same shared secret while keeping their private values hidden.</figcaption>
 </figure>
 
-By the end of the procedure, both parties have $$g^{ab}$$, but an outside observer would have to solve at least one discrete log problem to calculate this number since they never have access to $$a$$ or $$b$$, assuming Alice and Bob know they are definitely talking to each other.
+By the end of the procedure, both parties have $$g^{ab}$$, but an outside observer would have to solve at least one discrete logarithm problem to calculate this number, since they never have access to $$a$$ or $$b$$. This assumes Alice and Bob know that they are talking to each other.
 
 
 ## Why Group Structure Matters: The Pohlig–Hellman Attack
 
-The security of the exchange depends not only on $$p$$ being large, but also on the subgroup generated by $$g$$. To see why, we first need to formalize the group in which the protocol operates.
+The security of the exchange depends not only on $$p$$ being large, but also on the subgroup generated by $$g$$. To see why, we first need to formalise the group in which the protocol operates.
 
 We have been working with multiplication modulo $$p$$, so we are working in the group
 
-$$(\mathbb{Z}/p\mathbb{Z})^{\times}.$$
+$$
+(\mathbb{Z}/p\mathbb{Z})^{\times}.
+$$
 
 If $$p$$ is prime, then this group is cyclic and has order $$p - 1$$. If $$p$$ is large, then the search space for brute-forcing the discrete logarithm problem (DLP) is large.
 
@@ -86,7 +103,7 @@ $$
 g^{a} = g^{\,a \bmod \operatorname{ord}(g)}.
 $$
 
-From these two facts, a potential problem emerges. If $$p$$ is prime, then $$p - 1$$ is *not* prime (ignoring the trivial case $$p = 3$$, which is far too small to be useful in practice).
+From these two facts, a potential problem emerges. If $$p$$ is prime, then $$p - 1$$ is *not* prime, ignoring the trivial case $$p = 3$$, which is far too small to be useful in practice.
 
 We can therefore factor the group order as
 
@@ -107,12 +124,14 @@ $$
 An explicit isomorphism can be given by
 
 $$
-\varphi:\ \alpha^{k} \longmapsto (\alpha_1^{k}, \alpha_2^{k}, \ldots, \alpha_n^{k}),
-\quad \text{where} \quad
-\alpha_i = \alpha^{\frac{p-1}{p_i^{a_i}}},
-\quad \text{and} \quad
-\langle \alpha \rangle = (\mathbb{Z}/p\mathbb{Z})^{\times}.
-$$ (see the appendix)
+\begin{aligned}
+\varphi:\ \alpha^{k} &\longmapsto (\alpha_1^{k}, \alpha_2^{k}, \ldots, \alpha_n^{k}), \\
+\alpha_i &= \alpha^{\frac{p-1}{p_i^{a_i}}}, \\
+\langle \alpha \rangle &= (\mathbb{Z}/p\mathbb{Z})^{\times}.
+\end{aligned}
+$$
+
+A proof is given in the appendix.
 
 Under this decomposition, we can rewrite the discrete logarithm problem as a collection of smaller problems:
 
@@ -132,7 +151,7 @@ $$
 
 Thus, each subproblem lives in a subgroup of order at most $$p_i^{a_i}$$. If these orders are small enough, the discrete logarithm problem in each subgroup becomes tractable.
 
-Once the discrete logarithm is solved in each component, we obtain a system of linear congruences for $$m$$.
+Once the discrete logarithm is solved in each component, we obtain a system of linear congruences for $$m$$:
 
 $$
 \begin{cases}
@@ -143,91 +162,198 @@ m \equiv m_n \pmod{p_n^{a_n}}.
 \end{cases}
 $$
 
-This system can be efficiently solved using the Chinese Remainder Theorem, allowing us to recover the original discrete logarithm solution. 
+This system can be efficiently solved using the Chinese Remainder Theorem, allowing us to recover the original discrete logarithm solution. This attack is known as the Pohlig–Hellman algorithm.
 
-This attack is known as the Pohlig–Hellman algorithm.
 
----
+## Choosing Secure Parameters
 
-## Choosing Secure Parameters $$p$$ and $$g$$
+Having seen how small subgroup factors can weaken the discrete logarithm problem, we can choose $$p$$ and $$g$$ to avoid them.
 
-Having seen how small subgroup factors can weaken the discrete logarithm problem, we can choose $$p$$ and $$g$$ to avoid them. <br>
-If we choose, $$p = 2q + 1,$$ where $$q$$ is a large prime. <br> 
-Then the order of the group is $$|(\mathbb{Z}/p\mathbb{Z})^{\times}| = 2q.$$<br>
-The only divisors of $$2q$$ are
+If we choose
+
 $$
-1, \; 2, \; q, \; 2q
-$$ so by Lagrange’s Theorem, the only proper subgroups therefore have order $$2$$ or $$q$$. <br>
-The elements of order $$1$$ and $$2$$ are precisely $$1$$ and $$-1$$. By avoiding these values when choosing $$g$$, we ensure that $$g$$ generates a subgroup of order $$q$$.<br>
-In practice, we typically choose $$g = 2$$ and verify that $$g^2 \not\equiv 1 \pmod{p}$$ and $$g^q \not\equiv 1 \pmod{p}$$, ensuring $$g$$ generates the full subgroup of order $$q$$. <br>
-As a result, any attacker is forced to solve the discrete logarithm problem in a group of size at least $$q$$. For sufficiently large $$q$$, this makes the Pohlig–Hellman attack infeasible and restores the intended security of Diffie–Hellman.
+p = 2q + 1,
+$$
 
- 
+where $$q$$ is a large prime, then the order of the group is
+
+$$
+\left|(\mathbb{Z}/p\mathbb{Z})^{\times}\right| = 2q.
+$$
+
+The only divisors of $$2q$$ are
+
+$$
+1, \; 2, \; q, \; 2q.
+$$
+
+By Lagrange's Theorem, the only proper non-trivial subgroups therefore have order $$2$$ or $$q$$. The elements of order $$1$$ and $$2$$ are precisely $$1$$ and $$-1$$. By avoiding these values when choosing $$g$$, we ensure that $$g$$ has order $$q$$ or $$2q$$.
+
+To verify that $$g$$ generates the full group, we can check that
+
+$$
+g^2 \not\equiv 1 \pmod p
+\qquad\text{and}\qquad
+g^q \not\equiv 1 \pmod p.
+$$
+
+These conditions ensure that $$g$$ has order $$2q$$. As a result, any attacker is forced to solve the discrete logarithm problem in a group whose order has the large prime factor $$q$$. For sufficiently large $$q$$, this makes the Pohlig–Hellman attack infeasible and restores the intended security of Diffie–Hellman.
+
+
 ## A Generic Attack: Baby-Step Giant-Step
-Even with well-chosen parameters, generic algorithms can solve the discrete logarithm problem faster than exhaustive search. A standard example is the baby-step giant-step algorithm.  <br>
-We start by reminding ourselves of the DLP: <br> 
-Given $$g, h, p$$, find $$x$$ such that $$g^x \equiv h \pmod{p}, \quad \text{where } \langle g \rangle = (\mathbb{Z}/p\mathbb{Z})^\times.$$
 
-To perform the attack we choose $$m \in \mathbb{Z}$$, how we choose this will be discussed later.    
-Then, we write  $$x = im - j$$ for some $$i \in \mathbb{Z}$$ and $$0 \le j < m$$. <br>
+Even with well-chosen parameters, generic algorithms can solve the discrete logarithm problem faster than exhaustive search. A standard example is the baby-step giant-step algorithm.
 
-We perform two steps in the algorithm a Baby step, then a Giant step. <br>
-1. <u>Baby step</u> <br>
-We compute $$g^j$$ for $$j = 0, 1, ..., m-1$$ <br>
-We store $$g^j$$ in a hash table with key $$j$$ for $$O(1)$$ access.
-2. <u>Giant step</u><br>
-We compute $$h(g^{-m})^i$$ for $$i = 0, 1, ..., \lceil p/m \rceil$$ <br>
-We check whether this matches a value in the baby step.
+We start by reminding ourselves of the DLP: given $$g$$, $$h$$ and $$p$$, find $$x$$ such that
 
-If we get a match then $$g^{im} \equiv h \cdot g^j \pmod{p} \implies g^{im - j} \equiv h \pmod{p}$$. <br>
+$$
+g^x \equiv h \pmod p,
+\qquad
+\langle g \rangle = (\mathbb{Z}/p\mathbb{Z})^\times.
+$$
+
+To perform the attack, we choose $$m \in \mathbb{Z}$$. How we choose this will be discussed later. We then write
+
+$$
+x = im + j
+$$
+
+for some $$i \in \mathbb{Z}$$ and $$0 \le j < m$$.
+
+We perform two steps in the algorithm:
+
+1. **Baby step.** Compute $$g^j$$ for $$j = 0, 1, \ldots, m-1$$ and store each value in a hash table together with $$j$$.
+2. **Giant step.** Compute $$h(g^{-m})^i$$ for $$i = 0, 1, \ldots, \lceil p/m \rceil$$ and check whether this matches a value from the baby step.
+
+If we get a match, then
+
+$$
+h(g^{-m})^i \equiv g^j \pmod p
+\;\Longrightarrow\;
+h \equiv g^{im+j} \pmod p.
+$$
+
 So we have solved the DLP.
 
-In terms of time complexity we perform $$m$$ steps in the baby step then $$p/m$$ steps in the giant step, so the total number of steps is $$m + p/m$$. <br>
-We want to minimize the number of steps which happens at $$m = \sqrt{p}$$. <br>
-Since we store $$m$$ numbers in the baby step we have a space complexity of $$\mathcal{O}(m) = \mathcal{O}(\sqrt{p})$$. <br>
-We also have a time complexity of $$\mathcal{O}(\sqrt{p})$$.
+In terms of time complexity, we perform $$m$$ steps in the baby step and then approximately $$p/m$$ steps in the giant step, so the total number of steps is
 
-This is a very fast algorithm for solving the discrete log problem, but unfortunately the space complexity of $$\mathcal{O}(\sqrt{p})$$ is far too high to be used in practice when we are dealing with such large p. <br>
-There is an algorithm called Pollard's Rho, which replaces deterministic behavior with a probabilistic approach. It achieves the same time complexity as the baby-step giant-step algorithm while using only $$\mathcal{O}(1)$$ space, but we will not cover it here.
+$$
+m + \frac{p}{m}.
+$$
+
+This is minimised when $$m = \sqrt{p}$$. Since we store $$m$$ numbers in the baby step, we have a space complexity of $$\mathcal{O}(m) = \mathcal{O}(\sqrt{p})$$. We also have a time complexity of $$\mathcal{O}(\sqrt{p})$$.
+
+This is a very fast algorithm for solving the discrete logarithm problem, but the space complexity of $$\mathcal{O}(\sqrt{p})$$ is far too high to be used in practice when we are dealing with such large $$p$$. There is an algorithm called Pollard's rho which replaces deterministic behaviour with a probabilistic approach. It achieves the same time complexity as the baby-step giant-step algorithm while using only $$\mathcal{O}(1)$$ space, but we will not cover it here.
 
 
 ## Beyond Finite-Field Diffie–Hellman
+
 Diffie–Hellman is not limited to $$(\mathbb{Z}/p\mathbb{Z})^\times$$; it can be implemented in any finite cyclic group where the discrete logarithm problem is hard, such as elliptic curve groups. Elliptic curve groups have become increasingly popular because they are resistant to extremely fast attacks on $$(\mathbb{Z}/p\mathbb{Z})^\times$$, such as the index calculus method, which runs in subexponential time.
 
-All commonly deployed Diffie–Hellman key exchange schemes, including those based on $$(\mathbb{Z}/p\mathbb{Z})^\times$$ and elliptic curve groups, are vulnerable to Shor’s algorithm, a quantum algorithm that solves the discrete logarithm problem in $$\mathcal{O}((\log n)^3)$$ time. This threat has motivated extensive research into post-quantum cryptographic schemes, such as lattice-based cryptography, which are believed to be resistant to known quantum attacks. I hope to publish another article on this topic soon!
+All commonly deployed Diffie–Hellman key exchange schemes, including those based on $$(\mathbb{Z}/p\mathbb{Z})^\times$$ and elliptic curve groups, are vulnerable to Shor's algorithm, a quantum algorithm that solves the discrete logarithm problem in $$\mathcal{O}((\log n)^3)$$ time. This threat has motivated extensive research into post-quantum cryptographic schemes, such as the lattice-based cryptography discussed in [An Introduction to Lattice Encryption](Lattice_Encryption.html), which are believed to be resistant to known quantum attacks.
+
 
 ## Appendix: Proof of the Group Decomposition
+
 This appendix proves the group decomposition used in the discussion of the Pohlig–Hellman attack.
 
-We want to show that $$\varphi: (\mathbb{Z}/p\mathbb{Z})^{\times}  \to C_{p_1^{a_1}} \times C_{p_2^{a_2}} \times \cdots \times C_{p_n^{a_n}}; \alpha^{k} \longmapsto (\alpha_1^{k}, \alpha_2^{k}, \ldots, \alpha_n^{k})$$.    
-Where $$\alpha_i = \alpha^{\frac{p-1}{p_i^{a_i}}}$$ and $$p-1 = p_1^{a_1} \cdot p_2^{a_2} \dots p_n^{a_n}$$ is the prime factorization of p-1 is a group isomorphism.  
+<div class="theorem-block" markdown="1">
 
-We first show that $$\varphi$$ is a group homomorphism.
-<span style="display: inline-block; margin-left: 2rem;">
-    Let $$a, b \in (\mathbb{Z}/p\mathbb{Z})^\times$$, since $$(\mathbb{Z}/p\mathbb{Z})^\times$$ is cyclic $$\exists k_1, k_2 \in \mathbb{Z}$$ such that $$a=\alpha^{k_1}, b=\alpha^{k_2}$$.  
-    Then $$\varphi(a \cdot b) = \varphi(\alpha ^ {k_1} \cdot \alpha ^ {k_2}) = \varphi(\alpha ^ {k_1 + k_2}) = (\alpha_1^{k_1 + k_2}, \alpha_2^{k_1 + k_2}, \ldots, \alpha_n^{k_1 + k_2})$$  
-    And $$\varphi(a) \cdot \varphi(b) = (\alpha_1^{k_1}, \alpha_2^{k_1}, \ldots, \alpha_n^{k_1}) \cdot (\alpha_1^{k_2}, \alpha_2^{k_2}, \ldots, \alpha_n^{k_2}) = (\alpha_1^{k_1 + k_2}, \alpha_2^{k_1 + k_2}, \ldots, \alpha_n^{k_1 + k_2})$$  
-    So  $$\varphi(a \cdot b) = \varphi(a) \cdot \varphi(b)$$ so $$\varphi$$ is a group homomorphism.
-</span>
+### The Group Decomposition
 
-We now show that the homomorphism is injective, by computing $$\ker(\varphi)$$. 
-<span style="display: inline-block; margin-left: 2rem;">
-    Let $$a \in (\mathbb{Z}/p\mathbb{Z})^\times$$ be such that $$\varphi(a) = (1, \dots, 1)$$.  
-    Write $$a = \alpha^k$$ for some $$k \in \mathbb{Z}$$.   
-    Then $$\forall i, \ a_i^k \equiv 1 \implies \big(\alpha^{\frac{p-1}{p_i^{a_i}}}\big)^k = \alpha^{\,k\frac{p-1}{p_i^{a_i}}} \equiv 1 \pmod{p}$$  
-    $$\implies \operatorname{ord}(\alpha) = p-1 \;\;\big|\;\; \frac{k(p-1)}{p_i^{a_i}} = (p-1)\frac{k}{p_i^{a_i}}$$     
-    $$\implies \frac{k}{(p_i^{a_i})} \in \mathbb{Z} \implies (p_i^{a_i}) \mid k, \forall i$$  
-    Therefore $$\operatorname{lcm\bigl(p_1^{a_1}, p_2^{a_2}, \dots, p_n^{a_n}\bigr)} \mid k$$     
-    Recalling that $$\operatorname{lcm\bigl(p_1^{a_1}, p_2^{a_2}, \dots, p_n^{a_n}\bigr)} = p-1$$, we conclude that $$k \equiv 0 \bmod\ p-1$$  
-    and hence $$a = \alpha ^ k = 1 \implies \ker(\varphi) = \{1\}$$.  
-    Thus $$\ker(\varphi)$$ is injective.
-</span>
+We want to show that
 
-Finally $$\varphi$$ is a isomorphism  
-<span style="display: inline-block; margin-left: 2rem;">
-    Since $$|(\mathbb{Z}/p\mathbb{Z})^{\times}| = p-1$$ and $$|C_{p_1^{a_1}} \times C_{p_2^{a_2}} \times \cdots \times C_{p_n^{a_n}}| = \prod_{i=1}^n p_i^{a_i} = p - 1$$. <br>
-    The domain and codomain have the same finite cardinality. <br>
-    And by pigeon-hole, an injective homomorphism between finite groups of the same order is surjective, hence bijective.
-</span>
+$$
+\begin{aligned}
+\varphi:(\mathbb{Z}/p\mathbb{Z})^{\times}
+&\longrightarrow C_{p_1^{a_1}} \times C_{p_2^{a_2}} \times \cdots \times C_{p_n^{a_n}}, \\
+\alpha^k
+&\longmapsto (\alpha_1^k,\alpha_2^k,\ldots,\alpha_n^k),
+\end{aligned}
+$$
+
+where
+
+
+$$
+\alpha_i = \alpha^{\frac{p-1}{p_i^{a_i}}}
+\qquad\text{and}\qquad
+p-1 = p_1^{a_1}p_2^{a_2}\cdots p_n^{a_n},
+$$
+
+is a group isomorphism.
+
+<details class="theorem-proof" markdown="1">
+<summary><span class="proof-label-closed">Show proof</span><span class="proof-label-open">Hide proof</span></summary>
+
+<div class="theorem-proof-content" markdown="1">
+
+#### Homomorphism
+{: .theorem-proof-title}
+
+Let $$a,b \in (\mathbb{Z}/p\mathbb{Z})^\times$$. Since $$(\mathbb{Z}/p\mathbb{Z})^\times$$ is cyclic, there exist $$k_1,k_2 \in \mathbb{Z}$$ such that $$a=\alpha^{k_1}$$ and $$b=\alpha^{k_2}$$. Then
+
+$$
+\begin{aligned}
+\varphi(ab)
+&=\varphi(\alpha^{k_1+k_2}) \\
+&=(\alpha_1^{k_1+k_2},\alpha_2^{k_1+k_2},\ldots,\alpha_n^{k_1+k_2}) \\
+&=\varphi(a)\varphi(b).
+\end{aligned}
+$$
+
+Therefore, $$\varphi$$ is a group homomorphism.
+
+#### Injectivity
+{: .theorem-proof-title}
+
+We compute $$\ker(\varphi)$$. Let $$a=\alpha^k$$ be such that $$\varphi(a)=(1,\ldots,1)$$. Then, for every $$i$$,
+
+$$
+\left(\alpha^{\frac{p-1}{p_i^{a_i}}}\right)^k
+=
+\alpha^{\,k\frac{p-1}{p_i^{a_i}}}
+\equiv 1 \pmod p.
+$$
+
+Since $$\operatorname{ord}(\alpha)=p-1$$, it follows that
+
+$$
+p_i^{a_i}\mid k
+\qquad\text{for every }i.
+$$
+
+Therefore,
+
+$$
+\operatorname{lcm}\bigl(p_1^{a_1},p_2^{a_2},\ldots,p_n^{a_n}\bigr)\mid k.
+$$
+
+The prime powers are pairwise coprime, so this least common multiple is $$p-1$$. Hence $$k\equiv0\pmod{p-1}$$, and therefore $$a=\alpha^k=1$$. Thus $$\ker(\varphi)=\{1\}$$, so $$\varphi$$ is injective.
+
+#### Surjectivity
+{: .theorem-proof-title}
+
+Finally,
+
+$$
+\left|(\mathbb{Z}/p\mathbb{Z})^\times\right|=p-1
+$$
+
+and
+
+
+$$
+\left|C_{p_1^{a_1}}\times\cdots\times C_{p_n^{a_n}}\right|
+=\prod_{i=1}^{n}p_i^{a_i}
+=p-1.
+$$
+
+The domain and codomain have the same finite cardinality. By the pigeonhole principle, an injective homomorphism between finite groups of the same order is surjective, hence bijective.
 
 Therefore, $$\varphi$$ is an isomorphism. $$\square$$
+
+</div>
+</details>
+
+</div>
