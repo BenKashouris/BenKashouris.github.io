@@ -322,12 +322,12 @@ $$
 </div>
 
 ### A Good Basis as a Trapdoor
-We can now see the basis of a trapdoor function. For carefully constructed lattices, knowledge of a good basis can make the CVP efficiently solvable, while the same problem may be computationally infeasible when only a bad basis is known. The good basis therefore acts as the trapdoor.
+A good basis allows us to efficiently recover a lattice point from a target known to be sufficiently close to it. With only a bad basis, solving the CVP in this case may be computationally infeasible. The good basis therefore acts as the trapdoor.
 
 We can now design an encryption scheme that makes use of this trapdoor function.
 
 ## The GGH Encryption Scheme
-Assume that Bob is sending a message to Alice. The following procedure is used:
+The following describes the underlying structure of the [encryption scheme introduced by Goldreich, Goldwasser and Halevi](https://people.csail.mit.edu/shaih/pubs/ggh97a.html). Assume that Bob is sending a message to Alice.
 
 <figure>
   <img src="/assets/images/ggh_encryption.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Three-column algebraic outline of GGH key generation, encryption and decryption between Alice and Bob">
@@ -374,7 +374,7 @@ Geometrically, the encryption scheme can be viewed as follows.
 This gives us a relatively simple method for encryption using lattices, but it has a major flaw.
 
 ### Why GGH Is Insecure
-The problem with GGH is that knowledge of a bad basis can sometimes be used to recover a better basis. In fact, there is an efficient procedure for taking a lattice basis and transforming it into a better basis. This is the Lenstra–Lenstra–Lovász (LLL) lattice basis reduction algorithm. You can think of LLL as Gram–Schmidt for lattices. As we will see, it is essentially a modification of Gram–Schmidt.
+The problem with GGH is that knowledge of a bad basis can sometimes be used to recover a better basis. In fact, there is an efficient procedure for taking a lattice basis and transforming it into a better basis. This is the Lenstra–Lenstra–Lovász (LLL) lattice basis reduction algorithm. You can think of LLL as an attempt to approximate the effect of Gram–Schmidt using operations that preserve the lattice.
 
 ### How LLL Improves a Basis
 
@@ -401,16 +401,21 @@ To place shorter vectors earlier in the basis, we perform swaps according to the
 
 ### Outline
 
-Start with a basis $$b_1,\ldots,b_n$$ and set $$k=2$$.
+**Input:** A basis $$b_1,\ldots,b_n$$.
 
-While $$k\leq n$$:
+**Procedure:**
 
-1. Calculate the Gram–Schmidt vectors and coefficients.
-2. For $$j=k-1,k-2,\ldots,1$$, set $$b_k\leftarrow b_k-\left\lfloor\mu_{k,j}\right\rceil b_j$$.
-3. If the Lovász condition holds, set $$k\leftarrow k+1$$.
-4. Otherwise, swap $$b_k$$ and $$b_{k-1}$$ and set $$k\leftarrow\max(k-1,2)$$.
+1. Set $$k\leftarrow2$$.
+2. While $$k\leq n$$:
+3. <span class="pseudocode-indent-1">Compute the Gram–Schmidt vectors $$b_1^*,\ldots,b_n^*$$.</span>
+4. <span class="pseudocode-indent-1">For $$j=k-1,k-2,\ldots,1$$:</span>
+5. <span class="pseudocode-indent-2">Set $$\mu_{k,j}\leftarrow\langle b_k,b_j^*\rangle/\langle b_j^*,b_j^*\rangle$$.</span>
+6. <span class="pseudocode-indent-2">Set $$b_k\leftarrow b_k-\left\lfloor\mu_{k,j}\right\rceil b_j$$.</span>
+7. <span class="pseudocode-indent-1">Recompute the Gram–Schmidt data affected by the reduction of $$b_k$$.</span>
+8. <span class="pseudocode-indent-1">If the Lovász condition holds, set $$k\leftarrow k+1$$.</span>
+9. <span class="pseudocode-indent-1">Otherwise, swap $$b_k$$ and $$b_{k-1}$$ and set $$k\leftarrow\max(k-1,2)$$.</span>
 
-The output is the reduced basis $$b_1,\ldots,b_n$$.
+**Output:** The reduced basis $$b_1,\ldots,b_n$$.
 
 </div>
 
@@ -439,7 +444,7 @@ $$\lVert b_k^*\rVert^2+\mu_{k,k-1}^2\lVert b_{k-1}^*\rVert^2<\delta\lVert b_{k-1
 
 For the complete algorithm, see the [Wikipedia article on LLL lattice basis reduction](https://en.wikipedia.org/wiki/Lenstra%E2%80%93Lenstra%E2%80%93Lov%C3%A1sz_lattice_basis_reduction_algorithm#LLL_algorithm_pseudocode).
 
-The ability to substantially improve public lattice bases undermines the basic security intuition behind GGH. Together with weaknesses specific to the original construction, lattice-reduction attacks ultimately rendered GGH insecure, so it is no longer used. However, there are other lattice-based encryption methods that we will now briefly discuss.
+The ability to substantially improve public lattice bases undermines the basic security intuition behind GGH. Together with [weaknesses specific to the original construction](https://www.di.ens.fr/~pnguyen/pub_Ng99.htm), lattice-reduction attacks ultimately rendered GGH insecure, so it is no longer used. However, there are other lattice-based encryption methods that we will now briefly discuss.
 
 ## Learning with Errors (LWE)
 
@@ -461,7 +466,7 @@ In other words, recover the hidden vector from a system of noisy linear equation
 
 We note that LWE is a very similar problem to CVP, but with additional modular structure and more information about the error e.
 
-This connection was formalised by Regev, who showed that an efficient algorithm for solving instances of LWE would imply an efficient quantum algorithm for certain worst-case lattice problems, including approximate GapSVP and SIVP. Later work established classical worst-case reductions for important variants and parameter regimes of LWE.
+This connection was formalised by [Regev](https://cims.nyu.edu/~regev/publications.php), who showed that an efficient algorithm for solving instances of LWE would imply an efficient quantum algorithm for certain worst-case lattice problems, including approximate GapSVP and SIVP. Later work established classical worst-case reductions for important variants and parameter regimes of LWE.
 
 The Learning with Errors problem can be used to construct the following encryption scheme.
 
@@ -501,7 +506,7 @@ The terms involving $$A\mathbf{s}$$ cancel, leaving only the encoded message and
 
 Unlike GGH, Regev encryption does not rely on hiding a good lattice basis behind a bad one. Consequently, applying LLL to the public information does not reveal the secret key in the way it does for GGH.
 
-The decisional LWE assumption states that it is computationally difficult to distinguish LWE samples from uniformly random samples. This gives a useful alternative view of exactly what Regev encryption is doing. Alice publishes a source of noise with a hidden structure depending on her secret $$\mathbf{s}$$. Bob uses this public data to generate structured noise and adds his encoded message to it. To anyone without $$\mathbf{s}$$, the resulting ciphertext looks like noise, so the encrypted message cannot feasibly be determined. Alice, however, can use $$\mathbf{s}$$ to cancel the underlying noise and then round away the small residual error, leaving only the message.
+The decisional LWE assumption states that it is computationally difficult to distinguish LWE samples from uniformly random samples. This gives a useful alternative view of exactly what Regev encryption is doing. Alice publishes a source of noise with a hidden structure depending on her secret $$\mathbf{s}$$. Bob uses this public data to generate structured noise and adds his encoded message to it. To anyone without $$\mathbf{s}$$, the resulting ciphertext looks like noise, so the encrypted message cannot feasibly be determined. Alice, however, knows the structure underlying this noise through $$\mathbf{s}$$. She can therefore cancel the linear component and round away the small residual error, leaving only the message.
 
 ## Conclusion
 We have seen how lattice geometry can be used to construct public-key encryption schemes. 
