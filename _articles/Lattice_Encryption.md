@@ -374,7 +374,7 @@ Geometrically, the encryption scheme can be viewed as follows.
 This gives us a relatively simple method for encryption using lattices, but it has a major flaw.
 
 ### Why GGH Is Insecure
-The problem with GGH is that knowledge of a bad basis can sometimes be used to recover a better basis. In fact, there is an efficient procedure for taking a lattice basis and transforming it into a better basis. This is the Lenstra–Lenstra–Lovász (LLL) lattice basis reduction algorithm. You can think of LLL as an attempt to approximate the effect of Gram–Schmidt using operations that preserve the lattice.
+The fundamental problem in GGH's design and assumptions is that knowledge of a bad basis can sometimes be used to recover a better basis. In fact, there is an efficient procedure for taking a lattice basis and transforming it into a substantially better one: the Lenstra–Lenstra–Lovász (LLL) lattice basis reduction algorithm. You can think of LLL as an attempt to approximate the effect of Gram–Schmidt using operations that preserve the lattice.
 
 ### How LLL Improves a Basis
 
@@ -444,7 +444,7 @@ $$\lVert b_k^*\rVert^2+\mu_{k,k-1}^2\lVert b_{k-1}^*\rVert^2<\delta\lVert b_{k-1
 
 For the complete algorithm, see the [Wikipedia article on LLL lattice basis reduction](https://en.wikipedia.org/wiki/Lenstra%E2%80%93Lenstra%E2%80%93Lov%C3%A1sz_lattice_basis_reduction_algorithm#LLL_algorithm_pseudocode).
 
-The ability to substantially improve public lattice bases undermines the basic security intuition behind GGH. Together with [weaknesses specific to the original construction](https://www.di.ens.fr/~pnguyen/pub_Ng99.htm), lattice-reduction attacks ultimately rendered GGH insecure, so it is no longer used. However, there are other lattice-based encryption methods that we will now briefly discuss.
+The ability to substantially improve a public lattice basis undermines the basic security intuition behind GGH. This, together with [weaknesses specific to the original construction](https://www.di.ens.fr/~pnguyen/pub_Ng99.htm), rendered GGH insecure, and it is therefore no longer used. However, there are other lattice-based encryption methods that we will now briefly discuss.
 
 ## Learning with Errors (LWE)
 
