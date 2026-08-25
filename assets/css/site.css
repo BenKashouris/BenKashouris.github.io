@@ -1218,6 +1218,38 @@ main {
   margin-block: 0;
 }
 
+.article-content .lattice-generation-animation {
+  width: min(100%, 42.5rem);
+}
+
+.article-content .basis-route-animation {
+  width: min(100%, 47.5rem);
+}
+
+.article-content .ggh-geometry-graphic {
+  width: min(100%, 42.5rem);
+}
+
+.article-content .lattice-intro-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 1fr);
+  gap: 2rem;
+  align-items: center;
+  margin: 2.75rem 0;
+}
+
+.article-content .lattice-intro-layout figure {
+  margin: 0;
+}
+
+.article-content .lattice-intro-copy p:first-child {
+  margin-top: 0;
+}
+
+.article-content .lattice-intro-copy p:last-child {
+  margin-bottom: 0;
+}
+
 .article-content figcaption {
   margin-top: 0.85rem;
   color: var(--muted);
@@ -1429,6 +1461,10 @@ main {
 }
 
 @media (max-width: 860px) {
+  .article-content .lattice-intro-layout {
+    grid-template-columns: 1fr;
+  }
+
   .hero-copy {
     width: 100%;
   }

@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img" aria-labelledby="title description" shape-rendering="geometricPrecision">
+  <title id="title">Animated geometry of GGH encryption and decryption</title>
+  <desc id="description">A message lattice point is displaced by a small error. Decryption applies B inverse, rounds to the nearest integer coordinate, and multiplies by B to recover the original lattice point.</desc>
+
+  <defs>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#22d3ee" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#34d399" />
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#f59e0b" />
+    </marker>
+    <marker id="arrow-violet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#a78bfa" />
+    </marker>
+    <marker id="arrow-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#fb7185" />
+    </marker>
+    <filter id="soft-glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="8" />
+    </filter>
+
+    <circle id="physical-point" r="5" fill="#8da2b5" />
+    <g id="physical-row">
+      <use href="#physical-point" x="20" y="450" /><use href="#physical-point" x="100" y="450" />
+      <use href="#physical-point" x="180" y="450" /><use href="#physical-point" x="260" y="450" />
+      <use href="#physical-point" x="340" y="450" /><use href="#physical-point" x="420" y="450" />
+      <use href="#physical-point" x="500" y="450" /><use href="#physical-point" x="580" y="450" />
+      <use href="#physical-point" x="660" y="450" /><use href="#physical-point" x="740" y="450" />
+      <use href="#physical-point" x="820" y="450" /><use href="#physical-point" x="900" y="450" />
+      <use href="#physical-point" x="980" y="450" />
+    </g>
+
+    <circle id="coordinate-point" r="4.5" fill="#8da2b5" />
+    <g id="coordinate-row">
+      <use href="#coordinate-point" x="80" y="450" /><use href="#coordinate-point" x="170" y="450" />
+      <use href="#coordinate-point" x="260" y="450" /><use href="#coordinate-point" x="350" y="450" />
+      <use href="#coordinate-point" x="440" y="450" /><use href="#coordinate-point" x="530" y="450" />
+      <use href="#coordinate-point" x="620" y="450" /><use href="#coordinate-point" x="710" y="450" />
+      <use href="#coordinate-point" x="800" y="450" /><use href="#coordinate-point" x="890" y="450" />
+    </g>
+
+    <style>
+      .loop {
+        animation-duration: 20s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+      }
+
+      .label-encode { animation-name: label-encode; }
+      .label-error { animation-name: label-error; }
+      .label-transform { animation-name: label-transform; }
+      .label-round { animation-name: label-round; }
+      .label-return { animation-name: label-return; }
+      .physical-lattice { animation-name: physical-lattice; }
+      .coordinate-lattice { animation-name: coordinate-lattice; }
+      .bad-basis { animation-name: bad-basis; }
+      .good-basis { animation-name: good-basis; }
+      .message-point { animation-name: message-point; }
+      .error-vector { animation-name: error-vector; }
+      .ciphertext { animation-name: ciphertext; }
+      .transformed-ciphertext { animation-name: transformed-ciphertext; }
+      .rounding-cell { animation-name: rounding-cell; }
+      .rounding-vector { animation-name: rounding-vector; }
+      .rounded-coordinate { animation-name: rounded-coordinate; }
+      .recovered-point { animation-name: recovered-point; }
+
+      .label-error, .label-transform, .label-round, .label-return,
+      .coordinate-lattice, .bad-basis, .good-basis, .message-point,
+      .error-vector, .ciphertext, .transformed-ciphertext,
+      .rounding-cell, .rounding-vector, .rounded-coordinate,
+      .recovered-point { opacity: 0; }
+
+      .error-vector, .rounding-vector {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+      }
+
+      .math-label {
+        paint-order: stroke;
+        stroke: #07111f;
+        stroke-width: 7px;
+        stroke-linejoin: round;
+      }
+
+      @keyframes label-encode { 0%, 16% { opacity: 1; } 20%, 96% { opacity: 0; } 100% { opacity: 1; } }
+      @keyframes label-error { 0%, 16%, 40%, 100% { opacity: 0; } 20%, 36% { opacity: 1; } }
+      @keyframes label-transform { 0%, 36%, 60%, 100% { opacity: 0; } 40%, 56% { opacity: 1; } }
+      @keyframes label-round { 0%, 56%, 80%, 100% { opacity: 0; } 60%, 76% { opacity: 1; } }
+      @keyframes label-return { 0%, 76%, 100% { opacity: 0; } 80%, 96% { opacity: 1; } }
+      @keyframes physical-lattice { 0%, 36% { opacity: 0.64; } 40%, 76% { opacity: 0; } 80%, 100% { opacity: 0.64; } }
+      @keyframes coordinate-lattice { 0%, 36%, 80%, 100% { opacity: 0; } 40%, 76% { opacity: 0.64; } }
+      @keyframes bad-basis { 0%, 4%, 20%, 100% { opacity: 0; } 8%, 16% { opacity: 0.78; } }
+      @keyframes good-basis { 0%, 76%, 100% { opacity: 0; } 80%, 96% { opacity: 0.86; } }
+      @keyframes message-point { 0%, 8%, 40%, 100% { opacity: 0; } 13%, 36% { opacity: 1; } }
+      @keyframes error-vector { 0%, 20% { opacity: 0; stroke-dashoffset: 1; } 24% { opacity: 1; stroke-dashoffset: 1; } 30%, 36% { opacity: 1; stroke-dashoffset: 0; } 40%, 100% { opacity: 0; stroke-dashoffset: 0; } }
+      @keyframes ciphertext { 0%, 24%, 42%, 100% { opacity: 0; } 29%, 38% { opacity: 1; } }
+      @keyframes transformed-ciphertext { 0%, 38%, 62%, 100% { opacity: 0; } 43%, 58% { opacity: 1; } }
+      @keyframes rounding-cell { 0%, 56%, 80%, 100% { opacity: 0; } 60%, 76% { opacity: 0.62; } }
+      @keyframes rounding-vector { 0%, 58% { opacity: 0; stroke-dashoffset: 1; } 62% { opacity: 1; stroke-dashoffset: 1; } 69%, 76% { opacity: 1; stroke-dashoffset: 0; } 80%, 100% { opacity: 0; stroke-dashoffset: 0; } }
+      @keyframes rounded-coordinate { 0%, 66%, 80%, 100% { opacity: 0; } 71%, 76% { opacity: 1; } }
+      @keyframes recovered-point { 0%, 78%, 100% { opacity: 0; } 84%, 96% { opacity: 1; } }
+
+      @media (prefers-reduced-motion: reduce) {
+        .loop { animation: none; }
+        .label-encode, .label-error, .label-transform, .label-round,
+        .coordinate-lattice, .bad-basis, .message-point, .error-vector,
+        .ciphertext, .transformed-ciphertext, .rounding-cell,
+        .rounding-vector, .rounded-coordinate { opacity: 0; }
+        .physical-lattice { opacity: 0.64; }
+        .label-return, .good-basis, .recovered-point { opacity: 1; }
+      }
+    </style>
+  </defs>
+
+  <rect width="1000" height="560" fill="#07111f" />
+
+  <g font-family="Inter, Arial, sans-serif" font-size="27" font-weight="500" text-anchor="middle">
+    <text class="label-encode loop" x="500" y="48" fill="#fbbf24">Encode with the public bad basis</text>
+    <text class="label-error loop" x="500" y="48" fill="#fda4af">Add a small error: c = B′m + e</text>
+    <text class="label-transform loop" x="500" y="48" fill="#67e8f9">Apply B⁻¹ to reveal basis coordinates</text>
+    <text class="label-round loop" x="500" y="48" fill="#6ee7b7">Round to the nearest integer point</text>
+    <text class="label-return loop" x="500" y="48" fill="#6ee7b7">Multiply by B to recover B′m</text>
+  </g>
+  <line x1="285" y1="68" x2="715" y2="68" stroke="#38526a" stroke-width="2" />
+
+  <g class="physical-lattice loop">
+    <g fill="none" stroke="#38526a" stroke-width="1.5" opacity="0.58">
+      <line x1="60" y1="450" x2="940" y2="450" />
+      <line x1="260" y1="520" x2="260" y2="92" />
+    </g>
+    <g fill="#60798e" font-family="Cambria Math, Cambria, serif" font-size="18" font-style="italic">
+      <text x="950" y="456">x</text><text x="249" y="88">y</text>
+    </g>
+    <g>
+      <use href="#physical-row" transform="translate(-36 68)" />
+      <use href="#physical-row" />
+      <use href="#physical-row" transform="translate(36 -68)" />
+      <use href="#physical-row" transform="translate(72 -136)" />
+      <use href="#physical-row" transform="translate(108 -204)" />
+      <use href="#physical-row" transform="translate(144 -272)" />
+      <use href="#physical-row" transform="translate(180 -340)" />
+    </g>
+  </g>
+
+  <g class="coordinate-lattice loop">
+    <g fill="none" stroke="#38526a" stroke-width="1.2" opacity="0.54">
+      <path d="M80 90 V540 M170 90 V540 M260 90 V540 M350 90 V540 M440 90 V540 M530 90 V540 M620 90 V540 M710 90 V540 M800 90 V540 M890 90 V540" />
+      <path d="M55 540 H925 M55 450 H925 M55 360 H925 M55 270 H925 M55 180 H925 M55 90 H925" />
+    </g>
+    <g>
+      <use href="#coordinate-row" transform="translate(0 90)" />
+      <use href="#coordinate-row" />
+      <use href="#coordinate-row" transform="translate(0 -90)" />
+      <use href="#coordinate-row" transform="translate(0 -180)" />
+      <use href="#coordinate-row" transform="translate(0 -270)" />
+      <use href="#coordinate-row" transform="translate(0 -360)" />
+    </g>
+  </g>
+
+  <g class="bad-basis loop" fill="none" stroke-linecap="round">
+    <path d="M260 450 L572 314" stroke="#f59e0b" stroke-width="3.5" marker-end="url(#arrow-amber)" />
+    <path d="M260 450 L768 246" stroke="#a78bfa" stroke-width="3.5" marker-end="url(#arrow-violet)" />
+    <g class="math-label" font-family="Cambria Math, Cambria, serif" font-size="23" font-style="italic">
+      <text x="585" y="307" fill="#fbbf24">b′<tspan baseline-shift="sub" font-size="15">1</tspan></text>
+      <text x="781" y="239" fill="#c4b5fd">b′<tspan baseline-shift="sub" font-size="15">2</tspan></text>
+    </g>
+  </g>
+
+  <g class="good-basis loop" fill="none" stroke-linecap="round">
+    <path d="M260 450 L340 450" stroke="#22d3ee" stroke-width="3.5" marker-end="url(#arrow-cyan)" />
+    <path d="M260 450 L296 382" stroke="#34d399" stroke-width="3.5" marker-end="url(#arrow-green)" />
+    <g class="math-label" font-family="Cambria Math, Cambria, serif" font-size="23" font-style="italic">
+      <text x="352" y="444" fill="#67e8f9">b<tspan baseline-shift="sub" font-size="15">1</tspan></text>
+      <text x="305" y="374" fill="#6ee7b7">b<tspan baseline-shift="sub" font-size="15">2</tspan></text>
+    </g>
+  </g>
+
+  <g class="message-point loop">
+    <circle cx="492" cy="314" r="27" fill="#22d3ee" opacity="0.18" filter="url(#soft-glow)" />
+    <circle cx="492" cy="314" r="9" fill="#67e8f9" />
+    <text class="math-label" x="508" y="302" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="23" font-style="italic">B′m</text>
+  </g>
+
+  <path class="error-vector loop" pathLength="1" d="M492 314 L528 286" fill="none" stroke="#fb7185" stroke-width="3.5" stroke-linecap="round" marker-end="url(#arrow-rose)" />
+  <text class="error-vector loop math-label" x="487" y="275" fill="#fda4af" font-family="Cambria Math, Cambria, serif" font-size="21" font-style="italic">e</text>
+
+  <g class="ciphertext loop">
+    <circle cx="528" cy="286" r="29" fill="#fb7185" opacity="0.2" filter="url(#soft-glow)" />
+    <circle cx="528" cy="286" r="10" fill="#fb7185" />
+    <text class="math-label" x="544" y="275" fill="#fda4af" font-family="Cambria Math, Cambria, serif" font-size="23" font-style="italic">c</text>
+  </g>
+
+  <g class="transformed-ciphertext loop">
+    <circle cx="461" cy="244" r="29" fill="#fb7185" opacity="0.2" filter="url(#soft-glow)" />
+    <circle cx="461" cy="244" r="10" fill="#fb7185" />
+    <text class="math-label" x="480" y="232" fill="#fda4af" font-family="Cambria Math, Cambria, serif" font-size="22" font-style="italic">B⁻¹c</text>
+  </g>
+
+  <rect class="rounding-cell loop" x="395" y="225" width="90" height="90" rx="6" fill="#34d399" fill-opacity="0.06" stroke="#34d399" stroke-width="2" stroke-dasharray="6 8" />
+  <path class="rounding-vector loop" pathLength="1" d="M461 244 L440 270" fill="none" stroke="#34d399" stroke-width="3.5" stroke-linecap="round" marker-end="url(#arrow-green)" />
+
+  <g class="rounded-coordinate loop">
+    <circle cx="440" cy="270" r="26" fill="#34d399" opacity="0.2" filter="url(#soft-glow)" />
+    <circle cx="440" cy="270" r="9" fill="#34d399" />
+    <text class="math-label" x="458" y="295" fill="#6ee7b7" font-family="Cambria Math, Cambria, serif" font-size="21" font-style="italic">round(B⁻¹c)</text>
+  </g>
+
+  <g class="recovered-point loop">
+    <circle cx="492" cy="314" r="34" fill="#34d399" opacity="0.22" filter="url(#soft-glow)" />
+    <circle cx="492" cy="314" r="17" fill="none" stroke="#6ee7b7" stroke-width="2.5" />
+    <circle cx="492" cy="314" r="9" fill="#34d399" />
+    <text class="math-label" x="514" y="302" fill="#e7f3fb" font-family="Cambria Math, Cambria, serif" font-size="22" font-style="italic">B′m</text>
+  </g>
+</svg>

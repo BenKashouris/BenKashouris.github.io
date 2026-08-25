@@ -15,11 +15,16 @@ topics:
 description: A mathematics-first introduction to lattice-based encryption, from lattice bases and closest vectors to LWE and Regev encryption.
 ---
 
-
 ## Introduction
 
+Much of modern public-key cryptography is built on mathematical problems that are believed to be difficult for classical computers, such as integer factorisation and the discrete logarithm problem. However, these problems could be solved efficiently by a sufficiently powerful quantum computer. This has motivated the development of post-quantum cryptography: cryptographic schemes based on problems for which no efficient classical or quantum algorithm is currently known.
 
-## Lattices and Bases
+Lattices provide one of the most important sources of such problems.
+
+This article develops that idea from the underlying lattice geometry. We first introduce lattices, bases and the closest and shortest vector problems before examining how GGH uses a hidden good basis for encryption. We then see how lattice reduction weakens this construction and motivates a different approach based on Learning with Errors. Finally, we use LWE to describe Regev encryption.
+
+
+## Lattice Foundations
 
 We begin with the mathematical object that gives lattice-based cryptography its name.
 
@@ -46,11 +51,16 @@ $$
 
 </div>
 
-We can note the simularties to the definition of a vector space, whilst a vector space is the points spanned by any linear combinations of the basis vectors a lattice is the points spanned by the integer combinations of the basis vectors.
-
-*INSERT GRAPHICS HERE*
-
-As for vector spaces, the basis is not unique. Much like vector spaces we have a strong theorem for when exactly two basis generate the same lattice.
+<div class="lattice-intro-layout">
+  <div class="lattice-intro-copy">
+    <p>We can note the similarities to the definition of a vector space. Whereas a vector space consists of all linear combinations of its basis vectors, a lattice consists only of integer linear combinations.</p>
+    <p>As with vector spaces, a lattice basis is not unique. We therefore need a criterion for determining when two bases generate the same lattice.</p>
+  </div>
+  <figure>
+    <img class="lattice-generation-animation" src="/assets/images/lattice_generation.svg" width="680" height="435" loading="lazy" decoding="async" alt="Animated construction of a two-dimensional lattice from two basis vectors">
+    <figcaption><strong>Figure 1.</strong> Starting at the origin, each arrow adds or subtracts a basis vector. Every point reached is retained, gradually forming the lattice.</figcaption>
+  </figure>
+</div>
 
 <div class="definition-block" markdown="1">
 
@@ -126,12 +136,21 @@ $$
 
 The condition that $$B' = BU$$ is closely analogous to the corresponding theorem for vector spaces. However, whilst in vector spaces we only care about the invertibility of $$U$$, for lattices we insist upon $$\det(U) = \pm1$$. This is because the points in a vector space fill the space continuously, so stretching or shearing the basis does not remove any points. A lattice, however, is discrete, so such transformations can create gaps or remove lattice points. Requiring $$\det(U)=\pm1$$ ensures that the lattice is preserved.
 
-MAYBE HERE TALK ABOUT COVOLUME I.E.
-If ∣detU∣=2, you've effectively doubled the fundamental volume and therefore skipped half the points. If ∣detU∣=1, no such change occurs.
+Another way to see why the condition $$\det(U)=\pm1$$ is necessary is to consider the volume of the fundamental parallelepiped spanned by the basis vectors. Two identical lattices necessarily have the same fundamental volume. Since $$|\det(U)|$$ gives the factor by which the transformation $$U$$ scales $$n$$-dimensional volume, preserving the lattice requires
+$$
+|\det(U)|=1.
+$$
+As $$U$$ has integer entries, this is equivalent to
+$$
+\det(U)=\pm1.
+$$
 
+<figure>
+  <img class="basis-route-animation" src="/assets/images/unimodular_basis_comparison.svg" width="760" height="342" loading="lazy" decoding="async" alt="Animated comparison showing determinant-one and determinant-two transformations of the same square lattice basis">
+  <figcaption><strong>Figure 2.</strong> A determinant-one shear preserves the fundamental area and every lattice point. Adding a stretch produces a determinant-two transformation, doubling the area and leaving only every other row in the generated sublattice.</figcaption>
+</figure>
 
-Before introducing the hard problems on which lattice-based cryptography depends, much as Diffie–Hellman depends on the discrete logarithm problem, we need a way to distinguish between good and bad bases. This distinction may initially seem unnecessary, but it is precisely the hidden knowledge of a good basis, compared with a public bad basis, that will give us the trapdoor functions used by lattice-based cryptographic schemes.
-
+A final definition before moving on to applications of lattices is the distinction between a good and a bad basis. We will keep this fairly informal, since a more precise definition is not required for our purposes.
 
 <div class="definition-block" markdown="1">
 
@@ -139,15 +158,13 @@ Before introducing the hard problems on which lattice-based cryptography depends
 
 A **good basis** consists of short, nearly perpendicular vectors. A **bad basis** consists of long, nearly parallel vectors.
 
-INSERT GRAPHIC HERE
-
 </div>
 
-We now having we need in order to start discussing lattice based encryption.
+We now have what we need to begin discussing lattice-based encryption.
 
-## Trapdoor functions
+## From Hard Lattice Problems to Trapdoor Functions
 
-We start by defining a problem that is easy to compute one way but hard to compute in the other, the closest vector problem.
+We start with a problem which is not known to admit an algorithm whose running time is polynomial in the size of the input. In fact, the Closest Vector Problem is NP-hard.
 
 <div class="definition-block" markdown="1">
 
@@ -157,13 +174,19 @@ Given a point $$\mathbf{u} \in \mathbb{R}^m$$, find a point $$\mathbf{v} \in \ma
 
 </div>
 
-### Why the Basis Matters
+### Why Basis Quality Matters
 
-Although exact CVP is generally difficult, possession of a good basis can make finding a nearby lattice point much easier, particularly when the target is already known to lie close to the lattice.
+The hardness of CVP refers to solving arbitrary instances. For cryptography, however, we can consider a more carefully constructed situation. Choose a lattice point $$v$$ and perturb it by a small error $$e$$, i.e. $$u = v + e$$.
+Constructing this setup is easy, since we can choose $$v$$. The interesting problem is recovering $$v$$ from $$u$$. When the error is sufficiently small, the difficulty of doing this can depend strongly on the basis through which the lattice is represented.
 
-Intuitively, with a nearly orthogonal basis, movement in each basis direction is almost independent, so the basis coordinates closely map to Euclidean distance. This means we can often express the target point in the basis and choose the nearest integer multiple of each basis vector separately. 
+<figure>
+  <img class="basis-route-animation" src="/assets/images/basis_route_comparison.svg" width="760" height="342" loading="lazy" decoding="async" alt="Animated comparison showing a good and bad basis reaching the same lattice point by very different routes">
+  <figcaption><strong>Figure 3.</strong> Both bases generate the same lattice and reach the same target point. The good basis takes two short steps, whereas the bad basis takes six longer steps whose effects largely cancel.</figcaption>
+</figure>
 
-In this case of a square, full rank basis matrix $$B$$,
+Intuitively, with a nearly orthogonal basis, movement in each basis direction is almost independent, so the basis coordinates closely map to Euclidean distance. This means we can often express the target point in the basis and choose the nearest integer multiple of each basis vector separately.
+
+In this case of a square, full-rank basis matrix $$B$$,
 
 $$
 \mathbf{v}
@@ -174,7 +197,7 @@ For an orthogonal basis this coordinate-wise rounding gives the closest lattice 
 
 In a bad, highly skewed basis, however, different basis vectors can almost cancel, so geometrically nearby lattice points may have very different coordinates. The coordinates become strongly coupled, meaning they can no longer be rounded independently without risking selection of the wrong lattice point. Determining which lattice point is geometrically closest therefore becomes substantially more difficult.
 
-The following theorem provides further formal insight into this,
+The following theorem provides further formal insight into this:
 
 
 <div class="theorem-block" markdown="1">
@@ -278,29 +301,33 @@ Given a lattice $$\mathcal{L}(B)$$, find a non-zero vector $$\mathbf{v} \in \mat
 
 </div>
 
-### The trap door function 
-We can now see the basis of a trapdoor function. The CVP (or SVP) is only known to be efficiently computable with knowledge of a good basis and under specific conditions.
-Note the fundamental difference between this and the discrete logarithm problem underlying Diffie–Hellman: no efficient classical algorithm is known for solving the discrete logarithm problem. By contrast, the CVP is computable, but only with knowledge of a good basis. Knowledge of this good basis therefore acts as the trapdoor.
+### A Good Basis as a Trapdoor
+We can now see the basis of a trapdoor function. For carefully constructed lattices, knowledge of a good basis can make the CVP efficiently solvable, while the same problem may be computationally infeasible when only a bad basis is known. The good basis therefore acts as the trapdoor.
 
+We can now design an encryption scheme that makes use of this trapdoor function.
 
-We now can design a encryption scheme that makes use of this trapdoor function.
-
-## Goldreich–Goldwasser–Halevi (GGH)
-Let's assume that Bob is sending a message to Alice. The following procedure occurs
+## The GGH Encryption Scheme
+Assume that Bob is sending a message to Alice. The following procedure is used:
 
 <figure>
   <img src="/assets/images/ggh_encryption.svg" width="1600" height="820" loading="lazy" decoding="async" alt="Three-column diagram of GGH key generation, a public channel and encryption between Alice and Bob">
-  <figcaption><strong>Figure 1.</strong> Key generation, encryption and decryption in the GGH scheme.</figcaption>
+  <figcaption><strong>Figure 4.</strong> Key generation, encryption and decryption in the GGH scheme.</figcaption>
 </figure>
 
 
-Graphically this encryption scheme is performed as,
-INSEERT GRAPHIC HERE
+Geometrically, the encryption scheme can be viewed as follows.
 
-This gives us a realtively simple method for encryption using lattices, but it has a major floor.
+<figure>
+  <img class="ggh-geometry-graphic" src="/assets/images/ggh_geometry.svg" width="680" height="381" loading="lazy" decoding="async" alt="Animated geometric view of GGH encoding, adding an error and recovering the nearest lattice point">
+  <figcaption><strong>Figure 5.</strong> Bob adds a small error to the message lattice point. To decrypt, Alice computes \(B^{-1}\mathbf{c}\), rounds to the nearest integer vector, and multiplies by \(B\) to recover \(B'\mathbf{m}\).</figcaption>
+</figure>
 
-### The shortcoming of GGH
-The problem with GGH is that knowledge of a bad basis can sometimes be used to recover a better basis. In fact, there is an efficient procedure for taking a lattice basis and transforming into a better basis. This is the Lenstra–Lenstra–Lovász (LLL) lattice basis reduction algorithm. You can thing of LLL as the Gram-Schmidt for lattices. In fact as we will see it is essentialy a modification on Gram-Schmidt.
+This gives us a relatively simple method for encryption using lattices, but it has a major flaw.
+
+### Why GGH Is Insecure
+The problem with GGH is that knowledge of a bad basis can sometimes be used to recover a better basis. In fact, there is an efficient procedure for taking a lattice basis and transforming it into a better basis. This is the Lenstra–Lenstra–Lovász (LLL) lattice basis reduction algorithm. You can think of LLL as Gram–Schmidt for lattices. As we will see, it is essentially a modification of Gram–Schmidt.
+
+### How LLL Improves a Basis
 
 Recall that, given a basis $$b_1,\ldots,b_n$$, Gram–Schmidt gives an orthogonal basis $$b_1^*,\ldots,b_n^*$$ by successively subtracting the components of each vector in the directions of the previous vectors. This is done through the iteration
 
@@ -310,17 +337,15 @@ where
 
 $$\mu_{i,j}=\frac{\langle b_i,b_j^*\rangle}{\langle b_j^*,b_j^*\rangle}.$$
 
-The first problem with this for lattices, is that to preserve the lattice we can only subtract by integer multiples of the basis vectors. Therefore, LLL, simply rounds mu_ij, giving the subtraction
+The problem with this approach for lattices is that, to preserve the lattice, we can subtract only integer multiples of the basis vectors. LLL therefore rounds $$\mu_{i,j}$$, giving the subtraction
 
 $$b_i\leftarrow b_i-\operatorname{round}(\mu_{i,j})b_j.$$
 
-Intuitively, this removes as much of $$b_i$$ in the direction of $$b_j$$ as possible without chaning the lattice.
+Intuitively, this removes as much of $$b_i$$ in the direction of $$b_j$$ as possible without changing the lattice.
 
+We would like shorter vectors to appear earlier in the basis. Intuitively, we can think of shorter vectors as giving a higher “resolution”: subtracting integer multiples of a short vector allows us to make finer adjustments to the vectors that come later, reducing the effect of rounding and allowing us to better approximate the ideal subtraction suggested by Gram–Schmidt. Further, vectors appearing later have more previous directions available to subtract from them, and therefore more opportunities to have components removed, which can reduce their overall magnitude. This is particularly useful for lattices because, unlike in ordinary vector spaces, we cannot simply normalise the basis vectors without changing the lattice they generate.
 
-**REWRITE**
-We would like shorter vectors to appear earlier in the basis. Intuitively, we can think of shorter vectors as giving a higher “resolution”; subtracting integer multiples of a short vector allows us to make finer adjustments to the vectors that come later reducing the effect of rounding and allowing us to hit the optimum gramm-schmitt subtraction vector. Further, vectors appearing later have more previous directions available to subtract from them, and so have more opportunities to have components removed, which can result in a smaller overall magnitude.
-
-In order, to have the shorter vector earlier we perform swaps under certain conditions, called the lopastz condition, which will discuss after discussing the LLL process.
+To place shorter vectors earlier in the basis, we perform swaps according to the Lovász condition, which we discuss after outlining the LLL process.
 
 
 <div class="theorem-block" markdown="1">
@@ -340,9 +365,9 @@ The output is the reduced basis $$b_1,\ldots,b_n$$.
 
 </div>
 
-The key point is that, if no swap is required, we move on to the next vector. If a swap is required, the new ordering may also violate the Lovász condition for the preceding pair, so we move back one position and check again.
+The key point to note is that, if no swap is required, we move on to the next vector. If a swap is required, the new ordering may also violate the Lovász condition for the preceding pair, so we move back one position and check again.
 
-The question is now exactly what is the Lovász condition.
+The remaining question is: what exactly is the Lovász condition?
 Suppose we are comparing $$b_k$$ and $$b_{k+1}$$ after their components in the directions $$b_1^*,\ldots,b_{k-1}^*$$ have been removed. Their remaining parts are
 
 $$b_k^* \qquad\text{and}\qquad b_{k+1}'=\mu_{k+1,k}b_k^*+b_{k+1}^*.$$
@@ -359,19 +384,19 @@ Hence we would swap whenever
 
 $$\mu_{k+1,k}^2\lVert b_k^*\rVert^2 + \lVert b_{k+1}^*\rVert^2 < \lVert b_k^*\rVert^2.$$
 
-LLL introduces a tolerance parameter $$\delta < 1$$, so that we only swap when the improvement is sufficiently large to be worth the effort. This restrication is usally $$1/4 < \delta$$ with $$\delta = 3/4$$ being a common choice. Thus, we swap $$b_k$$ and $$b_{k+1}$$ when
+LLL introduces a tolerance parameter $$\delta < 1$$, so that we only swap when the improvement is sufficiently large to be worth the effort. This restriction is usually $$1/4 < \delta < 1$$, with $$\delta = 3/4$$ being a common choice. Thus, we swap $$b_k$$ and $$b_{k+1}$$ when
 
 $$\lVert b_{k+1}^*\rVert^2+\mu_{k+1,k}^2\lVert b_k^*\rVert^2<\delta\lVert b_k^*\rVert^2.$$
 
 For the complete algorithm, see the [Wikipedia article on LLL lattice basis reduction](https://en.wikipedia.org/wiki/Lenstra%E2%80%93Lenstra%E2%80%93Lov%C3%A1sz_lattice_basis_reduction_algorithm#LLL_algorithm_pseudocode).
 
-The ability to substantially improve public lattice bases undermines the basic security intuition behind GGH. Together with weaknesses specific to the original construction, lattice-reduction attacks ultimately rendered GGH insecure and thus it is not used. However, there are other lattice based encryption methods that we will now briefly discuss.
+The ability to substantially improve public lattice bases undermines the basic security intuition behind GGH. Together with weaknesses specific to the original construction, lattice-reduction attacks ultimately rendered GGH insecure, so it is no longer used. However, there are other lattice-based encryption methods that we will now briefly discuss.
 
-## Learning with Errors
+## Learning with Errors (LWE)
 
 <div class="definition-block" markdown="1">
 
-### Definition - Learning With Errors (LWE)
+### Definition - Learning with Errors (LWE)
 
 Given a random matrix $$A \in (\mathbb{Z}/q\mathbb{Z})^{m \times n}$$ and a vector
 
@@ -389,29 +414,23 @@ We note that LWE is a very similar problem to CVP, but with additional modular s
 
 This connection was formalised by Regev, who showed that an efficient algorithm for solving instances of LWE would imply an efficient quantum algorithm for certain worst-case lattice problems, including approximate GapSVP and SIVP. Later work established classical worst-case reductions for important variants and parameter regimes of LWE.
 
-The learning with Error's problem can be used to form the following encryption method
+The Learning with Errors problem can be used to construct the following encryption scheme.
 
-### Regev encryption
+### Regev Encryption
 
 <figure>
   <img src="/assets/images/regev_encryption.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Three-column outline of information flow during Regev key generation, encryption and decryption">
-  <figcaption><strong>Figure 2.</strong> Key generation, encryption and decryption in the Regev scheme.</figcaption>
+  <figcaption><strong>Figure 6.</strong> Key generation, encryption and decryption in the Regev scheme.</figcaption>
 </figure>
 
 That is, Alice generates the LWE problem $$\mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod q$$ and keeps the solution $$\mathbf{s}$$ secret. She publishes $$A$$ and $$\mathbf{b}$$.
 
-Bob takes, at random, some of the equations and adds them together. He does this by generating a random $$\mathbf{r}\in\{0,1\}^m$$ and calculating the new coefficient vector $$\mathbf{u}=A^T\mathbf{r}$$ and the corresponding value $$\mathbf{b}^T\mathbf{r}$$. This gives one equation for which $$\mathbf{s}$$ is still the solution, up to a small amount of error. Since the error terms are independent and centred around zero, their sum remains close to zero, so the error remains small on average.
+Bob selects, at random, some of the equations and adds them together. He does this by generating a random $$\mathbf{r}\in\{0,1\}^m$$ and calculating the new coefficient vector $$\mathbf{u}=A^T\mathbf{r}$$ and the corresponding value $$\mathbf{b}^T\mathbf{r}$$. This produces a new equation that $$\mathbf{s}$$ still satisfies, up to a small amount of error. Since the error terms are independent and centred around zero, their sum remains close to zero, so the error remains small on average.
 
 Bob first encodes the message, representing $$0$$ by $$0$$ and $$1$$ by $$\lfloor q/2\rfloor$$, which is as far from $$0$$ as possible modulo $$q$$. He then adds the encoded message to $$\mathbf{b}^T\mathbf{r}$$, giving $$v=\mathbf{b}^T\mathbf{r}+\mu\lfloor q/2\rfloor\pmod q$$.
 
-The pair $$(\mathbf{u},v)$$ is published by Bob.
+Bob publishes the pair $$(\mathbf{u},v)$$.
 
-Alice takes $$\mathbf{u}$$ from Bob and plugs in her solution by calculating $$\mathbf{s}^T\mathbf{u}$$. Subtracting this from $$v$$ removes the value Bob had before adding the message, leaving the message up to a small amount of error. Alice then rounds the result to decode it.
+Alice takes $$\mathbf{u}$$ from Bob and substitutes her secret by calculating $$\mathbf{s}^T\mathbf{u}$$. Subtracting this from $$v$$ removes the value Bob had before adding the message, leaving the encoded message plus a small amount of error. Alice then rounds the result to decode it.
 
 Unlike GGH, Regev encryption does not rely on hiding a good lattice basis behind a bad one. Consequently, applying LLL to the public information does not reveal the secret key in the way it does for GGH.
-
-
-## Conclusion
-
-something like 
-GGH teaches us the geometry and trapdoor-basis idea; LLL shows why merely hiding a basis is fragile; LWE gives a fundamentally different way of deriving security from lattice problems and leads toward modern post-quantum schemes.
