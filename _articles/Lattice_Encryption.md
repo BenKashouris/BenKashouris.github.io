@@ -218,15 +218,56 @@ $$
 =\operatorname{round}\!\left(B^{-1}\mathbf{u}\right).
 $$
 
-Then,
+Then, up to the convention used when rounding half-integers,
 
 $$
 \left\lVert B^{-1}\mathbf{e}\right\rVert_\infty<\frac{1}{2}
-\quad\Longrightarrow\quad
+\quad\Longleftrightarrow\quad
 \widehat{\mathbf{z}}=\mathbf{z}.
 $$
 
-Now define
+<details class="theorem-proof" markdown="1">
+<summary><span class="proof-label-closed">Show proof</span><span class="proof-label-open">Hide proof</span></summary>
+
+<div class="theorem-proof-content" markdown="1">
+
+#### Proof of ⇒
+{: .theorem-proof-title}
+
+Since $$\mathbf{z}\in\mathbb{Z}^n$$ and rounding is performed coordinate-wise,
+
+$$
+\widehat{\mathbf{z}}
+=\operatorname{round}\!\left(B^{-1}\mathbf{u}\right)
+=\operatorname{round}\!\left(\mathbf{z}+B^{-1}\mathbf{e}\right)
+=\mathbf{z}
+$$
+
+whenever $$\lVert B^{-1}\mathbf{e}\rVert_\infty<1/2$$.
+
+#### Proof of ⇐
+{: .theorem-proof-title}
+
+Conversely, if $$\widehat{\mathbf{z}}=\mathbf{z}$$, then every coordinate of $$\mathbf{z}+B^{-1}\mathbf{e}$$ rounds to the corresponding coordinate of $$\mathbf{z}$$. Therefore, each coordinate of $$B^{-1}\mathbf{e}$$ has absolute value less than $$1/2$$, except possibly at the boundary values $$\pm1/2$$, where the conclusion depends on the rounding convention. Thus, up to rounding conventions,
+
+$$
+\widehat{\mathbf{z}}=\mathbf{z}
+\quad\Longrightarrow\quad
+\left\lVert B^{-1}\mathbf{e}\right\rVert_\infty<\frac{1}{2}. \qquad\square
+$$
+
+</div>
+</details>
+
+</div>
+
+To see why orthogonality matters, we can derive a sufficient decoding condition based on how close the basis is to being orthonormal.
+
+<div class="theorem-block" markdown="1">
+
+### Orthonormality-Based Decoding Bound
+
+Assuming the same setup as above, define
 
 $$
 \delta=\left\lVert B^{\mathsf T}B-I_n\right\rVert_2.
@@ -246,21 +287,10 @@ $$
 
 <div class="theorem-proof-content" markdown="1">
 
-#### Proof
+#### Proof of the Euclidean bound
 {: .theorem-proof-title}
 
-Since $$\mathbf{z}\in\mathbb{Z}^n$$ and rounding is performed coordinate-wise,
-
-$$
-\widehat{\mathbf{z}}
-=\operatorname{round}\!\left(B^{-1}\mathbf{u}\right)
-=\operatorname{round}\!\left(\mathbf{z}+B^{-1}\mathbf{e}\right)
-=\mathbf{z}
-$$
-
-whenever $$\lVert B^{-1}\mathbf{e}\rVert_\infty<1/2$$.
-
-For the second statement, suppose that $$\delta=\lVert B^{\mathsf T}B-I_n\rVert_2<1$$. The smallest eigenvalue of $$B^{\mathsf T}B$$ is at least $$1-\delta$$, and hence
+Suppose that $$\delta=\lVert B^{\mathsf T}B-I_n\rVert_2<1$$. The smallest eigenvalue of $$B^{\mathsf T}B$$ is at least $$1-\delta$$, and hence
 
 $$
 \left\lVert B^{-1}\right\rVert_2
@@ -280,7 +310,7 @@ $$
 \end{aligned}
 $$
 
-The first statement therefore gives
+The Coordinate-Rounding Decoding Bound therefore gives
 
 $$
 \widehat{\mathbf{z}}=\mathbf{z}. \qquad\square
@@ -310,10 +340,39 @@ We can now design an encryption scheme that makes use of this trapdoor function.
 Assume that Bob is sending a message to Alice. The following procedure is used:
 
 <figure>
-  <img src="/assets/images/ggh_encryption.svg" width="1600" height="820" loading="lazy" decoding="async" alt="Three-column diagram of GGH key generation, a public channel and encryption between Alice and Bob">
+  <img src="/assets/images/ggh_encryption.svg" width="1600" height="900" loading="lazy" decoding="async" alt="Three-column algebraic outline of GGH key generation, encryption and decryption between Alice and Bob">
   <figcaption><strong>Figure 4.</strong> Key generation, encryption and decryption in the GGH scheme.</figcaption>
 </figure>
 
+Alice chooses a good basis $$B$$ and a unimodular matrix $$U$$ such that $$B'=BU$$ is a bad basis. She publishes $$B'$$ while keeping the good basis $$B$$ private.
+
+Bob represents his message by $$\mathbf{m}\in\mathbb{Z}^n$$ and chooses a small error vector $$\mathbf{e}$$. He then sends the ciphertext
+
+$$
+\mathbf{c}=B'\mathbf{m}+\mathbf{e}.
+$$
+
+To decrypt, Alice applies $$B^{-1}$$ to the ciphertext:
+
+$$
+B^{-1}\mathbf{c}
+=B^{-1}(B'\mathbf{m})+B^{-1}\mathbf{e}
+=U\mathbf{m}+B^{-1}\mathbf{e}.
+$$
+
+Since $$U\mathbf{m}\in\mathbb{Z}^n$$, the [Coordinate-Rounding Decoding Bound](#coordinate-rounding-decoding-bound) applies with $$\mathbf{z}=U\mathbf{m}$$. Therefore, whenever the transformed error is small,
+
+$$
+\left\lVert B^{-1}\mathbf{e}\right\rVert_\infty<\frac12
+\quad\Longrightarrow\quad
+\operatorname{round}(B^{-1}\mathbf{c})=U\mathbf{m}.
+$$
+
+Alice can then recover the original message using
+
+$$
+\mathbf{m}=U^{-1}\operatorname{round}(B^{-1}\mathbf{c}).
+$$
 
 Geometrically, the encryption scheme can be viewed as follows.
 
@@ -368,25 +427,25 @@ The output is the reduced basis $$b_1,\ldots,b_n$$.
 The key point to note is that, if no swap is required, we move on to the next vector. If a swap is required, the new ordering may also violate the Lovász condition for the preceding pair, so we move back one position and check again.
 
 The remaining question is: what exactly is the Lovász condition?
-Suppose we are comparing $$b_k$$ and $$b_{k+1}$$ after their components in the directions $$b_1^*,\ldots,b_{k-1}^*$$ have been removed. Their remaining parts are
+Suppose we are comparing $$b_{k-1}$$ and $$b_k$$ after their components in the directions $$b_1^*,\ldots,b_{k-2}^*$$ have been removed. Their remaining parts are
 
-$$b_k^* \qquad\text{and}\qquad b_{k+1}'=\mu_{k+1,k}b_k^*+b_{k+1}^*.$$
+$$b_{k-1}^* \qquad\text{and}\qquad b_k'=\mu_{k,k-1}b_{k-1}^*+b_k^*.$$
 
-The Lovász condition is essentially motivated by swapping the two vectors whenever the remaining part of $$b_{k+1}$$ is shorter than the remaining part of $$b_k$$:
+The Lovász condition is essentially motivated by swapping the two vectors whenever the remaining part of $$b_k$$ is shorter than the remaining part of $$b_{k-1}$$:
 
-$$\lVert b_{k+1}'\rVert<\lVert b_k^*\rVert.$$
+$$\lVert b_k'\rVert<\lVert b_{k-1}^*\rVert.$$
 
-Since $$b_k^*$$ and $$b_{k+1}^*$$ are orthogonal, by Pythagoras we have
+Since $$b_{k-1}^*$$ and $$b_k^*$$ are orthogonal, by Pythagoras we have
 
-$$\left\lVert\mu_{k+1,k}b_k^*+b_{k+1}^*\right\rVert^2=\mu_{k+1,k}^2\lVert b_k^*\rVert^2+\lVert b_{k+1}^*\rVert^2.$$
+$$\left\lVert\mu_{k,k-1}b_{k-1}^*+b_k^*\right\rVert^2=\mu_{k,k-1}^2\lVert b_{k-1}^*\rVert^2+\lVert b_k^*\rVert^2.$$
 
 Hence we would swap whenever
 
-$$\mu_{k+1,k}^2\lVert b_k^*\rVert^2 + \lVert b_{k+1}^*\rVert^2 < \lVert b_k^*\rVert^2.$$
+$$\mu_{k,k-1}^2\lVert b_{k-1}^*\rVert^2 + \lVert b_k^*\rVert^2 < \lVert b_{k-1}^*\rVert^2.$$
 
-LLL introduces a tolerance parameter $$\delta < 1$$, so that we only swap when the improvement is sufficiently large to be worth the effort. This restriction is usually $$1/4 < \delta < 1$$, with $$\delta = 3/4$$ being a common choice. Thus, we swap $$b_k$$ and $$b_{k+1}$$ when
+LLL introduces a tolerance parameter $$\delta < 1$$, so that we only swap when the improvement is sufficiently large to be worth the effort. This restriction is usually $$1/4 < \delta < 1$$, with $$\delta = 3/4$$ being a common choice. Thus, we swap $$b_{k-1}$$ and $$b_k$$ when
 
-$$\lVert b_{k+1}^*\rVert^2+\mu_{k+1,k}^2\lVert b_k^*\rVert^2<\delta\lVert b_k^*\rVert^2.$$
+$$\lVert b_k^*\rVert^2+\mu_{k,k-1}^2\lVert b_{k-1}^*\rVert^2<\delta\lVert b_{k-1}^*\rVert^2.$$
 
 For the complete algorithm, see the [Wikipedia article on LLL lattice basis reduction](https://en.wikipedia.org/wiki/Lenstra%E2%80%93Lenstra%E2%80%93Lov%C3%A1sz_lattice_basis_reduction_algorithm#LLL_algorithm_pseudocode).
 
@@ -431,6 +490,25 @@ Bob first encodes the message, representing $$0$$ by $$0$$ and $$1$$ by $$\lfloo
 
 Bob publishes the pair $$(\mathbf{u},v)$$.
 
-Alice takes $$\mathbf{u}$$ from Bob and substitutes her secret by calculating $$\mathbf{s}^T\mathbf{u}$$. Subtracting this from $$v$$ removes the value Bob had before adding the message, leaving the encoded message plus a small amount of error. Alice then rounds the result to decode it.
+To decrypt, Alice substitutes her secret $$\mathbf{s}$$ into the coefficient vector $$\mathbf{u}$$ and computes $$\mathbf{s}^{\mathsf T}\mathbf{u}=\mathbf{s}^{\mathsf T}A^{\mathsf T}\mathbf{r}$$. This reconstructs the noiseless part of the value $$\mathbf{b}^{\mathsf T}\mathbf{r}$$ that Bob formed before adding the message. Subtracting it from $$v$$ removes this linear term while leaving the underlying accumulated error. In notation, this is
+
+$$
+\begin{aligned}
+d
+&=\mathbf{b}^{\mathsf T}\mathbf{r}
++\mu\left\lfloor\frac q2\right\rfloor
+-\mathbf{s}^{\mathsf T}A^{\mathsf T}\mathbf{r} \\
+&=(A\mathbf{s}+\mathbf{e})^{\mathsf T}\mathbf{r}
+-\mathbf{s}^{\mathsf T}A^{\mathsf T}\mathbf{r}
++\mu\left\lfloor\frac q2\right\rfloor \\
+&=\mathbf{e}^{\mathsf T}\mathbf{r}
++\mu\left\lfloor\frac q2\right\rfloor
+\pmod q.
+\end{aligned}
+$$
+
+The terms involving $$A\mathbf{s}$$ cancel, leaving only the encoded message and the accumulated error $$\mathbf{e}^{\mathsf T}\mathbf{r}$$. When this error is sufficiently small, Alice can round $$d$$ to the nearer of $$0$$ and $$\lfloor q/2\rfloor$$ to recover $$\mu$$.
 
 Unlike GGH, Regev encryption does not rely on hiding a good lattice basis behind a bad one. Consequently, applying LLL to the public information does not reveal the secret key in the way it does for GGH.
+
+The decisional LWE assumption states that it is computationally difficult to distinguish LWE samples from uniformly random samples. This gives a useful alternative view of exactly what Regev encryption is doing. Alice publishes a source of noise with a hidden structure depending on her secret $$\mathbf{s}$$. Bob uses this public data to generate structured noise and adds his encoded message to it. To anyone without $$\mathbf{s}$$, the resulting ciphertext looks like noise, so the encrypted message cannot feasibly be determined. Alice, however, can use $$\mathbf{s}$$ to cancel the underlying noise and then round away the small residual error, leaving only the message.
