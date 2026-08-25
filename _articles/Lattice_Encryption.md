@@ -479,7 +479,7 @@ The Learning with Errors problem can be used to construct the following encrypti
 
 That is, Alice generates the LWE problem $$\mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod q$$ and keeps the solution $$\mathbf{s}$$ secret. She publishes $$A$$ and $$\mathbf{b}$$.
 
-Bob selects, at random, some of the equations and adds them together. He does this by generating a random $$\mathbf{r}\in\{0,1\}^m$$ and calculating the new coefficient vector $$\mathbf{u}=A^T\mathbf{r}$$ and the corresponding value $$\mathbf{b}^T\mathbf{r}$$. This produces a new equation that $$\mathbf{s}$$ still satisfies, up to a small amount of error. Since the error terms are independent and centred around zero, their sum remains close to zero, so the error remains small on average.
+Bob selects, at random, some of the equations and adds them together. He does this by generating a random $$\mathbf{r}\in\{0,1\}^m$$ and calculating the new coefficient vector $$\mathbf{u}=A^T\mathbf{r}$$ and the corresponding value $$\mathbf{b}^T\mathbf{r}$$. This produces a new equation that $$\mathbf{s}$$ still satisfies, up to a small amount of error. Since the error terms are independent and centred around zero, their sum remains small with high probability when the error distribution is chosen appropriately.
 
 Bob first encodes the message, representing $$0$$ by $$0$$ and $$1$$ by $$\lfloor q/2\rfloor$$, which is as far from $$0$$ as possible modulo $$q$$. He then adds the encoded message to $$\mathbf{b}^T\mathbf{r}$$, giving $$v=\mathbf{b}^T\mathbf{r}+\mu\lfloor q/2\rfloor\pmod q$$.
 
