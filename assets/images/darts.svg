@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Darts aiming illustration</title>
+  <desc id="description">Three thin slate target rings on a deep navy background, with one off-white dart with cyan flights pointing down-left to a spot above the centre.</desc>
+
+  <defs>
+    <radialGradient id="ambient-glow" cx="50%" cy="45%" r="54%">
+      <stop offset="0" stop-color="#112338" stop-opacity="0.54" />
+      <stop offset="0.62" stop-color="#07111f" stop-opacity="0.2" />
+      <stop offset="1" stop-color="#050c16" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="#050c16" />
+  <rect width="1600" height="900" fill="url(#ambient-glow)" />
+
+  <g transform="translate(760 470)">
+    <g fill="none" stroke="#8da2b5" stroke-width="4" opacity="0.6">
+      <circle r="270" />
+      <circle r="180" />
+      <circle r="90" />
+    </g>
+    <circle r="10" fill="#8da2b5" opacity="0.7" />
+  </g>
+
+  <g transform="translate(760 330) rotate(-39)">
+    <path d="M0 0 48 -4V4Z" fill="#b2c4d3" />
+    <path d="M45 0H290" fill="none" stroke="#e7f3fb" stroke-width="8" stroke-linecap="round" />
+    <path d="M50 -7H116L128 0 116 7H50Z" fill="#e7f3fb" />
+    <path d="M211 -4 250 -34 292 -34 279 -4Z" fill="#67e8f9" />
+    <path d="M211 4 250 34 292 34 279 4Z" fill="#22d3ee" />
+  </g>
+</svg>

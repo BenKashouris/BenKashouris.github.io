@@ -1213,6 +1213,30 @@ main {
   margin: 2.75rem 0;
 }
 
+.article-content .darts-video-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1.5rem;
+  margin: 2.75rem 0;
+}
+
+.article-content .darts-video-comparison figure {
+  min-width: 0;
+  margin: 0;
+}
+
+.article-content img[src*="/assets/darts/"],
+.article-content video.darts-video {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 70vh;
+  max-height: 70svh;
+  margin-inline: auto;
+  object-fit: contain;
+}
+
 .article-content figure img,
 .article-content figure video {
   margin-block: 0;
