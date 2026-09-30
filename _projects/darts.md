@@ -18,7 +18,7 @@ description: Exploring how throwing accuracy changes the best place to aim on a 
 
 In a game of darts, the highest score from a single dart is 60, achieved by hitting the treble 20. But is this always the best place to aim? If your throws are not very accurate, aiming at the treble 20 can leave you scoring just 5 or 1 in the neighbouring sectors.
 
-This project explores a mathematical question: for a player with a given level of accuracy, which aiming position produces the highest average score?
+This project explores the question, for a player with a given level of accuracy, which aiming position produces the highest average score?
 
 ## Mathematical formulation
 
