@@ -11,7 +11,7 @@ description: Mathematical and computational projects by Ben Kashouris, spanning 
   {% assign sorted_projects = site.projects | sort: "date" | reverse %}
   <div class="card-grid card-grid-wide">
     {% for project in sorted_projects %}
-      {% include content-card.html item=project label="Project" %}
+      {% include content-card.html item=project show_date=true hide_topics=true %}
     {% endfor %}
   </div>
 </section>
